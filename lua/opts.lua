@@ -5,7 +5,7 @@ vim.cmd("colorscheme onedark")
 
 -- TODO(juan): Move this option to the correct location
 -- better autocomplete
-vim.opt.completeopt = "menuone,noselect"
+vim.opt.completeopt = "menu,menuone,noselect"
 
 -- do not use internal clipboard
 vim.opt.clipboard = "unnamedplus"

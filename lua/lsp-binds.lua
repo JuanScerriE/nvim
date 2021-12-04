@@ -12,7 +12,7 @@ return function(client, bufnr)
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
 	local opts = { noremap = true, silent = true }
-	
+
 	-- default bindings
 	buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
 	buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
