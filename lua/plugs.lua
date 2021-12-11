@@ -11,6 +11,7 @@ return require("packer").startup(function()
 
 	-- better brackets
 	use("tpope/vim-surround")
+	use("cohama/lexima.vim")
 
 	---------------------------------------
 
@@ -25,6 +26,8 @@ return require("packer").startup(function()
 
 	-- colorscheme
 	use("joshdick/onedark.vim")
+	use("sainnhe/everforest")
+	use("arcticicestudio/nord-vim")
 
 	-- distraction free writing
 	use("junegunn/goyo.vim")

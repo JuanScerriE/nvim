@@ -4,7 +4,7 @@ local nvim_lsp = require("lspconfig")
 
 local on_attach = require("lsp-binds")
 
-local servers = { "texlab", "clangd", "sumneko_lua" }
+local servers = { "texlab", "clangd" }
 
 for _, lsp in ipairs(servers) do
 	nvim_lsp[lsp].setup({
@@ -12,5 +12,13 @@ for _, lsp in ipairs(servers) do
 		flags = {
 			debounce_text_changes = 150,
 		},
+		handlers = {
+			["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+				-- disable virtual_text
+				virtual_text = false,
+			}),
+		},
 	})
 end
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = nil
