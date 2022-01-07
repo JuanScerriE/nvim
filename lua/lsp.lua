@@ -4,7 +4,7 @@ local nvim_lsp = require("lspconfig")
 
 local on_attach = require("lsp-binds")
 
-local servers = { "texlab", "clangd" }
+local servers = { "clangd", "zls" }
 
 for _, lsp in ipairs(servers) do
 	nvim_lsp[lsp].setup({

@@ -66,6 +66,11 @@ return require("packer").startup(function()
 	use("hrsh7th/vim-vsnip-integ")
 
 	---------------------------------------
+	
+	-- zig support
+	use("ziglang/zig.vim")
+
+	---------------------------------------
 
 	-- fuzzy finder
 	use({

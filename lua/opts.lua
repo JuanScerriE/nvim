@@ -8,6 +8,7 @@ vim.opt.clipboard = "unnamedplus"
 
 -- line numbers
 vim.opt.relativenumber = true
+vim.opt.number = true
 
 -- spelling
 vim.opt.spelllang = "en_gb"
