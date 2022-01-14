@@ -11,7 +11,7 @@ return require("packer").startup(function()
 
 	-- better brackets
 	use("tpope/vim-surround")
-	use("cohama/lexima.vim")
+	use("windwp/nvim-autopairs")
 
 	---------------------------------------
 
@@ -25,9 +25,12 @@ return require("packer").startup(function()
 	})
 
 	-- colorscheme
+	use("junegunn/seoul256.vim")
 	use("joshdick/onedark.vim")
+	use("lifepillar/vim-gruvbox8")
 	use("sainnhe/everforest")
-	use("arcticicestudio/nord-vim")
+	-- use("arcticicestudio/nord-vim")
+	-- use("drewtempelmeyer/palenight.vim")
 
 	-- distraction free writing
 	use("junegunn/goyo.vim")
@@ -59,14 +62,17 @@ return require("packer").startup(function()
 	-- lsp source for nvim-cmp
 	use("hrsh7th/cmp-nvim-lsp")
 
+	-- buffer source for nvim-cmp
+	use("hrsh7th/cmp-buffer")
+
 	-- snipptes plugin
-	use("hrsh7th/vim-vsnip")
+	-- use("hrsh7th/vim-vsnip")
 
 	-- lsp plugin integration
-	use("hrsh7th/vim-vsnip-integ")
+	-- use("hrsh7th/vim-vsnip-integ")
 
 	---------------------------------------
-	
+
 	-- zig support
 	use("ziglang/zig.vim")
 

@@ -101,3 +101,9 @@ vim.g.nvim_tree_icons = {
 		["symlink_open"] = "",
 	},
 }
+
+----------------------------------------------------------
+
+-- nvim-autopairs
+
+require("nvim-autopairs").setup({})
