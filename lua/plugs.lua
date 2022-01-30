@@ -27,9 +27,9 @@ return require("packer").startup(function()
 	-- colorscheme
 	use("junegunn/seoul256.vim")
 	use("joshdick/onedark.vim")
-	use("lifepillar/vim-gruvbox8")
-	use("sainnhe/everforest")
-	-- use("arcticicestudio/nord-vim")
+	-- use("lifepillar/vim-gruvbox8")
+	-- use("sainnhe/everforest")
+	use("arcticicestudio/nord-vim")
 	-- use("drewtempelmeyer/palenight.vim")
 
 	-- distraction free writing
