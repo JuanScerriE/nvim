@@ -10,7 +10,7 @@ require("nvim-treesitter.configs").setup({
 	highlight = {
 		-- disable = { "latex", "tex" },
 		enable = true,
-		additional_vim_regex_highlighting = false,
+		additional_vim_regex_highlighting = true,
 	},
 })
 
@@ -107,3 +107,9 @@ vim.g.nvim_tree_icons = {
 -- nvim-autopairs
 
 require("nvim-autopairs").setup({})
+
+----------------------------------------------------------
+
+-- startup setup
+
+require("startup").setup({ theme = "startify" })

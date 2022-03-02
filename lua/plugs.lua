@@ -25,15 +25,21 @@ return require("packer").startup(function()
 	})
 
 	-- colorscheme
-	use("junegunn/seoul256.vim")
-	use("joshdick/onedark.vim")
+	-- use("junegunn/seoul256.vim")
+	-- use("joshdick/onedark.vim")
 	-- use("lifepillar/vim-gruvbox8")
-	-- use("sainnhe/everforest")
+	use("sainnhe/everforest")
 	use("arcticicestudio/nord-vim")
 	-- use("drewtempelmeyer/palenight.vim")
 
 	-- distraction free writing
 	use("junegunn/goyo.vim")
+
+	-- good greeter
+	use({
+		"startup-nvim/startup.nvim",
+		requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+	})
 
 	---------------------------------------
 
@@ -64,6 +70,12 @@ return require("packer").startup(function()
 
 	-- buffer source for nvim-cmp
 	use("hrsh7th/cmp-buffer")
+
+	-- path source for nvim-cmp
+	use("hrsh7th/cmp-path")
+
+	-- cmdline source for nvim-cmp
+	use("hrsh7th/cmp-cmdline")
 
 	-- snipptes plugin
 	-- use("hrsh7th/vim-vsnip")
