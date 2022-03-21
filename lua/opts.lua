@@ -28,3 +28,6 @@ vim.opt.mouse:append("n")
 
 -- turn off bottom layer
 vim.opt.showmode = false
+
+-- reduce maximum textwidth
+vim.opt.textwidth = 64

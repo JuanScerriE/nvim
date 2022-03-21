@@ -61,15 +61,13 @@ cmp.setup({
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		-- { name = "vsnip" },
-	}, {
-		{ name = "buffer" },
 	}),
+	-- { { name = "buffer" } }
 })
 
 cmp.setup.cmdline(":", {
 	sources = cmp.config.sources({
 		{ name = "path" },
-	}, {
-		{ name = "cmdline" },
 	}),
+	-- { { name = "cmdline" } }
 })
