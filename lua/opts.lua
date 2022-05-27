@@ -5,7 +5,10 @@ if vim.fn.has("termguicolors") then
 	vim.opt.termguicolors = true
 end
 
-vim.cmd("colorscheme nord")
+require('onedark').setup()
+
+-- turn off sign column
+-- vim.opt.signcolumn = "no"
 
 -- do not use internal clipboard
 vim.opt.clipboard = "unnamedplus"

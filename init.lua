@@ -22,3 +22,6 @@ require("aucmp")
 require("binds")
 require("plug-binds")
 require("lsp-binds")
+
+-- autocmds
+require("autocmds")

@@ -4,7 +4,27 @@
 
 -- treesitter opts
 require("nvim-treesitter.configs").setup({
-	ensure_installed = "maintained",
+	ensure_installed = {
+    "c",
+    "cpp",
+    "rust",
+    "lua",
+    "bash",
+    "cmake",
+    "css",
+    "bibtex",
+    "zig",
+    "go",
+    "html",
+    "javascript",
+    "java",
+    "latex",
+    "llvm",
+    "ninja",
+    "python",
+    "yaml",
+    "vim"
+  },
 	sync_install = false,
 	ignore_install = { "javascript" },
 	highlight = {
@@ -48,7 +68,7 @@ require("lualine").setup({
 })
 
 -- goyo opts
-vim.g.goyo_width = 120
+vim.g.goyo_width = 100
 
 ----------------------------------------------------------
 
@@ -67,7 +87,6 @@ vim.g.vimtex_quickfix_mode = 0
 require("nvim-tree").setup({
 	disable_netrw = false,
 	hijack_netrw = false,
-	auto_close = true,
 })
 
 -- nvim-tree opts

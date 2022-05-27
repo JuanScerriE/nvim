@@ -25,15 +25,14 @@ return require("packer").startup(function()
 	})
 
 	-- colorscheme
-	-- use("junegunn/seoul256.vim")
-	-- use("joshdick/onedark.vim")
-	-- use("lifepillar/vim-gruvbox8")
+  use("ful1e5/onedark.nvim")
+	use("lifepillar/vim-gruvbox8")
 	use("sainnhe/everforest")
-	use("arcticicestudio/nord-vim")
-	-- use("drewtempelmeyer/palenight.vim")
 
 	-- distraction free writing
 	use("junegunn/goyo.vim")
+	use("junegunn/limelight.vim")
+
 
 	-- good greeter
 	use({
