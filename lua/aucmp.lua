@@ -10,34 +10,49 @@ local feedkey = function(key, mode)
 end
 
 -- better autocomplete
-vim.opt.completeopt = "menu,menuone,noselect"
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 local cmp = require("cmp")
 
 cmp.setup({
 	snippet = {
-		-- expand = function(args)
-		-- 	vim.fn["vsnip#anonymous"](args.body)
-		-- end,
+		expand = function(args)
+			vim.fn["vsnip#anonymous"](args.body)
+		end,
 	},
 	mapping = {
 		-- navigate docs
-		["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-		["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
 
 		-- invoke completion
-		["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+		["<C-space>"] = cmp.mapping.complete(),
 
 		["<C-y>"] = cmp.config.disable,
 
 		-- close completion
-		["<C-e>"] = cmp.mapping({
-			i = cmp.mapping.abort(),
-			c = cmp.mapping.close(),
-		}),
+		["<C-e>"] = cmp.mapping.abort(),
 
 		-- complete selection
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<CR>"] = cmp.mapping.confirm({
+			select = true,
+		}),
+
+		["<Tab>"] = function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			else
+				fallback()
+			end
+		end,
+
+		["<S-Tab>"] = function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			else
+				fallback()
+			end
+		end,
 
 		-- ["<Tab>"] = cmp.mapping(function(fallback)
 		-- 	if cmp.visible() then
@@ -60,14 +75,13 @@ cmp.setup({
 	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-		-- { name = "vsnip" },
+		{ name = "nvim_lsp_signature_help" },
+		{ name = "vsnip" },
 	}),
-	-- { { name = "buffer" } }
 })
 
 cmp.setup.cmdline(":", {
 	sources = cmp.config.sources({
 		{ name = "path" },
 	}),
-	-- { { name = "cmdline" } }
 })

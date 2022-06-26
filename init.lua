@@ -15,8 +15,8 @@ require("opts")
 require("plug-opts")
 
 -- lsp & auto-complete
-require("lsp")
 require("aucmp")
+require("lsp")
 
 -- bindings
 require("binds")

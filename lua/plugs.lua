@@ -1,6 +1,16 @@
 -- plugins --
 
-return require("packer").startup(function()
+local packer = require("packer")
+
+packer.init({
+	display = {
+		open_fn = function()
+			return require("packer.util").float()
+		end,
+	},
+})
+
+return packer.startup(function()
 	-- packer.nvim manages itself
 	use("wbthomason/packer.nvim")
 
@@ -25,14 +35,17 @@ return require("packer").startup(function()
 	})
 
 	-- colorscheme
-  use("ful1e5/onedark.nvim")
+	use("ful1e5/onedark.nvim")
 	use("lifepillar/vim-gruvbox8")
 	use("sainnhe/everforest")
+  use("folke/tokyonight.nvim")
+
+  -- indent lines
+  use("lukas-reineke/indent-blankline.nvim") 
 
 	-- distraction free writing
 	use("junegunn/goyo.vim")
 	use("junegunn/limelight.vim")
-
 
 	-- good greeter
 	use({
@@ -67,6 +80,9 @@ return require("packer").startup(function()
 	-- lsp source for nvim-cmp
 	use("hrsh7th/cmp-nvim-lsp")
 
+	-- lsp signature source for nvim-cmp
+	use("hrsh7th/cmp-nvim-lsp-signature-help")
+
 	-- buffer source for nvim-cmp
 	use("hrsh7th/cmp-buffer")
 
@@ -76,11 +92,21 @@ return require("packer").startup(function()
 	-- cmdline source for nvim-cmp
 	use("hrsh7th/cmp-cmdline")
 
+	use("mfussenegger/nvim-dap")
+
+	-- cmake support
+	use({
+		"Shatur/neovim-cmake",
+		requires = {
+			"nvim-lua/plenary.nvim",
+		},
+	})
+
 	-- snipptes plugin
-	-- use("hrsh7th/vim-vsnip")
+	use("hrsh7th/vim-vsnip")
 
 	-- lsp plugin integration
-	-- use("hrsh7th/vim-vsnip-integ")
+	use("hrsh7th/vim-vsnip-integ")
 
 	---------------------------------------
 

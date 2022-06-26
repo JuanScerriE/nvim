@@ -5,7 +5,9 @@ if vim.fn.has("termguicolors") then
 	vim.opt.termguicolors = true
 end
 
-require('onedark').setup()
+vim.cmd("colorscheme tokyonight")
+
+-- require("onedark").setup()
 
 -- turn off sign column
 -- vim.opt.signcolumn = "no"
