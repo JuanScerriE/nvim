@@ -17,7 +17,7 @@ return packer.startup(function()
 	---------------------------------------
 
 	-- better commenting
-	use("tpope/vim-commentary")
+	use("numToStr/Comment.nvim")
 
 	-- better brackets
 	use("tpope/vim-surround")
@@ -38,20 +38,17 @@ return packer.startup(function()
 	use("ful1e5/onedark.nvim")
 	use("lifepillar/vim-gruvbox8")
 	use("sainnhe/everforest")
-  use("folke/tokyonight.nvim")
+	use("folke/tokyonight.nvim")
 
-  -- indent lines
-  use("lukas-reineke/indent-blankline.nvim") 
+	-- indent lines
+	use("lukas-reineke/indent-blankline.nvim")
 
 	-- distraction free writing
 	use("junegunn/goyo.vim")
 	use("junegunn/limelight.vim")
 
 	-- good greeter
-	use({
-		"startup-nvim/startup.nvim",
-		requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-	})
+	use({ "Shatur/neovim-session-manager" })
 
 	---------------------------------------
 
@@ -92,6 +89,7 @@ return packer.startup(function()
 	-- cmdline source for nvim-cmp
 	use("hrsh7th/cmp-cmdline")
 
+	-- debugger
 	use("mfussenegger/nvim-dap")
 
 	-- cmake support

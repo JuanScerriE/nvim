@@ -36,3 +36,6 @@ vim.opt.showmode = false
 
 -- reduce maximum textwidth
 vim.opt.textwidth = 64
+
+-- turn on cursorline
+vim.opt.cursorline = true

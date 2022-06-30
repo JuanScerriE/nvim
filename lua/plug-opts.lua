@@ -21,6 +21,43 @@ require("cmake").setup({
 
 ----------------------------------------------------------
 
+-- comments opts
+require("Comment").setup({
+	-- @type boolean | function() : boolean
+	padding = true, -- add space b/w comment
+
+	-- @type string | function() : string
+	ignore = nil, -- regex to ignore matchin
+
+	toggler = {
+		line = "gcc", -- line comment
+		block = "gbc", -- block comment
+	},
+
+	opleader = {
+		line = "gc", -- line comment
+		block = "gb", -- block comment
+	},
+
+	extra = {
+		above = "gcO", -- comment line above
+		below = "gco", -- comment line below
+		eol = "gcA", -- comment end of line
+	},
+
+	mappings = {
+		basic = true,
+		extra = true,
+		extended = false,
+	},
+
+	-- @type function(ctx: CommentCtx) : string
+	pre_hook = nil, -- call before commenting
+
+	-- @type function(ctx: CommentCtx)
+	post_hook = nil, -- call after commenting
+})
+
 -- treesitter opts
 require("nvim-treesitter.configs").setup({
 	ensure_installed = {
@@ -47,7 +84,7 @@ require("nvim-treesitter.configs").setup({
 	sync_install = false,
 	ignore_install = { "javascript" },
 	highlight = {
-		-- disable = { "latex", "tex" },
+		disable = { "latex", "tex" },
 		enable = true,
 		additional_vim_regex_highlighting = true,
 	},
@@ -57,21 +94,22 @@ require("nvim-treesitter.configs").setup({
 require("lualine").setup({
 	options = {
 		icons_enabled = false,
-		theme = "tokyonight",
-		component_separators = { left = "|", right = "|" },
+		theme = "auto",
+		component_separators = { left = "", right = "" },
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {},
 		always_divide_middle = true,
+		globalstatus = true,
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "branch", "diff", {
+		lualine_b = { "branch", {
 			"diagnostics",
 			sources = { "nvim_diagnostic" },
 		} },
-		lualine_c = { "filename" },
-		lualine_x = { "encoding", "filetype" },
-		lualine_y = { "progress" },
+		lualine_c = { "diff", "%=", "filename", "%=", "encoding" }, -- center filename
+		lualine_x = {},
+		lualine_y = { "filetype" },
 		lualine_z = { "location" },
 	},
 	inactive_sections = {
@@ -83,17 +121,18 @@ require("lualine").setup({
 		lualine_z = {},
 	},
 	tabline = {},
-	extensions = {},
+	extensions = { "man", "quickfix", "nvim-tree" },
 })
 
 -- goyo opts
 vim.g.goyo_width = 100
 
 -- indent line opts
-require("indent_blankline").setup {
-    show_current_context = true,
-    show_current_context_start = false,
-}
+require("indent_blankline").setup({
+	show_current_context = false,
+	show_trailing_blankline_indent = false,
+	indent_blackline_use_treesitter = true,
+})
 
 ----------------------------------------------------------
 
