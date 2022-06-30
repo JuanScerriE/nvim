@@ -91,7 +91,7 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- lualine setup
-require("lualine").setup({
+--[[ require("lualine").setup({
 	options = {
 		icons_enabled = false,
 		theme = "auto",
@@ -122,7 +122,7 @@ require("lualine").setup({
 	},
 	tabline = {},
 	extensions = { "man", "quickfix", "nvim-tree" },
-})
+}) ]]
 
 -- goyo opts
 vim.g.goyo_width = 100
@@ -195,4 +195,4 @@ require("nvim-autopairs").setup({})
 
 -- startup setup
 
-require("startup").setup({ theme = "startify" })
+-- require("startup").setup({ theme = "startify" })

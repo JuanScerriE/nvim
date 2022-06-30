@@ -49,8 +49,8 @@ local highlights = {
 	{ "FiletypeAlt", { bg = "#3C3836", fg = "#504945" } },
 }
 
-for name, val in pairs(highlights) do
-	set_hl(name, val)
+for _, highlight in ipairs(highlights) do
+	set_hl(highlight[1], highlight[2])
 end
 
 M.separators = {
@@ -100,12 +100,12 @@ end
 
 M.get_git_status = function(self)
 	-- use fallback because it doesn't set this variable on the initial `BufEnter`
-	local signs = vim.b.gitsigns_status_dict or { 
-    added = 0,
-    changed = 0,
-    removed = 0,
-    head = "",
-  }
+	local signs = vim.b.gitsigns_status_dict or {
+		added = 0,
+		changed = 0,
+		removed = 0,
+		head = "",
+	}
 
 	local is_head_empty = signs.head ~= ""
 
@@ -113,7 +113,91 @@ M.get_git_status = function(self)
 		return is_head_empty and string.format(" %s ", signs.head or "") or ""
 	end
 
-	return is_head_empty
-			and string.format(" +%s ~%s -%s | %s ", signs.added, signs.changed, signs.removed, signs.head)
+	return is_head_empty and string.format(" +%s ~%s -%s | %s ", signs.added, signs.changed, signs.removed, signs.head)
 		or ""
 end
+
+M.get_filename = function(self)
+	if self:is_truncated(self.trunc_width.filename) then
+		return " %<%f "
+	end
+	return " %<%F "
+end
+
+M.get_filetype = function()
+	local filetype = vim.bo.filetype
+
+	if filetype == "" then
+		return ""
+	end
+
+	return string.format(" %s ", filetype):lower()
+end
+
+M.get_line_col = function(self)
+	if self:is_truncated(self.trunc_width.line_col) then
+		return " %l:%c "
+	end
+
+	return " Ln %l, Col %c "
+end
+
+M.get_lsp_diagnostic = function(self)
+	local result = {}
+
+	local levels = {
+		error = "Error",
+		warning = "Warning",
+		information = "Information",
+		hint = "Hint",
+	}
+
+	for k, level in pairs(levels) do
+		result[k] = vim.lsp.diagnostic.get_count(0, level)
+	end
+
+	if self:is_truncated(self.trunc_width.diagnostic) then
+		return ""
+	else
+		return string.format(
+			"| E:%s W:%s I:%s H:%s ",
+			result["error"] or 0,
+			result["warning"] or 0,
+			result["information"] or 0,
+			result["hint"] or 0
+		)
+	end
+end
+
+M.set_active = function(self)
+  local colors = self.colors
+
+  local mode = colors.mode .. self:get_current_mode()
+  local mode_alt = colors.mode_alt .. self.separators[active_sep][1]
+  local git = colors.git .. self:get_git_status()
+  local git_alt = colors.git_alt .. self.separators[active_sep][1]
+  local filename = colors.inactive .. self:get_filename()
+  local filetype_alt = colors.filetype_alt .. self.separators[active_sep][2]
+  local filetype = colors.filetype .. self:get_filetype()
+  local line_col = colors.line_col .. self:get_line_col()
+  local line_col_alt = colors.line_col_alt .. self.separators[active_sep][2]
+
+  return table.concat({
+    colors.active, mode, mode_alt, git, git_alt,
+    "%=", filename, "%=",
+    filetype_alt, filetype, line_col_alt, line_col
+  })
+end
+
+M.set_inactive = function(self)
+  return self.colors.inactive .. '%= %F %='
+end
+
+M.set_explorer = function(self)
+  local title = self.colors.mode .. ' Tree '
+  local title_alt = self.colors.mode_alt .. self.separators[active_sep][2]
+
+  return table.concat({ self.colors.active, title, title_alt })
+end
+
+return M
