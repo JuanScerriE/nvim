@@ -1,8 +1,13 @@
 -- plugin bindings --
 
 -- telescope binds
-vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope fd<cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>fgf", "<cmd>Telescope git_files<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>fgc", "<cmd>Telescope git_bcommits<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>fm", "<cmd>Telescope man_pages<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>fq", "<cmd>Telescope builtin<cr>", { noremap = true, silent = true })
 
 -- nvim-tree binds
 vim.api.nvim_set_keymap("n", "<leader>nt", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true })

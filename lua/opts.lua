@@ -5,7 +5,7 @@ if vim.fn.has("termguicolors") then
 	vim.opt.termguicolors = true
 end
 
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme gruvbox8")
 
 -- require("onedark").setup()
 
@@ -39,3 +39,6 @@ vim.opt.textwidth = 64
 
 -- turn on cursorline
 vim.opt.cursorline = true
+
+-- global statusbar
+vim.opt.laststatus = 3

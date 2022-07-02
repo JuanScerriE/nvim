@@ -149,41 +149,19 @@ vim.g.vimtex_quickfix_mode = 0
 
 -- nvim-tree setup
 require("nvim-tree").setup({
-	disable_netrw = false,
-	hijack_netrw = false,
+	disable_netrw = true,
+	hijack_netrw = true,
+	renderer = {
+		icons = {
+			show = {
+				git = true,
+				folder = false,
+				file = false,
+				folder_arrow = false,
+			},
+		},
+	},
 })
-
--- nvim-tree opts
-vim.g.nvim_tree_show_icons = {
-	["git"] = 1,
-	["folders"] = 0,
-	["files"] = 0,
-	["folder_arrows"] = 0,
-}
-
-vim.g.nvim_tree_icons = {
-	["default"] = "",
-	["symlink"] = "",
-	["git"] = {
-		["unstaged"] = "✗",
-		["staged"] = "✓",
-		["unmerged"] = "",
-		["renamed"] = "➜",
-		["untracked"] = "★",
-		["deleted"] = "",
-		["ignored"] = "◌",
-	},
-	["folder"] = {
-		["arrow_open"] = "",
-		["arrow_closed"] = "",
-		["default"] = "📁",
-		["open"] = "📂",
-		["empty"] = "",
-		["empty_open"] = "",
-		["symlink"] = "",
-		["symlink_open"] = "",
-	},
-}
 
 ----------------------------------------------------------
 
@@ -192,6 +170,46 @@ vim.g.nvim_tree_icons = {
 require("nvim-autopairs").setup({})
 
 ----------------------------------------------------------
+
+-- fuzzy finder
+
+local telescope = require("telescope")
+
+telescope.setup({
+	defaults = {
+		mappings = {
+			i = {
+				["<C-h>"] = "which_key",
+			},
+		},
+	},
+	pickers = {
+		-- Default configuration for builtin pickers goes here:
+		-- picker_name = {
+		--   picker_config_key = value,
+		--   ...
+		-- }
+		-- Now the picker_config_key will be applied every time you call this
+		-- builtin picker
+	},
+	extensions = {
+		fzf = {
+			fuzzy = true,
+			override_generic_sorter = true, -- override the generic sorter
+			override_file_sorter = true, -- override the file sorter
+			case_mode = "smart_case",
+		},
+	},
+})
+
+telescope.load_extension("fzf")
+
+----------------------------------------------------------
+
+
+-- Statusline
+
+require("statusline").setup()
 
 -- startup setup
 
