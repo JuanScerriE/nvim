@@ -75,15 +75,15 @@ component.git_status = function(self)
 end
 
 component.filename = function(self)
-	if self:is_truncated(self.trunc_width.filename) then
-		return " %<%m %f "
-	end
+	-- if self:is_truncated(self.trunc_width.filename) then
+	-- 	return " %<%m %f "
+	-- end
 
 	return " %<%m %F "
 end
 
 component.filetype = function()
-	local filetype = vim.b.filetype
+	local filetype = vim.bo.filetype
 
 	if filetype == "" then
 		return ""
@@ -97,7 +97,8 @@ component.line_column = function(self)
 		return " %-03.5l : %-03.5c "
 	end
 
-	return " Ln %-03.5l, Col %-03.5c "
+	-- return " Ln %-03.5l, Col %-03.5c "
+	return " %-03.5l : %-03.5c "
 end
 
 component.lsp_diagnostic = function(self)
