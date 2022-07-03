@@ -105,10 +105,10 @@ component.lsp_diagnostic = function(self)
 	local result = {}
 
 	local severity_levels = {
-		error = "Error",
-		warning = "Warning",
-		information = "Information",
-		hint = "Hint",
+		error = vim.diagnostic.severity.ERROR,
+		warning  = vim.diagnostic.severity.WARN,
+		information = vim.diagnostic.severity.INFO,
+		hint = vim.diagnostic.severity.HINT,
 	}
 
 	for k, severity_level in pairs(severity_levels) do
