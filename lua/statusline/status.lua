@@ -12,12 +12,12 @@ local separators = {
 local active_sep = "arrow"
 
 status.active = function()
-	local mode = hl.mode .. " %{luaeval(\"require('statusline.component'):mode()\")} "
+	local mode = hl.mode .. " %{luaeval(\"require('statusline.component2.mode'):get_mode()\")} "
 	local mode_alt = hl.mode_alt .. separators[active_sep].left
 	local git = hl.git .. " %{luaeval(\"require('statusline.component'):git_status()\")} "
-	local sep = "|"
-	local lsp = hl.git .. " %{luaeval(\"require('statusline.component'):lsp_diagnostic()\")} "
-	local lsp_alt = hl.git_alt .. separators[active_sep].left
+	-- local sep = "|"
+	-- local lsp = hl.git .. " %{luaeval(\"require('statusline.component'):lsp_diagnostic()\")} "
+	local git_alt = hl.git_alt .. separators[active_sep].left
 	local filename = hl.inactive .. component:filename()
 	local filetype_alt = hl.filetype_alt .. separators[active_sep].right
 	local filetype = hl.filetype .. component:filetype()
@@ -29,9 +29,9 @@ status.active = function()
 		mode,
 		mode_alt,
 		git,
-    sep,
-    lsp,
-		lsp_alt,
+    -- sep,
+    -- lsp,
+		git_alt,
 		"%=",
 		filename,
 		"%=",
