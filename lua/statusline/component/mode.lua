@@ -1,6 +1,6 @@
 local api = vim.api
 
-local section = require("statusline.section")
+local util = require("statusline.util")
 
 local M = {}
 
@@ -32,14 +32,10 @@ local modes = setmetatable({
 	end,
 })
 
-local is_mode_truncated = function()
-  return section:is_truncated(section.trunc_width.mode)
-end
+M.get_mode = function(width)
+	local mode, _ = api.nvim_get_mode()
 
-M.get_mode = function(self)
-	local mode = api.nvim_get_mode().mode
-
-	if is_mode_truncated() then
+	if util.is_truncated(width) then
 		return modes[mode].long
 	end
 
