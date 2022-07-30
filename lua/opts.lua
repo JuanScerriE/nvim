@@ -5,9 +5,7 @@ if vim.fn.has("termguicolors") then
 	vim.opt.termguicolors = true
 end
 
-vim.cmd("colorscheme gruvbox8")
-
--- require("onedark").setup()
+require("onedark").load()
 
 -- turn off sign column
 -- vim.opt.signcolumn = "no"

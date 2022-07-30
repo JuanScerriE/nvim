@@ -11,8 +11,8 @@ end
 require("plugs")
 
 -- options
-require("opts")
 require("plug-opts")
+require("opts")
 
 -- lsp & auto-complete
 require("aucmp")
@@ -24,4 +24,5 @@ require("plug-binds")
 require("lsp-binds")
 
 -- autocmds
+require("statusline2")
 require("autocmds")

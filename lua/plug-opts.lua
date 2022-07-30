@@ -2,6 +2,13 @@
 
 ----------------------------------------------------------
 
+-- colorscheme
+require("onedark").setup({
+    style = 'warm'
+})
+
+----------------------------------------------------------
+
 -- cmake opts
 
 local Path = require("plenary.path")
@@ -209,7 +216,7 @@ telescope.load_extension("fzf")
 
 -- Statusline
 
-require("statusline").setup()
+require("statusline2").setup()
 
 -- startup setup
 

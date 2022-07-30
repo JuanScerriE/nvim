@@ -33,7 +33,7 @@ status = require("statusline.status")
 -- }
 -- ]]
 
-local configuration = require("defaults")
+local configuration = require("statusline.defaults")
 
 local switch_case = {
   mode = function(opts)
@@ -56,7 +56,7 @@ statusline.setup = function(_, opts)
     local sections = opts.sections
     
     if components then
-      for (component, component_opts) in pairs(components) do
+      for component, component_opts in pairs(components) do
         switch_case[component](component_opts)
       end
     end

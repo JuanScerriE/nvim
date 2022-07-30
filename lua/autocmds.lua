@@ -18,19 +18,19 @@ api.nvim_create_autocmd("User", {
 	group = focus_gp,
 })
 
-local statusline = require("statusline")
-
-local set_status_active = function()
-	vim.opt_local.statusline = statusline:set_active()
-end
-
-local set_status_inactive = function()
-	vim.opt_local.statusline = statusline:set_inactive()
-end
-
-local set_status_explorer = function()
-	vim.opt_local.statusline = statusline:set_explorer()
-end
+-- local statusline = require("statusline")
+--
+-- local set_status_active = function()
+-- 	vim.opt_local.statusline = statusline:set_active()
+-- end
+--
+-- local set_status_inactive = function()
+-- 	vim.opt_local.statusline = statusline:set_inactive()
+-- end
+--
+-- local set_status_explorer = function()
+-- 	vim.opt_local.statusline = statusline:set_explorer()
+-- end
 
 -- statusline autocmds
 

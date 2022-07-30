@@ -35,10 +35,10 @@ return packer.startup(function()
 	})
 
 	-- colorscheme
-	use("ful1e5/onedark.nvim")
 	use("lifepillar/vim-gruvbox8")
 	use("sainnhe/everforest")
 	use("folke/tokyonight.nvim")
+  use("navarasu/onedark.nvim")
 
 	-- indent lines
 	use("lukas-reineke/indent-blankline.nvim")
