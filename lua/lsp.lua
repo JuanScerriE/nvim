@@ -1,23 +1,26 @@
+local lsp = vim.lsp
+
 -- lsp --
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = lsp.protocol.make_client_capabilities()
+
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 local nvim_lsp = require("lspconfig")
 
 local on_attach = require("lsp-binds")
 
-local servers = { "clangd", "zls", "rls", "jdtls", "jedi_language_server" }
+local servers = { "sumneko_lua", "clangd", "zls", "rls", "jdtls", "jedi_language_server" }
 
-for _, lsp in ipairs(servers) do
-	nvim_lsp[lsp].setup({
+for _, server in ipairs(servers) do
+	nvim_lsp[server].setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
 		flags = {
 			debounce_text_changes = 150,
 		},
 		handlers = {
-			["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+			["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
 				-- disable virtual_text
 				virtual_text = false,
 			}),
@@ -25,4 +28,4 @@ for _, lsp in ipairs(servers) do
 	})
 end
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = nil
+-- lsp.handlers["textDocument/publishDiagnostics"] = nil

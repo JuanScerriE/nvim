@@ -1,8 +1,11 @@
+local g = vim.g
+
 -- plugin options --
 
 ----------------------------------------------------------
 
 -- colorscheme
+
 require("onedark").setup({
     style = 'warm'
 })
@@ -132,7 +135,7 @@ require("nvim-treesitter.configs").setup({
 }) ]]
 
 -- goyo opts
-vim.g.goyo_width = 100
+g.goyo_width = 100
 
 -- indent line opts
 require("indent_blankline").setup({
@@ -147,9 +150,9 @@ require("indent_blankline").setup({
 require("gitsigns").setup()
 
 -- vimtex/tex opts
-vim.g.tex_flavor = "latex"
+g.tex_flavor = "latex"
 -- vim.g.tex_conceal = "abdmg"
-vim.g.vimtex_quickfix_mode = 0
+g.vimtex_quickfix_mode = 0
 -- vim.opt.conceallevel = 1
 
 ----------------------------------------------------------
@@ -213,11 +216,6 @@ telescope.load_extension("fzf")
 
 ----------------------------------------------------------
 
+-- statusline
 
--- Statusline
-
-require("statusline2").setup()
-
--- startup setup
-
--- require("startup").setup({ theme = "startify" })
+require("statusline").setup()

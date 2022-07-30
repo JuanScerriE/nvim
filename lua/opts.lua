@@ -1,8 +1,11 @@
+local fn = vim.fn
+local opt = vim.opt
+
 -- general options --
 
 -- color scheme
-if vim.fn.has("termguicolors") then
-	vim.opt.termguicolors = true
+if fn.has("termguicolors") then
+	opt.termguicolors = true
 end
 
 require("onedark").load()
@@ -11,32 +14,32 @@ require("onedark").load()
 -- vim.opt.signcolumn = "no"
 
 -- do not use internal clipboard
-vim.opt.clipboard = "unnamedplus"
+opt.clipboard = "unnamedplus"
 
 -- line numbers
-vim.opt.relativenumber = true
-vim.opt.number = true
+opt.relativenumber = true
+opt.number = true
 
 -- spelling
-vim.opt.spelllang = "en_gb"
+opt.spelllang = "en_gb"
 
 -- tab configuration
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
 
 -- mouse functionality
-vim.opt.mouse:append("n")
+opt.mouse:append("n")
 
 -- turn off bottom layer
-vim.opt.showmode = false
+opt.showmode = false
 
 -- reduce maximum textwidth
-vim.opt.textwidth = 64
+opt.textwidth = 64
 
 -- turn on cursorline
-vim.opt.cursorline = true
+opt.cursorline = true
 
 -- global statusbar
-vim.opt.laststatus = 3
+opt.laststatus = 3
