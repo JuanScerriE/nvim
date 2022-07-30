@@ -1,8 +1,9 @@
-statusline = {}
+M = {}
 
 require("statusline.theme").setup("gruvbox")
 
 status = require("statusline.status")
+<<<<<<< HEAD
 
 -- [[
 -- {
@@ -78,6 +79,26 @@ statusline.setup = function(_, opts)
 		callback = status.inactive,
 		group = statusline_gp,
 	})
+=======
+build = require("statusline.build")
+
+M.setup = function(_, opts)
+	vim.wo.statusline = build.statusline(opts)
+
+	-- local statusline_gp = vim.api.nvim_create_augroup("Statusline", {
+	-- 	clear = true,
+	-- })
+	--
+	-- vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+	-- 	callback = status.active,
+	-- 	group = statusline_gp,
+	-- })
+	--
+	-- vim.api.nvim_create_autocmd({ "BufWinLeave", "WinLeave" }, {
+	-- 	callback = status.inactive,
+	-- 	group = statusline_gp,
+	-- })
+>>>>>>> 031e81a8af00dadc80f5b224a40e0aa6ed94be90
 end
 
-return statusline
+return M

@@ -106,14 +106,14 @@ component.lsp_diagnostic = function(self)
 
 	local severity_levels = {
 		error = vim.diagnostic.severity.ERROR,
-		warning  = vim.diagnostic.severity.WARN,
+		warning = vim.diagnostic.severity.WARN,
 		information = vim.diagnostic.severity.INFO,
 		hint = vim.diagnostic.severity.HINT,
 	}
 
 	for k, severity_level in pairs(severity_levels) do
 		result[k] = vim.diagnostic.get(0, { severity = severity_level })
-    print(vim.inspect(result[k]))
+		print(vim.inspect(result[k]))
 	end
 
 	if self:is_truncated(self.trunc_width.diagnostic) then
