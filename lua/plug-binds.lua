@@ -19,12 +19,7 @@ api.nvim_set_keymap("n", "<leader>nr", "<cmd>NvimTreeRefresh<cr>", { noremap = t
 api.nvim_set_keymap("n", "<leader>c", "<cmd>Goyo<cr>", { noremap = true, silent = true })
 
 -- gitsigns binds
-api.nvim_set_keymap(
-	"n",
-	"<leader>hs",
-	"<cmd>lua require'gitsigns'.stage_hunk()<cr>",
-	{ noremap = true, silent = true }
-)
+api.nvim_set_keymap("n", "<leader>hs", "<cmd>lua require'gitsigns'.stage_hunk()<cr>", { noremap = true, silent = true })
 api.nvim_set_keymap(
 	"v",
 	"<leader>hs",
@@ -37,12 +32,7 @@ api.nvim_set_keymap(
 	"<cmd>lua require'gitsigns'.undo_stage_hunk()<cr>",
 	{ noremap = true, silent = true }
 )
-api.nvim_set_keymap(
-	"n",
-	"<leader>hr",
-	"<cmd>lua require'gitsigns'.reset_hunk()<cr>",
-	{ noremap = true, silent = true }
-)
+api.nvim_set_keymap("n", "<leader>hr", "<cmd>lua require'gitsigns'.reset_hunk()<cr>", { noremap = true, silent = true })
 api.nvim_set_keymap(
 	"v",
 	"<leader>hr",

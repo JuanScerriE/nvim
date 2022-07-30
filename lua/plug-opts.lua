@@ -7,7 +7,7 @@ local g = vim.g
 -- colorscheme
 
 require("onedark").setup({
-    style = 'warm'
+	style = "warm",
 })
 
 ----------------------------------------------------------
@@ -89,6 +89,8 @@ require("nvim-treesitter.configs").setup({
 		"ninja",
 		"python",
 		"yaml",
+    "svelte",
+    "typescript",
 		"vim",
 	},
 	sync_install = false,
@@ -100,49 +102,15 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
--- lualine setup
---[[ require("lualine").setup({
-	options = {
-		icons_enabled = false,
-		theme = "auto",
-		component_separators = { left = "", right = "" },
-		section_separators = { left = "", right = "" },
-		disabled_filetypes = {},
-		always_divide_middle = true,
-		globalstatus = true,
-	},
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "branch", {
-			"diagnostics",
-			sources = { "nvim_diagnostic" },
-		} },
-		lualine_c = { "diff", "%=", "filename", "%=", "encoding" }, -- center filename
-		lualine_x = {},
-		lualine_y = { "filetype" },
-		lualine_z = { "location" },
-	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = { "filename" },
-		lualine_x = { "location" },
-		lualine_y = {},
-		lualine_z = {},
-	},
-	tabline = {},
-	extensions = { "man", "quickfix", "nvim-tree" },
-}) ]]
-
 -- goyo opts
-g.goyo_width = 100
+-- g.goyo_width = 100
 
 -- indent line opts
-require("indent_blankline").setup({
-	show_current_context = false,
-	show_trailing_blankline_indent = false,
-	indent_blackline_use_treesitter = true,
-})
+-- require("indent_blankline").setup({
+-- 	show_current_context = false,
+-- 	show_trailing_blankline_indent = false,
+-- 	indent_blackline_use_treesitter = true,
+-- })
 
 ----------------------------------------------------------
 
@@ -177,7 +145,7 @@ require("nvim-tree").setup({
 
 -- nvim-autopairs
 
-require("nvim-autopairs").setup({})
+require("nvim-autopairs").setup()
 
 ----------------------------------------------------------
 

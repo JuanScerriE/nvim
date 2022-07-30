@@ -19,7 +19,7 @@ local modes = setmetatable({
 	[""] = "S-BLOCK",
 	["i"] = "INSERT",
 	["ic"] = "INSERT",
-	["R"] =  "REPLACE",
+	["R"] = "REPLACE",
 	["Rv"] = "V-REPLACE",
 	["c"] = "COMMAND",
 	["cv"] = "VIM-EX",
@@ -35,91 +35,88 @@ local modes = setmetatable({
 	end,
 })
 
--- FIX: Add a space because one is stripped. "  %s " 
+-- FIX: Add a space because one is stripped. "  %s "
 
 M.mode = function()
-  return string.format("  %s ", modes[api.nvim_get_mode().mode])
+	return string.format("  %s ", modes[api.nvim_get_mode().mode])
 end
 
 local function filepath()
-  return " %m %<%f "
+	return " %((%M)%) %<%f "
 end
 
 local function lsp_exists()
-  return next(lsp.buf_get_clients(0)) ~= nil
+	return next(lsp.buf_get_clients(0)) ~= nil
 end
 
 M.lsp = function()
-  local error_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.ERROR }))
-  local warn_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.WARN }))
-  local info_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.INFO }))
-  local hint_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.HINT }))
+	local error_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.ERROR }))
+	local warn_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.WARN }))
+	local info_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.INFO }))
+	local hint_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.HINT }))
 
-  if lsp_exists() then
-    return string.format("  [E%s W%s I%s H%s] ", error_count, warn_count, info_count, hint_count)
-  else
-    return ""
-  end
+	if lsp_exists() then
+		return string.format("  [E%s W%s I%s H%s] ", error_count, warn_count, info_count, hint_count)
+	else
+		return ""
+	end
 end
 
 local function git_exists()
-  return b.gitsigns_status_dict or b.gitsigns_head
+	return b.gitsigns_status_dict or b.gitsigns_head
 end
 
 M.git = function()
-  if git_exists() then
-    return string.format(
-      "  [+%s ~%s -%s | %s] ",
-      b.gitsigns_status_dict.added,
-      b.gitsigns_status_dict.changed,
-      b.gitsigns_status_dict.removed,
-      b.gitsigns_status_dict.head
-    )
-  else
-    return ""
-  end
+	if git_exists() then
+		return string.format(
+			"  [+%s ~%s -%s | %s] ",
+			b.gitsigns_status_dict.added,
+			b.gitsigns_status_dict.changed,
+			b.gitsigns_status_dict.removed,
+			b.gitsigns_status_dict.head
+		)
+	else
+		return ""
+	end
 end
 
 local function fileinfo()
-  return " %y  [%03.5l : %03.5c]  %P "
+	return " %((%M)%) %<%f  %y  [%03.5l : %03.5c]  %P "
 end
 
 local function active()
-  wo.statusline = table.concat({
-    "%#Statusline#",
-    "%{luaeval(\"require('statusline').mode()\")}",
-    "%{luaeval(\"require('statusline').git()\")}",
-    "%{luaeval(\"require('statusline').lsp()\")}",
-    "%=",
-    filepath(),
-    "%=",
-    fileinfo(),
-  })
+	wo.statusline = table.concat({
+		"%#Statusline#",
+		"%{luaeval(\"require('statusline').mode()\")}",
+		"%{luaeval(\"require('statusline').git()\")}",
+		"%{luaeval(\"require('statusline').lsp()\")}",
+		"%=",
+		fileinfo(),
+	})
 end
 
 local function inactive()
-  wo.statusline = table.concat({
-    "%#StatuslineNC#",
-    "%=",
-    filepath(),
-    "%=",
-  })
+	wo.statusline = table.concat({
+		"%#StatuslineNC#",
+		"%=",
+		filepath(),
+	})
 end
 
 M.setup = function()
-  local statusline_gp = api.nvim_create_augroup("Statusline", {
-  	clear = true,
-  })
+	local statusline_gp = api.nvim_create_augroup("Statusline", {
+		clear = true,
+	})
 
-  api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
-  	callback = active,
-  	group = statusline_gp,
-  })
+	api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+		callback = active,
+		group = statusline_gp,
+	})
 
-  api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
-  	callback = inactive,
-  	group = statusline_gp,
-  })
+	api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
+		callback = inactive,
+		group = statusline_gp,
+	})
 end
 
 return M

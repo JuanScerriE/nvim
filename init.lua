@@ -26,4 +26,4 @@ require("plug-binds")
 require("lsp-binds")
 
 -- autocmds
-require("autocmds")
+-- require("autocmds")

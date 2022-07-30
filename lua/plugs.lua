@@ -25,9 +25,6 @@ return packer.startup(function()
 
 	---------------------------------------
 
-	-- statusline
-	use("nvim-lualine/lualine.nvim")
-
 	-- tree-sitter
 	use({
 		"nvim-treesitter/nvim-treesitter",
@@ -38,16 +35,16 @@ return packer.startup(function()
 	use("lifepillar/vim-gruvbox8")
 	use("sainnhe/everforest")
 	use("folke/tokyonight.nvim")
-  use("navarasu/onedark.nvim")
+	use("navarasu/onedark.nvim")
 
 	-- indent lines
-	use("lukas-reineke/indent-blankline.nvim")
+	-- use("lukas-reineke/indent-blankline.nvim")
 
 	-- distraction free writing
-	use("junegunn/goyo.vim")
-	use("junegunn/limelight.vim")
+	-- use("junegunn/goyo.vim")
+	-- use("junegunn/limelight.vim")
 
-	-- good greeter
+	-- session manager
 	use({ "Shatur/neovim-session-manager" })
 
 	---------------------------------------
