@@ -94,7 +94,7 @@ require("nvim-treesitter.configs").setup({
 		"vim",
 	},
 	sync_install = false,
-	ignore_install = { "javascript" },
+	ignore_install = { "javascript", "typescript", "svelte" },
 	highlight = {
 		disable = { "latex", "tex" },
 		enable = true,

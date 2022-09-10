@@ -70,9 +70,9 @@ M.git = function()
 	if git_exists() then
 		return string.format(
 			"  [+%s ~%s -%s | %s] ",
-			b.gitsigns_status_dict.added,
-			b.gitsigns_status_dict.changed,
-			b.gitsigns_status_dict.removed,
+			b.gitsigns_status_dict.added or 0,
+			b.gitsigns_status_dict.changed or 0,
+			b.gitsigns_status_dict.removed or 0,
 			b.gitsigns_status_dict.head
 		)
 	else
