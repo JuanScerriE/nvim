@@ -108,6 +108,9 @@ return packer.startup(function()
 	-- zig support
 	use("ziglang/zig.vim")
 
+    -- jdtls improvements
+    use("mfussenegger/nvim-jdtls")
+
 	---------------------------------------
 
 	-- fuzzy finder
