@@ -4,6 +4,7 @@ local diagnostic = vim.diagnostic
 local tbl_count = vim.tbl_count
 local wo = vim.wo
 local b = vim.b
+local go = vim.go
 
 local M = {}
 
@@ -95,28 +96,33 @@ local function active()
 	})
 end
 
-local function inactive()
-	wo.statusline = table.concat({
-		"%#StatuslineNC#",
-		"%=",
-		filepath(),
-	})
-end
+-- local function inactive()
+-- 	wo.statusline = table.concat({
+-- 		"%#StatuslineNC#",
+-- 		"%=",
+-- 		filepath(),
+-- 	})
+-- end
 
 M.setup = function()
 	local statusline_gp = api.nvim_create_augroup("Statusline", {
 		clear = true,
 	})
 
+    go.winbar = table.concat({
+        "%=",
+        filepath(),
+    })
+
 	api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
 		callback = active,
 		group = statusline_gp,
 	})
 
-	api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
-		callback = inactive,
-		group = statusline_gp,
-	})
+	-- api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
+	-- 	callback = inactive,
+	-- 	group = statusline_gp,
+	-- })
 end
 
 return M
