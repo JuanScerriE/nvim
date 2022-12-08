@@ -9,13 +9,14 @@ if fn.has("termguicolors") then
 end
 
 -- require("onedark").load()
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme everforest")
 
 -- turn off sign column
 -- vim.opt.signcolumn = "no"
 
 -- do not use internal clipboard
 opt.clipboard = "unnamedplus"
+
 
 -- line numbers
 opt.relativenumber = true
