@@ -10,20 +10,17 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 -- plugins
-require("plugs")
+require("plugins")
 
--- options
-require("plug-opts")
-require("opts")
-
--- lsp & auto-complete
-require("aucmp")
+-- auto-complete & lsp
+require("autocomplete")
 require("lsp")
 
--- bindings
-require("binds")
-require("plug-binds")
-require("lsp-binds")
+-- options
+require("options/default-options")
+require("options/plugin-options")
 
--- autocmds
--- require("autocmds")
+-- bindings
+require("bindings/default-bindings")
+require("bindings/plugin-bindings")
+require("bindings/lsp-bindings")
