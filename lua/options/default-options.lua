@@ -34,8 +34,8 @@ opt.expandtab = true
 -- mouse functionality
 opt.mouse:append("n")
 
--- turn off bottom layer
-opt.showmode = false
+-- turn on bottom layer
+opt.showmode = true
 
 -- reduce maximum textwidth
 opt.textwidth = 64

@@ -37,13 +37,6 @@ return packer.startup(function()
 	use("folke/tokyonight.nvim")
 	use("navarasu/onedark.nvim")
 
-	-- indent lines
-	-- use("lukas-reineke/indent-blankline.nvim")
-
-	-- distraction free writing
-	-- use("junegunn/goyo.vim")
-	-- use("junegunn/limelight.vim")
-
 	-- session manager
 	use({ "Shatur/neovim-session-manager" })
 
@@ -121,7 +114,7 @@ return packer.startup(function()
 		},
 	})
 
-	-- fuzzy finder extnesion
+	-- fuzzy finder extension
 	use({
 		"nvim-telescope/telescope-fzf-native.nvim",
 		run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",

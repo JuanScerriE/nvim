@@ -8,44 +8,6 @@ local go = vim.go
 
 local M = {}
 
-local modes = setmetatable({
-	["n"] = "NORMAL",
-	["nt"] = "NORMAL",
-	["no"] = "N-PENDING",
-	["v"] = "VISUAL",
-	["V"] = "V-LINE",
-	[""] = "V-BLOCK",
-	["s"] = "SELECT",
-	["S"] = "S-LINE",
-	[""] = "S-BLOCK",
-	["i"] = "INSERT",
-	["ic"] = "INSERT",
-	["R"] = "REPLACE",
-	["Rv"] = "V-REPLACE",
-	["c"] = "COMMAND",
-	["cv"] = "VIM-EX",
-	["ce"] = "EX",
-	["r"] = "PROMPT",
-	["rm"] = "MORE",
-	["r?"] = "CONFIRM",
-	["!"] = "SHELL",
-	["t"] = "TERMINAL",
-}, {
-	__index = function()
-		return "UNKNOWN" -- handle edge cases
-	end,
-})
-
--- FIX: Add a space because one is stripped. "  %s "
-
-M.mode = function()
-	return string.format("  %s ", modes[api.nvim_get_mode().mode])
-end
-
-local function filepath()
-	return " %((%M)%) %<%f "
-end
-
 local function lsp_exists()
 	return next(lsp.buf_get_clients(0)) ~= nil
 end
@@ -81,6 +43,10 @@ M.git = function()
 	end
 end
 
+local function filepath()
+	return " %((%M)%) %<%f "
+end
+
 local function fileinfo()
 	return " %((%M)%) %<%f  %y  [%03.5l : %03.5c]  %P "
 end
@@ -88,21 +54,12 @@ end
 local function active()
 	wo.statusline = table.concat({
 		"%#Statusline#",
-		"%{luaeval(\"require('statusline').mode()\")}",
 		"%{luaeval(\"require('statusline').git()\")}",
 		"%{luaeval(\"require('statusline').lsp()\")}",
 		"%=",
 		fileinfo(),
 	})
 end
-
--- local function inactive()
--- 	wo.statusline = table.concat({
--- 		"%#StatuslineNC#",
--- 		"%=",
--- 		filepath(),
--- 	})
--- end
 
 M.setup = function()
 	local statusline_gp = api.nvim_create_augroup("Statusline", {
@@ -118,11 +75,6 @@ M.setup = function()
 		callback = active,
 		group = statusline_gp,
 	})
-
-	-- api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
-	-- 	callback = inactive,
-	-- 	group = statusline_gp,
-	-- })
 end
 
 return M
