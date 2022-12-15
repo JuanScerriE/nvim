@@ -8,15 +8,10 @@ if fn.has("termguicolors") then
 	opt.termguicolors = true
 end
 
--- require("onedark").load()
 vim.cmd("colorscheme everforest")
-
--- turn off sign column
--- vim.opt.signcolumn = "no"
 
 -- do not use internal clipboard
 opt.clipboard = "unnamedplus"
-
 
 -- line numbers
 opt.relativenumber = true

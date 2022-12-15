@@ -23,4 +23,6 @@ require("options/plugin-options")
 -- bindings
 require("bindings/default-bindings")
 require("bindings/plugin-bindings")
-require("bindings/lsp-bindings")
+
+-- statusline
+require("statusline").setup()

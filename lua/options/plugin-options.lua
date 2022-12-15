@@ -4,14 +4,6 @@ local g = vim.g
 
 ----------------------------------------------------------
 
--- colorscheme
-
-require("onedark").setup({
-	style = "warm",
-})
-
-----------------------------------------------------------
-
 -- cmake opts
 
 local Path = require("plenary.path")
@@ -89,8 +81,8 @@ require("nvim-treesitter.configs").setup({
 		"ninja",
 		"python",
 		"yaml",
-    "svelte",
-    "typescript",
+		"svelte",
+		"typescript",
 		"vim",
 	},
 	sync_install = false,
@@ -101,16 +93,6 @@ require("nvim-treesitter.configs").setup({
 		additional_vim_regex_highlighting = true,
 	},
 })
-
--- goyo opts
--- g.goyo_width = 100
-
--- indent line opts
--- require("indent_blankline").setup({
--- 	show_current_context = false,
--- 	show_trailing_blankline_indent = false,
--- 	indent_blackline_use_treesitter = true,
--- })
 
 ----------------------------------------------------------
 
@@ -181,9 +163,3 @@ telescope.setup({
 })
 
 telescope.load_extension("fzf")
-
-----------------------------------------------------------
-
--- statusline
-
-require("statusline").setup()

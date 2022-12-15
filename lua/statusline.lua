@@ -66,10 +66,10 @@ M.setup = function()
 		clear = true,
 	})
 
-    go.winbar = table.concat({
-        "%=",
-        filepath(),
-    })
+	go.winbar = table.concat({
+		"%=",
+		filepath(),
+	})
 
 	api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
 		callback = active,

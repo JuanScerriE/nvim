@@ -34,8 +34,6 @@ return packer.startup(function()
 	-- colorscheme
 	use("lifepillar/vim-gruvbox8")
 	use("sainnhe/everforest")
-	use("folke/tokyonight.nvim")
-	use("navarasu/onedark.nvim")
 
 	-- session manager
 	use({ "Shatur/neovim-session-manager" })
@@ -99,10 +97,16 @@ return packer.startup(function()
 	---------------------------------------
 
 	-- zig support
-	use("ziglang/zig.vim")
+	use({
+		"ziglang/zig.vim",
+		ft = { "zig" },
+	})
 
-    -- jdtls improvements
-    use("mfussenegger/nvim-jdtls")
+	-- jdtls improvements
+	use({
+		"mfussenegger/nvim-jdtls",
+		ft = { "java" },
+	})
 
 	---------------------------------------
 
