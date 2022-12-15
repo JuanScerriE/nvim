@@ -32,8 +32,8 @@ return packer.startup(function()
 	})
 
 	-- colorscheme
-	use("lifepillar/vim-gruvbox8")
 	use("sainnhe/everforest")
+    use("kvrohit/mellow.nvim")
 
 	-- session manager
 	use({ "Shatur/neovim-session-manager" })
