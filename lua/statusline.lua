@@ -48,12 +48,13 @@ local function filepath()
 end
 
 local function fileinfo()
-	return " %((%M)%) %<%f  %y  [%03.5l : %03.5c]  %P "
+	return " %((%M)%) %y  [%03.5l : %03.5c]  %P "
 end
 
 local function active()
 	wo.statusline = table.concat({
 		"%#Statusline#",
+        " %<%t",
 		"%{luaeval(\"require('statusline').git()\")}",
 		"%{luaeval(\"require('statusline').lsp()\")}",
 		"%=",
