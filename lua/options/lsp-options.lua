@@ -7,7 +7,7 @@ M.servers = {
 	"sumneko_lua",
 	"clangd",
 	"zls",
-	"rls",
+	"rust_analyzer",
 	"jedi_language_server",
 }
 
