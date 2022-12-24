@@ -31,5 +31,5 @@ return function(client, bufnr)
 	buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>", opts)
 	buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", opts)
 	buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", opts)
-	buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting({['tabSize'] = 4})<cr>", opts)
+	buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
 end
