@@ -25,6 +25,14 @@ return packer.startup(function()
 
 	---------------------------------------
 
+    -- zen mode
+    use("folke/zen-mode.nvim")
+
+    -- local lighting
+    use("folke/twilight.nvim")
+
+	---------------------------------------
+
 	-- tree-sitter
 	use({
 		"nvim-treesitter/nvim-treesitter",

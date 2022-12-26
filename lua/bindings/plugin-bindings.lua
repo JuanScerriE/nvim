@@ -15,6 +15,9 @@ api.nvim_set_keymap("n", "<leader>fq", "<cmd>Telescope builtin<cr>", { noremap =
 api.nvim_set_keymap("n", "<leader>nt", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true })
 api.nvim_set_keymap("n", "<leader>nr", "<cmd>NvimTreeRefresh<cr>", { noremap = true, silent = true })
 
+-- zen-mode bindings
+api.nvim_set_keymap("n", "<leader>c", "<cmd>ZenMode<cr>", { noremap = true, silent = true })
+
 -- gitsigns bindings
 api.nvim_set_keymap("n", "<leader>hs", "<cmd>lua require'gitsigns'.stage_hunk()<cr>", { noremap = true, silent = true })
 api.nvim_set_keymap(
