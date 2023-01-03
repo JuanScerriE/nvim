@@ -17,12 +17,12 @@ require("autocomplete")
 require("lsp")
 
 -- options
-require("options/plugin-options")
 require("options/default-options")
+require("options/plugin-options")
 
 -- bindings
-require("bindings/plugin-bindings")
 require("bindings/default-bindings")
+require("bindings/plugin-bindings")
 
 -- statusline
 require("statusline").setup()

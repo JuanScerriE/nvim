@@ -23,13 +23,6 @@ require("cmake").setup({
 
 ----------------------------------------------------------
 
--- mellow.nvim opts
-
-g.mellow_bold_keywords = true
-g.mellow_italic_functions = true
-
-----------------------------------------------------------
-
 -- zen-mode opts
 
 require("zen-mode").setup({
