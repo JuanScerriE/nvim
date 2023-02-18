@@ -5,7 +5,7 @@ local M = {}
 M.servers = {
     "texlab",
 	"svelte",
-	"sumneko_lua",
+	"lua_ls",
 	"clangd",
 	"zls",
 	"rust_analyzer",
