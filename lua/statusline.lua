@@ -54,7 +54,7 @@ end
 local function active()
 	wo.statusline = table.concat({
 		"%#Statusline#",
-        " %<%t",
+		" %<%t",
 		"%{luaeval(\"require('statusline').git()\")}",
 		"%{luaeval(\"require('statusline').lsp()\")}",
 		"%=",

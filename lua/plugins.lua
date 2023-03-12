@@ -25,11 +25,11 @@ return packer.startup(function()
 
 	---------------------------------------
 
-    -- zen mode
-    use("folke/zen-mode.nvim")
+	-- zen mode
+	use("folke/zen-mode.nvim")
 
-    -- local lighting
-    use("folke/twilight.nvim")
+	-- local lighting
+	use("folke/twilight.nvim")
 
 	---------------------------------------
 
@@ -41,7 +41,7 @@ return packer.startup(function()
 
 	-- colorscheme
 	use("sainnhe/everforest")
-    use("kvrohit/mellow.nvim")
+	use("kvrohit/mellow.nvim")
 
 	-- session manager
 	use({ "Shatur/neovim-session-manager" })

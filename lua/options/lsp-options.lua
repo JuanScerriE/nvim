@@ -3,7 +3,7 @@
 local M = {}
 
 M.servers = {
-    "texlab",
+	"texlab",
 	"svelte",
 	"lua_ls",
 	"clangd",
