@@ -14,7 +14,7 @@ end
 g.mellow_bold_keywords = true
 g.mellow_italic_functions = true
 
-vim.cmd("colorscheme mellow")
+vim.cmd.colorscheme("catppuccin")
 
 -- do not use internal clipboard
 opt.clipboard = "unnamedplus"

@@ -3,13 +3,11 @@
 local M = {}
 
 M.servers = {
-	"texlab",
-	"svelte",
-	"lua_ls",
-	"clangd",
-	"zls",
 	"rust_analyzer",
-	"jedi_language_server",
+	"pyright",
+	"clangd",
+	"texlab",
+	"lua_ls",
 }
 
 M.debounce_text_changes = 150

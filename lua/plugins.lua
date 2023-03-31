@@ -21,6 +21,7 @@ return packer.startup(function()
 
 	-- better brackets
 	use("tpope/vim-surround")
+
 	use("windwp/nvim-autopairs")
 
 	---------------------------------------
@@ -34,14 +35,14 @@ return packer.startup(function()
 	---------------------------------------
 
 	-- tree-sitter
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
-	})
+	use("nvim-treesitter/nvim-treesitter")
 
-	-- colorscheme
-	use("sainnhe/everforest")
-	use("kvrohit/mellow.nvim")
+	-- colorschemes
+
+	-- use("sainnhe/everforest")
+	-- use("kvrohit/mellow.nvim")
+
+	use({ "catppuccin/nvim", as = "catppuccin" })
 
 	-- session manager
 	use({ "Shatur/neovim-session-manager" })
@@ -85,8 +86,11 @@ return packer.startup(function()
 	-- cmdline source for nvim-cmp
 	use("hrsh7th/cmp-cmdline")
 
-	-- debugger
-	use("mfussenegger/nvim-dap")
+	-- snipptes plugin
+	use("hrsh7th/vim-vsnip")
+
+	-- lsp plugin integration
+	use("hrsh7th/vim-vsnip-integ")
 
 	-- cmake support
 	use({
@@ -94,27 +98,11 @@ return packer.startup(function()
 		requires = {
 			"nvim-lua/plenary.nvim",
 		},
+		ft = { "c", "cpp", "cmake" },
 	})
 
-	-- snipptes plugin
-	use("hrsh7th/vim-vsnip")
-
-	-- lsp plugin integration
-	use("hrsh7th/vim-vsnip-integ")
-
-	---------------------------------------
-
-	-- zig support
-	use({
-		"ziglang/zig.vim",
-		ft = { "zig" },
-	})
-
-	-- jdtls improvements
-	use({
-		"mfussenegger/nvim-jdtls",
-		ft = { "java" },
-	})
+	-- debugger
+	use({ "mfussenegger/nvim-dap", ft = { "c", "cpp", "cmake" } })
 
 	---------------------------------------
 
@@ -133,5 +121,5 @@ return packer.startup(function()
 	})
 
 	-- navigation tree
-	use("kyazdani42/nvim-tree.lua")
+	use({ "kyazdani42/nvim-tree.lua", opt = true })
 end)
