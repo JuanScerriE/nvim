@@ -4,49 +4,38 @@ local g = vim.g
 
 ----------------------------------------------------------
 
+-- dap opts
+
+----------------------------------------------------------
+
 -- cmake opts
 
 local Path = require("plenary.path")
 
 require("cmake").setup({
-	cmake_executable = "cmake", -- CMake executable to run.
-	parameters_file = "neovim.json", -- JSON file to store information about selected target, run arguments and build type.
-	build_dir = tostring(Path:new("{cwd}", "build", "{os}-{build_type}")), -- Build directory. The expressions `{cwd}`, `{os}` and `{build_type}` will be expanded with the corresponding text values. Could be a function that return the path to the build directory.
-	default_projects_path = tostring(Path:new(vim.loop.os_homedir(), "Projects")), -- Default folder for creating project.
-	configure_args = { "-D", "CMAKE_EXPORT_COMPILE_COMMANDS=1", "-G", "Ninja" }, -- Default arguments that will be always passed at cmake configure step. By default tells cmake to generate `compile_commands.json`.
-	build_args = {}, -- Default arguments that will be always passed at cmake build step.
-	on_build_output = nil, -- Callback which will be called on every line that is printed during build process. Accepts printed line as argument.
-	quickfix_height = 5, -- Height of the opened quickfix.
-	quickfix_only_on_error = false, -- Open quickfix window only if target build failed.
-	copy_compile_commands = true, -- Copy compile_commands.json to current working directory.
-})
-
-----------------------------------------------------------
-
--- dap opts
-
-local dap = require("dap")
-
-dap.adapters.lldb = {
-	type = "executable",
-	command = "lldb-vscode",
-	name = "lldb",
-}
-
-dap.configurations.cpp = {
-	{
-		name = "Launch",
-		type = "lldb",
-		request = "launch",
-		program = function()
-			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-		end,
-		cwd = "${workspaceFolder}",
-		stopOnEntry = false,
-		args = {},
-		runInTerminal = false,
+	cmake_executable = "cmake",
+	save_before_build = true,
+	parameters_file = "neovim.json",
+	default_parameters = { args = {}, build_type = "Debug" },
+	build_dir = tostring(Path:new("{cwd}", "build", "{os}-{build_type}")),
+	configure_args = { "-D", "CMAKE_EXPORT_COMPILE_COMMANDS=1", "-G", "Ninja" },
+	build_args = {},
+	on_build_output = nil,
+	quickfix = {
+		pos = "botright",
+		height = 10,
+		only_on_error = true,
 	},
-}
+	copy_compile_commands = true,
+	dap_configurations = {
+		lldb_vscode = { type = "lldb", request = "launch" },
+	},
+	dap_configuration = "lldb_vscode",
+	dap_open_command = function(...)
+		require("dap").repl.open(...)
+	end,
+	-- Command to run after starting DAP session. You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
+})
 
 ----------------------------------------------------------
 
@@ -79,7 +68,6 @@ require("zen-mode").setup({
 		gitsigns = { enabled = true }, -- disable gitsigns
 		tmux = { enabled = true }, -- disable tmux statusline
 	},
-
 	-- callback where you can add custom code when the Zen window opens
 	on_open = function(win) end,
 	-- callback where you can add custom code when the Zen window closes
@@ -92,35 +80,28 @@ require("zen-mode").setup({
 require("Comment").setup({
 	-- @type boolean | function() : boolean
 	padding = true, -- add space b/w comment
-
 	-- @type string | function() : string
 	ignore = nil, -- regex to ignore matchin
-
 	toggler = {
 		line = "gcc", -- line comment
 		block = "gbc", -- block comment
 	},
-
 	opleader = {
 		line = "gc", -- line comment
 		block = "gb", -- block comment
 	},
-
 	extra = {
 		above = "gcO", -- comment line above
 		below = "gco", -- comment line below
 		eol = "gcA", -- comment end of line
 	},
-
 	mappings = {
 		basic = true,
 		extra = true,
 		extended = false,
 	},
-
 	-- @type function(ctx: CommentCtx) : string
 	pre_hook = nil, -- call before commenting
-
 	-- @type function(ctx: CommentCtx)
 	post_hook = nil, -- call after commenting
 })
@@ -169,24 +150,6 @@ g.tex_flavor = "latex"
 -- vim.g.tex_conceal = "abdmg"
 g.vimtex_quickfix_mode = 0
 -- vim.opt.conceallevel = 1
-
-----------------------------------------------------------
-
--- nvim-tree setup
-require("nvim-tree").setup({
-	disable_netrw = true,
-	hijack_netrw = true,
-	renderer = {
-		icons = {
-			show = {
-				git = true,
-				folder = false,
-				file = false,
-				folder_arrow = false,
-			},
-		},
-	},
-})
 
 ----------------------------------------------------------
 

@@ -98,11 +98,41 @@ return packer.startup(function()
 		requires = {
 			"nvim-lua/plenary.nvim",
 		},
-		ft = { "c", "cpp", "cmake" },
 	})
 
 	-- debugger
-	use({ "mfussenegger/nvim-dap", ft = { "c", "cpp", "cmake" } })
+	use({
+		"mfussenegger/nvim-dap",
+		ft = { "c", "cpp", "cmake" },
+		config = function()
+			local dap = require("dap")
+
+			dap.adapters.lldb = {
+				type = "executable",
+				command = "lldb-vscode",
+				name = "lldb",
+			}
+
+			dap.configurations.cpp = {
+				{
+					name = "Launch",
+					type = "lldb",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+					args = {},
+					runInTerminal = false,
+				},
+			}
+
+            vim.keymap.set("n", "<leader>dk", dap.continue)
+            vim.keymap.set("n", "<leader>dl", dap.run_last)
+            vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
+		end,
+	})
 
 	---------------------------------------
 
@@ -121,5 +151,25 @@ return packer.startup(function()
 	})
 
 	-- navigation tree
-	use({ "kyazdani42/nvim-tree.lua", opt = true })
+	use({
+		"kyazdani42/nvim-tree.lua",
+		opt = true,
+		config = function()
+			-- nvim-tree setup
+			require("nvim-tree").setup({
+				disable_netrw = true,
+				hijack_netrw = true,
+				renderer = {
+					icons = {
+						show = {
+							git = true,
+							folder = false,
+							file = false,
+							folder_arrow = false,
+						},
+					},
+				},
+			})
+		end,
+	})
 end)

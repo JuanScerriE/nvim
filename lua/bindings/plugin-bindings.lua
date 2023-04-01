@@ -6,11 +6,11 @@ local vim = vim
 
 -- dap bindings --
 
-local dap = require("dap")
-
-vim.keymap.set("n", "<leader>dk", dap.continue)
-vim.keymap.set("n", "<leader>dl", dap.run_last)
-vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
+-- local dap = require("dap")
+--
+-- vim.keymap.set("n", "<leader>dk", dap.continue)
+-- vim.keymap.set("n", "<leader>dl", dap.run_last)
+-- vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
 
 -- telescope bindings
 api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope fd<cr>", { noremap = true, silent = true })

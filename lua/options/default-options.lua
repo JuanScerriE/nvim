@@ -11,8 +11,8 @@ end
 
 -- mellow.nvim opts
 
-g.mellow_bold_keywords = true
-g.mellow_italic_functions = true
+-- g.mellow_bold_keywords = true
+-- g.mellow_italic_functions = true
 
 vim.cmd.colorscheme("catppuccin")
 
