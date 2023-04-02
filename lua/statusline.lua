@@ -1,24 +1,24 @@
-local api = vim.api
-local lsp = vim.lsp
 local diagnostic = vim.diagnostic
 local tbl_count = vim.tbl_count
+local api = vim.api
+local lsp = vim.lsp
 local wo = vim.wo
-local b = vim.b
 local go = vim.go
+local b = vim.b
 
 local M = {}
 
 local function lsp_exists()
-	return next(lsp.buf_get_clients(0)) ~= nil
+	return next(lsp.get_active_clients()) ~= nil
 end
 
 M.lsp = function()
-	local error_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.ERROR }))
-	local warn_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.WARN }))
-	local info_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.INFO }))
-	local hint_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.HINT }))
-
 	if lsp_exists() then
+		local error_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.ERROR }))
+		local warn_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.WARN }))
+		local info_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.INFO }))
+		local hint_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.HINT }))
+
 		return string.format("  [E%s W%s I%s H%s] ", error_count, warn_count, info_count, hint_count)
 	else
 		return ""

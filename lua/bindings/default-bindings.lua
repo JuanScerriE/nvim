@@ -1,10 +1,14 @@
+local diagnostic = vim.diagnostic
+local keymap = vim.keymap
 local api = vim.api
-local g = vim.g
 
 -- default bindings --
 
--- set leader
-g.mapleader = ";"
+-- diagnostics
+keymap.set("n", "<space>e", diagnostic.open_float)
+keymap.set("n", "[d", diagnostic.goto_prev)
+keymap.set("n", "]d", diagnostic.goto_next)
+keymap.set("n", "<space>q", diagnostic.setloclist)
 
 -- toggle spell check
 api.nvim_set_keymap("n", "<leader>s", "<cmd>set spell!<cr>", { noremap = true, silent = true })

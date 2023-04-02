@@ -128,9 +128,9 @@ return packer.startup(function()
 				},
 			}
 
-            vim.keymap.set("n", "<leader>dk", dap.continue)
-            vim.keymap.set("n", "<leader>dl", dap.run_last)
-            vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
+			vim.keymap.set("n", "<leader>dk", dap.continue)
+			vim.keymap.set("n", "<leader>dl", dap.run_last)
+			vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
 		end,
 	})
 

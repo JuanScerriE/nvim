@@ -39,41 +39,6 @@ require("cmake").setup({
 
 ----------------------------------------------------------
 
--- zen-mode opts
-
-require("zen-mode").setup({
-	window = {
-		backdrop = 1,
-		width = 120,
-		height = 1,
-		options = {
-			-- signcolumn = "no", -- disable signcolumn
-			-- number = false, -- disable number column
-			-- relativenumber = false, -- disable relative numbers
-			-- cursorline = false, -- disable cursorline
-			-- cursorcolumn = false, -- disable cursor column
-			-- foldcolumn = "0", -- disable fold column
-			-- list = false, -- disable whitespace characters
-		},
-	},
-	plugins = {
-		-- disable some global vim options (vim.o...)
-		-- comment the lines to not apply the options
-		options = {
-			enabled = true,
-			ruler = false, -- disables the ruler text in the cmd line area
-			showcmd = false, -- disables the command in the last line of the screen
-		},
-		twilight = { enabled = true }, -- enable twilight
-		gitsigns = { enabled = true }, -- disable gitsigns
-		tmux = { enabled = true }, -- disable tmux statusline
-	},
-	-- callback where you can add custom code when the Zen window opens
-	on_open = function(win) end,
-	-- callback where you can add custom code when the Zen window closes
-	on_close = function() end,
-})
-
 ----------------------------------------------------------
 
 -- comments opts
@@ -111,24 +76,21 @@ require("nvim-treesitter.configs").setup({
 	ensure_installed = {
 		"c",
 		"cpp",
+		"ninja",
+		"cmake",
+		"bibtex",
+		"latex",
+		"go",
 		"rust",
+		"yaml",
+		"html",
+		"css",
+		"javascript",
+		"typescript",
+		"java",
+		"python",
 		"lua",
 		"bash",
-		"cmake",
-		"css",
-		"bibtex",
-		"zig",
-		"go",
-		"html",
-		"javascript",
-		"java",
-		"latex",
-		"llvm",
-		"ninja",
-		"python",
-		"yaml",
-		"svelte",
-		"typescript",
 		"vim",
 	},
 	sync_install = false,

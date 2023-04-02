@@ -1,4 +1,3 @@
-local g = vim.g
 local fn = vim.fn
 local opt = vim.opt
 
@@ -8,11 +7,6 @@ local opt = vim.opt
 if fn.has("termguicolors") then
 	opt.termguicolors = true
 end
-
--- mellow.nvim opts
-
--- g.mellow_bold_keywords = true
--- g.mellow_italic_functions = true
 
 vim.cmd.colorscheme("catppuccin")
 
@@ -42,7 +36,7 @@ opt.showmode = true
 opt.textwidth = 64
 
 -- turn on cursorline
-opt.cursorline = false
+opt.cursorline = true
 
 -- global statusbar
 opt.laststatus = 3

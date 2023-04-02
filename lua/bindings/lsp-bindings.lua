@@ -2,7 +2,7 @@ local api = vim.api
 
 -- lsp bindings --
 
-return function(client, bufnr)
+return function(_, bufnr)
 	local function buf_set_keymap(...)
 		api.nvim_buf_set_keymap(bufnr, ...)
 	end
