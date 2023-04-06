@@ -88,7 +88,16 @@ require("lazy").setup({
 	},
 
 	-- tex/latex integration
-	{ "lervag/vimtex", ft = "tex" },
+	{
+		"lervag/vimtex",
+		ft = "tex",
+		init = function()
+			g.vimtex_compiler_latexmk_engines = {
+				["lualatex"] = "-lualatex",
+				["pdflatex"] = "-pdf",
+			}
+		end,
+	},
 
 	-- telescope
 	{

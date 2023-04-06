@@ -40,3 +40,6 @@ opt.cursorline = true
 
 -- global statusbar
 opt.laststatus = 3
+
+-- always vertical split to the right
+opt.splitright = true
