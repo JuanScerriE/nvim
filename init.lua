@@ -25,20 +25,22 @@ end
 opt.rtp:prepend(lazypath)
 
 g.mapleader = ";"
+g.maplocalleader = ";"
 
-local telescope_cmake_build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+local telescope_cmake_build =
+	"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
 
 require("lazy").setup({
 
 	-- lsp config
 	{
-        "neovim/nvim-lspconfig",
-        config = function()
-            require("config-lsp")
-        end,
-    },
+		"neovim/nvim-lspconfig",
+		config = function()
+			require("config-lsp")
+		end,
+	},
 
-    -- snippets
+	-- snippets
 	"L3MON4D3/LuaSnip",
 
 	{
@@ -50,12 +52,12 @@ require("lazy").setup({
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 		},
-        config = function()
-            require("config-completion")
-        end,
+		config = function()
+			require("config-completion")
+		end,
 	},
 
-    -- nvim cmp luasnip compatibility
+	-- nvim cmp luasnip compatibility
 	"saadparwaiz1/cmp_luasnip",
 
 	-- which-key
@@ -86,16 +88,7 @@ require("lazy").setup({
 	},
 
 	-- tex/latex integration
-	{
-		"lervag/vimtex",
-		ft = "tex",
-		config = function()
-			opt.conceallevel = 1
-			g.tex_flavor = "latex"
-			g.tex_conceal = "abdmg"
-			g.vimtex_quickfix_mode = 1
-		end,
-	},
+	{ "lervag/vimtex", ft = "tex" },
 
 	-- telescope
 	{
@@ -108,7 +101,7 @@ require("lazy").setup({
 			},
 		},
 		config = function()
-            require("config-telescope")
+			require("config-telescope")
 		end,
 	},
 
