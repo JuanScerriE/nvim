@@ -93,8 +93,7 @@ require("lazy").setup({
 		ft = "tex",
 		init = function()
 			g.vimtex_compiler_latexmk_engines = {
-				["lualatex"] = "-lualatex",
-				["pdflatex"] = "-pdf",
+				["_"] = "-lualatex",
 			}
 		end,
 	},
