@@ -8,7 +8,7 @@ if fn.has("termguicolors") then
 	opt.termguicolors = true
 end
 
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("gruber-darker")
 
 -- do not use internal clipboard
 opt.clipboard = "unnamedplus"

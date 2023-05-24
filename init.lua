@@ -7,6 +7,7 @@ local o = vim.o
 -- init --
 
 -- TODO: add description to bindings
+
 -- TODO: add nvim-dap
 
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -130,8 +131,8 @@ require("lazy").setup({
 		end,
 	},
 
-	-- catppuccin
-	{ "catppuccin/nvim", name = "catppuccin" },
+	-- gruber-darker
+    { "blazkowolf/gruber-darker.nvim" },
 
 	-- neodev
 	"folke/neodev.nvim",
