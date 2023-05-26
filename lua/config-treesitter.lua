@@ -2,7 +2,7 @@ require("nvim-treesitter.configs").setup({
 	ensure_installed = {
 		"c",
 		"cpp",
-        "glsl",
+		"glsl",
 		"ninja",
 		"cmake",
 		"go",

@@ -17,7 +17,7 @@ telescope.load_extension("fzf")
 
 local builtin = require("telescope.builtin")
 
-keymap.set("n", "<leader>ff", builtin.find_files, {})
-keymap.set("n", "<leader>fg", builtin.git_files, {})
-keymap.set("n", "<leader>fb", builtin.buffers, {})
-keymap.set("n", "<leader>fh", builtin.help_tags, {})
+keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
+keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Grep in files" })
+keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
+keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find help" })

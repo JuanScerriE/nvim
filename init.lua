@@ -6,8 +6,6 @@ local o = vim.o
 
 -- init --
 
--- TODO: add description to bindings
-
 -- TODO: add nvim-dap
 
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
