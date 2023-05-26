@@ -46,7 +46,7 @@ local on_attach = function(_, bufnr)
 	map("n", "gr", vim.lsp.buf.references, { desc = "List references" })
 	map("n", "<space>f", function()
 		vim.lsp.buf.format({ async = true })
-	end, { dsec = "Format file" })
+	end, { desc = "Format file" })
 end
 
 local function _if(value, default)

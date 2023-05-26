@@ -130,7 +130,7 @@ require("lazy").setup({
 	},
 
 	-- gruber-darker
-    { "blazkowolf/gruber-darker.nvim" },
+	{ "blazkowolf/gruber-darker.nvim" },
 
 	-- neodev
 	"folke/neodev.nvim",
