@@ -10,6 +10,7 @@ require("nvim-treesitter.configs").setup({
 		"yaml",
 		"html",
 		"css",
+		"svelte",
 		"java",
 		"python",
 		"lua",
