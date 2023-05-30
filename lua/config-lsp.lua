@@ -13,6 +13,8 @@ local options = {
 		"clangd",
 		"texlab",
 		"lua_ls",
+        "tsserver",
+        "svelte",
 		"zls",
 	},
 	debounce_text_changes = 150,
