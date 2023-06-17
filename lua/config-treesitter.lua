@@ -8,6 +8,7 @@ require("nvim-treesitter.configs").setup({
 		"go",
 		"rust",
 		"yaml",
+		"ocaml",
 		"html",
 		"css",
 		"svelte",

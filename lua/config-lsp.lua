@@ -13,17 +13,16 @@ local options = {
 		"clangd",
 		"texlab",
 		"lua_ls",
-        "tsserver",
-        "svelte",
+		"tsserver",
+		"ocamllsp",
+		"svelte",
 		"zls",
 	},
 	debounce_text_changes = 150,
 	virtual_text = true,
 }
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities(
-	lsp.protocol.make_client_capabilities()
-)
+local capabilities = require("cmp_nvim_lsp").default_capabilities(lsp.protocol.make_client_capabilities())
 
 local on_attach = function(_, bufnr)
 	-- enable completion triggered by <c-x><c-o>
@@ -40,27 +39,12 @@ local on_attach = function(_, bufnr)
 	map("n", "K", vim.lsp.buf.hover, { desc = "See info" })
 	map("n", "gi", vim.lsp.buf.implementation, { desc = "Goto implementation" })
 	map("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature help" })
-	map(
-		"n",
-		"<space>wa",
-		vim.lsp.buf.add_workspace_folder,
-		{ desc = "Add workspace folder" }
-	)
-	map(
-		"n",
-		"<space>wr",
-		vim.lsp.buf.remove_workspace_folder,
-		{ desc = "Remove workspace folder" }
-	)
+	map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add workspace folder" })
+	map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove workspace folder" })
 	map("n", "<space>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, { desc = "List workspace folders" })
-	map(
-		"n",
-		"<space>D",
-		vim.lsp.buf.type_definition,
-		{ desc = "Goto type definition" }
-	)
+	map("n", "<space>D", vim.lsp.buf.type_definition, { desc = "Goto type definition" })
 	map("n", "<space>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
 	map("n", "<space>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
 	map("n", "gr", vim.lsp.buf.references, { desc = "List references" })
@@ -87,12 +71,9 @@ for _, server in ipairs(_if(options.servers, {})) do
 		},
 
 		handlers = {
-			["textDocument/publishDiagnostics"] = lsp.with(
-				lsp.diagnostic.on_publish_diagnostics,
-				{
-					virtual_text = _if(options.virtual_text, true),
-				}
-			),
+			["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
+				virtual_text = _if(options.virtual_text, true),
+			}),
 		},
 	})
 end
