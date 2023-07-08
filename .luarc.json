@@ -1,0 +1,28 @@
+{
+    "workspace.library": [
+        "/home/juan/.local/share/nvim/lazy/neodev.nvim/types/stable",
+        "/usr/share/nvim/runtime/lua",
+        "/home/juan/.local/share/nvim/lazy/telescope-fzf-native.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/nvim-treesitter/lua",
+        "/home/juan/.local/share/nvim/lazy/lazy.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/nvim-cmp/lua",
+        "/home/juan/.local/share/nvim/lazy/nvim-autopairs/lua",
+        "/home/juan/.local/share/nvim/lazy/cmp-nvim-lsp-signature-help/lua",
+        "/home/juan/.local/share/nvim/lazy/which-key.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/cmp-nvim-lsp/lua",
+        "/home/juan/.local/share/nvim/lazy/LuaSnip/lua",
+        "/home/juan/.local/share/nvim/lazy/gruber-darker.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/gitsigns.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/cmp-cmdline/lua",
+        "/home/juan/.local/share/nvim/lazy/telescope.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/Comment.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/neodev.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/cmp-path/lua",
+        "/home/juan/.local/share/nvim/lazy/cmp-buffer/lua",
+        "/home/juan/.local/share/nvim/lazy/plenary.nvim/lua",
+        "/home/juan/.local/share/nvim/lazy/nvim-lspconfig/lua",
+        "/home/juan/.local/share/nvim/lazy/cmp_luasnip/lua",
+        "/home/juan/.config/nvim/lua",
+        "${3rd}/luv/library"
+    ]
+}

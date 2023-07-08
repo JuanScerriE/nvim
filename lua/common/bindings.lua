@@ -5,10 +5,25 @@ local api = vim.api
 -- default bindings --
 
 -- diagnostics
-keymap.set("n", "<space>e", diagnostic.open_float, { desc = "See diagnostic message" })
-keymap.set("n", "[d", diagnostic.goto_prev, { desc = "Goto previous diagnostic" })
+keymap.set(
+	"n",
+	"<space>e",
+	diagnostic.open_float,
+	{ desc = "See diagnostic message" }
+)
+keymap.set(
+	"n",
+	"[d",
+	diagnostic.goto_prev,
+	{ desc = "Goto previous diagnostic" }
+)
 keymap.set("n", "]d", diagnostic.goto_next, { desc = "Goto next diagnostic" })
-keymap.set("n", "<space>q", diagnostic.setloclist, { desc = "View diagnostics" })
+keymap.set(
+	"n",
+	"<space>q",
+	diagnostic.setloclist,
+	{ desc = "View diagnostics" }
+)
 
 -- toggle spell check
 api.nvim_set_keymap(
@@ -19,8 +34,18 @@ api.nvim_set_keymap(
 )
 
 -- move between buffers
-api.nvim_set_keymap("n", "<leader>,", "<cmd>bprev<cr>", { noremap = true, silent = true, desc = "Previous buffer" })
-api.nvim_set_keymap("n", "<leader>.", "<cmd>bnext<cr>", { noremap = true, silent = true, desc = "Next buffer" })
+api.nvim_set_keymap(
+	"n",
+	"<leader>,",
+	"<cmd>bprev<cr>",
+	{ noremap = true, silent = true, desc = "Previous buffer" }
+)
+api.nvim_set_keymap(
+	"n",
+	"<leader>.",
+	"<cmd>bnext<cr>",
+	{ noremap = true, silent = true, desc = "Next buffer" }
+)
 
 -- terminal bindings
 api.nvim_set_keymap(
@@ -41,4 +66,9 @@ api.nvim_set_keymap(
 	"<cmd>vsplit term://$SHELL<cr>",
 	{ noremap = true, silent = true, desc = "Open terminal (vertical)" }
 )
-api.nvim_set_keymap("t", "<esc>", "<C-\\><C-n>", { noremap = true, silent = true })
+api.nvim_set_keymap(
+	"t",
+	"<esc>",
+	"<C-\\><C-n>",
+	{ noremap = true, silent = true }
+)

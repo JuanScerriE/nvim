@@ -14,12 +14,26 @@ end
 
 M.lsp = function()
 	if lsp_exists() then
-		local error_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.ERROR }))
-		local warn_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.WARN }))
-		local info_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.INFO }))
-		local hint_count = tbl_count(diagnostic.get(0, { severity = diagnostic.severity.HINT }))
+		local error_count = tbl_count(
+			diagnostic.get(0, { severity = diagnostic.severity.ERROR })
+		)
+		local warn_count = tbl_count(
+			diagnostic.get(0, { severity = diagnostic.severity.WARN })
+		)
+		local info_count = tbl_count(
+			diagnostic.get(0, { severity = diagnostic.severity.INFO })
+		)
+		local hint_count = tbl_count(
+			diagnostic.get(0, { severity = diagnostic.severity.HINT })
+		)
 
-		return string.format("  [E%s W%s I%s H%s] ", error_count, warn_count, info_count, hint_count)
+		return string.format(
+			"  [E%s W%s I%s H%s] ",
+			error_count,
+			warn_count,
+			info_count,
+			hint_count
+		)
 	else
 		return ""
 	end

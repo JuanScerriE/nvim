@@ -4,10 +4,7 @@ local fn = vim.fn
 local g = vim.g
 local o = vim.o
 
--- init --
-
--- TODO: add nvim-dap
-
+-- install lazy if it is not installed
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not loop.fs_stat(lazypath) then
@@ -23,25 +20,71 @@ end
 
 opt.rtp:prepend(lazypath)
 
+-- set the leader and local leader
 g.mapleader = ";"
 g.maplocalleader = ";"
 
+-- some locals to make the plugin section less cluttered
 local telescope_cmake_build =
 	"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
 
+local config_lsp = require("config.lsp")
+local config_non_lsp = require("config.non-lsp")
+
+-- deal with plugins
 require("lazy").setup({
 
-	-- lsp config
+	-- manages my external dependencies
 	{
-		"neovim/nvim-lspconfig",
+		"williamboman/mason.nvim",
 		config = function()
-			require("config-lsp")
+			require("mason").setup()
 		end,
 	},
 
-	-- snippets
-	"L3MON4D3/LuaSnip",
+	-- just so lua_ls does not complain about neovim api
+	"folke/neodev.nvim",
 
+	-- lspconfig
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			"folke/neodev.nvim",
+			"hrsh7th/nvim-cmp",
+		},
+		config = function()
+			config_lsp.setup()
+		end,
+	},
+
+	-- let mason manage my lspconfig as well
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = {
+			"williamboman/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
+		config = function()
+			require("mason-lspconfig").setup({
+				ensure_installed = config_lsp.servers,
+			})
+		end,
+	},
+
+	-- somethings should have an lsp interface you know
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+		ft = { "python" },
+		config = function()
+			config_non_lsp.setup()
+		end,
+	},
+
+	-- nvim cmp
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -52,14 +95,20 @@ require("lazy").setup({
 			"hrsh7th/cmp-path",
 		},
 		config = function()
-			require("config-completion")
+			require("config.completion")
 		end,
 	},
 
 	-- nvim cmp luasnip compatibility
-	"saadparwaiz1/cmp_luasnip",
+	{
+		"saadparwaiz1/cmp_luasnip",
+		dependencies = {
+			"hrsh7th/nvim-cmp",
+			"L3MON4D3/LuaSnip",
+		},
+	},
 
-	-- which-key
+	-- tell me which key comes next
 	{
 		"folke/which-key.nvim",
 		config = function()
@@ -70,7 +119,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- autopairs
+	-- make autopairs a thing
 	{
 		"windwp/nvim-autopairs",
 		config = function()
@@ -78,7 +127,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- comment
+	-- comment related improvements
 	{
 		"numToStr/Comment.nvim",
 		config = function()
@@ -86,7 +135,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- tex/latex integration
+	-- write nicely typeset math in neovim (tex/latex integration)
 	{
 		"lervag/vimtex",
 		ft = "tex",
@@ -97,7 +146,16 @@ require("lazy").setup({
 		end,
 	},
 
-	-- telescope
+	-- git integration (magit is actually good)
+	{
+		"lewis6991/gitsigns.nvim",
+		dependencies = "nvim-lua/plenary.nvim",
+		config = function()
+			require("config.gitsigns")
+		end,
+	},
+
+	-- i wish we had a fuzzy finder for physical paper
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
@@ -108,32 +166,20 @@ require("lazy").setup({
 			},
 		},
 		config = function()
-			require("config-telescope")
+			require("config.telescope")
 		end,
 	},
 
-	-- git integration
-	{
-		"lewis6991/gitsigns.nvim",
-		dependencies = "nvim-lua/plenary.nvim",
-		config = function()
-			require("config-gitsigns")
-		end,
-	},
-
-	-- treesitter
+	-- somehow sitting on trees makes code look nicer
 	{
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
-			require("config-treesitter")
+			require("config.treesitter")
 		end,
 	},
 
-	-- gruber-darker
-	{ "blazkowolf/gruber-darker.nvim" },
-
-	-- neodev
-	"folke/neodev.nvim",
+	-- i need a cappuccino made by cat
+	{ "catppuccin/nvim", name = "catppuccin" },
 }, {
 	ui = {
 		icons = {
@@ -153,7 +199,9 @@ require("lazy").setup({
 	},
 })
 
-require("common-options")
-require("common-bindings")
+-- common options related to neovim
+require("common.bindings")
+require("common.options")
 
+-- setup the statusline
 require("statusline").setup()

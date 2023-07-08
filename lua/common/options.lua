@@ -3,12 +3,16 @@ local opt = vim.opt
 
 -- general options --
 
+-- default
+
 -- color scheme
 if fn.has("termguicolors") then
 	opt.termguicolors = true
-end
 
-vim.cmd.colorscheme("gruber-darker")
+	vim.cmd.colorscheme("catppuccin-macchiato")
+else
+	vim.cmd.colorscheme("elflord")
+end
 
 -- do not use internal clipboard
 opt.clipboard = "unnamedplus"
