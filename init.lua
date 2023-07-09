@@ -1,4 +1,3 @@
-local loop = vim.loop
 local opt = vim.opt
 local fn = vim.fn
 local g = vim.g
@@ -7,7 +6,7 @@ local o = vim.o
 -- install lazy if it is not installed
 local lazypath = fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-if not loop.fs_stat(lazypath) then
+if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
@@ -22,14 +21,16 @@ opt.rtp:prepend(lazypath)
 
 -- set the leader and local leader
 g.mapleader = ";"
+
 g.maplocalleader = ";"
 
 -- some locals to make the plugin section less cluttered
 local telescope_cmake_build =
 	"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
 
-local config_lsp = require("config.lsp")
-local config_non_lsp = require("config.non-lsp")
+local config_lsp = require("configs.lsp")
+
+local config_non_lsp = require("configs.non-lsp")
 
 -- deal with plugins
 require("lazy").setup({
@@ -42,8 +43,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- just so lua_ls does not complain about neovim api
-	"folke/neodev.nvim",
+	------------------LSP------------------
 
 	-- lspconfig
 	{
@@ -88,14 +88,12 @@ require("lazy").setup({
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
-			"hrsh7th/cmp-nvim-lsp-signature-help",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-cmdline",
-			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 		},
 		config = function()
-			require("config.completion")
+			require("configs.completion")
 		end,
 	},
 
@@ -107,6 +105,42 @@ require("lazy").setup({
 			"L3MON4D3/LuaSnip",
 		},
 	},
+
+	------------------DAP------------------
+
+	{
+		"mfussenegger/nvim-dap",
+		config = function()
+            require("configs.dap")
+		end,
+	},
+
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = {
+			"mfussenegger/nvim-dap",
+		},
+		config = function()
+            require("configs.dapui")
+		end,
+	},
+
+	{
+		"mfussenegger/nvim-dap-python",
+		ft = { "python" },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"rcarriga/nvim-dap-ui",
+		},
+		config = function(_, _)
+			local path =
+				"~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
+
+			require("dap-python").setup(path)
+		end,
+	},
+
+	------------------AUX------------------
 
 	-- tell me which key comes next
 	{
@@ -151,7 +185,7 @@ require("lazy").setup({
 		"lewis6991/gitsigns.nvim",
 		dependencies = "nvim-lua/plenary.nvim",
 		config = function()
-			require("config.gitsigns")
+			require("configs.gitsigns")
 		end,
 	},
 
@@ -166,7 +200,7 @@ require("lazy").setup({
 			},
 		},
 		config = function()
-			require("config.telescope")
+			require("configs.telescope")
 		end,
 	},
 
@@ -174,7 +208,7 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		config = function()
-			require("config.treesitter")
+			require("configs.treesitter")
 		end,
 	},
 

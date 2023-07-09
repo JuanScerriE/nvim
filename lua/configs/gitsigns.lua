@@ -8,7 +8,7 @@ require("gitsigns").setup({
 			vim.keymap.set(mode, l, r, opts)
 		end
 
-		-- navigation
+		-- Navigation
 		map("n", "]c", function()
 			if vim.wo.diff then
 				return "]c"
@@ -29,19 +29,15 @@ require("gitsigns").setup({
 			return "<Ignore>"
 		end, { expr = true, desc = "Previous hunk" })
 
-		-- actions
-		map(
-			{ "n", "v" },
-			"<leader>hs",
-			":Gitsigns stage_hunk<CR>",
-			{ desc = "Stage hunk" }
-		)
-		map(
-			{ "n", "v" },
-			"<leader>hr",
-			":Gitsigns reset_hunk<CR>",
-			{ desc = "Reset hunk" }
-		)
+		-- Actions
+		map("n", "<leader>hs", gs.stage_hunk, { desc = "Stage hunk" })
+		map("n", "<leader>hr", gs.reset_hunk, { desc = "Reset hunk" })
+		map("v", "<leader>hs", function()
+			gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+		end, { desc = "Stage hunk" })
+		map("v", "<leader>hr", function()
+			gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+		end, { desc = "Reset hunk" })
 		map("n", "<leader>hS", gs.stage_buffer, { desc = "Stage buffer" })
 		map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
 		map("n", "<leader>hR", gs.reset_buffer, { desc = "Reset buffer" })
@@ -59,9 +55,9 @@ require("gitsigns").setup({
 		map("n", "<leader>hD", function()
 			gs.diffthis("~")
 		end, { desc = "Diff buffer" })
-		map("n", "<leader>td", gs.toggle_deleted, { desc = "Toggle deleted" })
+		map("n", "<leader>td", gs.toggle_deleted, { desc = "Select hunk" })
 
-		-- text object
+		-- Text object
 		map(
 			{ "o", "x" },
 			"ih",

@@ -1,6 +1,7 @@
 local M = {}
 
 local servers = {
+	"debugpy",
 	"black",
 }
 
