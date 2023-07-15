@@ -24,6 +24,9 @@ g.mapleader = ";"
 
 g.maplocalleader = ";"
 
+-- level of verbosity
+g.verbose = 9
+
 -- some locals to make the plugin section less cluttered
 local telescope_cmake_build =
 	"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
@@ -111,7 +114,7 @@ require("lazy").setup({
 	{
 		"mfussenegger/nvim-dap",
 		config = function()
-            require("configs.dap")
+			require("configs.dap")
 		end,
 	},
 
@@ -121,7 +124,7 @@ require("lazy").setup({
 			"mfussenegger/nvim-dap",
 		},
 		config = function()
-            require("configs.dapui")
+			require("configs.dapui")
 		end,
 	},
 
@@ -194,6 +197,7 @@ require("lazy").setup({
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope-file-browser.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = telescope_cmake_build,
@@ -213,7 +217,10 @@ require("lazy").setup({
 	},
 
 	-- i need a cappuccino made by cat
-	{ "catppuccin/nvim", name = "catppuccin" },
+	-- { "catppuccin/nvim", name = "catppuccin" },
+
+	-- another theme because i can
+	"rebelot/kanagawa.nvim",
 }, {
 	ui = {
 		icons = {

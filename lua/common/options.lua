@@ -9,7 +9,7 @@ local opt = vim.opt
 if fn.has("termguicolors") then
 	opt.termguicolors = true
 
-	vim.cmd.colorscheme("catppuccin-macchiato")
+	vim.cmd.colorscheme("kanagawa")
 else
 	vim.cmd.colorscheme("elflord")
 end

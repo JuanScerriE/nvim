@@ -62,8 +62,31 @@ local function filepath()
 end
 
 local function fileinfo()
-	return " %((%M)%) %y  [%03.5l : %03.5c]  %P "
+	return " %((%M)%)  %y  [%03.5l : %03.5c]  %P "
 end
+
+-- NOTE: this would be a nice implementation of active() however
+-- according to
+-- https://neovim.discourse.group/t/when-bufenter-fires-how-to-determine-if-it-is-a-telescope-prompt/3181
+-- Telescope sets the filetype after it BufEnter or WinEnter
+-- hence we cannot solve the problem for now.
+
+-- local function active()
+--     local buff_type = api.nvim_buf_get_option(0, "filetype")
+--
+--     if buff_type == "TelescopePrompt" then
+--         wo.statusline = "%#Statusline#%= %y %="
+--     else
+-- 	    wo.statusline = table.concat({
+-- 	    	"%#Statusline#",
+-- 	    	" %<%t",
+-- 	    	"%{luaeval(\"require('statusline').git()\")}",
+-- 	    	"%{luaeval(\"require('statusline').lsp()\")}",
+-- 	    	"%=",
+-- 	    	fileinfo(),
+-- 	    })
+--     end
+-- end
 
 local function active()
 	wo.statusline = table.concat({
