@@ -45,3 +45,17 @@ keymap.set(
 	"<cmd>bnext<cr>",
 	{ noremap = true, silent = true, desc = "Next buffer" }
 )
+
+-- split and vsplit
+keymap.set(
+    "n",
+    "<leader>wx",
+    "<cmd>split<cr>",
+    { noremap = true, silent = true, desc = "Horizontal split" }
+)
+keymap.set(
+    "n",
+    "<leader>wv",
+    "<cmd>vsplit<cr>",
+    { noremap = true, silent = true, desc = "Vertical split" }
+)
