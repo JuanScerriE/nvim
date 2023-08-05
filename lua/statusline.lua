@@ -9,60 +9,60 @@ local b = vim.b
 local M = {}
 
 local function lsp_exists()
-	return next(lsp.get_active_clients()) ~= nil
+    return next(lsp.get_active_clients()) ~= nil
 end
 
 M.lsp = function()
-	if lsp_exists() then
-		local error_count = tbl_count(
-			diagnostic.get(0, { severity = diagnostic.severity.ERROR })
-		)
-		local warn_count = tbl_count(
-			diagnostic.get(0, { severity = diagnostic.severity.WARN })
-		)
-		local info_count = tbl_count(
-			diagnostic.get(0, { severity = diagnostic.severity.INFO })
-		)
-		local hint_count = tbl_count(
-			diagnostic.get(0, { severity = diagnostic.severity.HINT })
-		)
+    if lsp_exists() then
+        local error_count = tbl_count(
+            diagnostic.get(0, { severity = diagnostic.severity.ERROR })
+        )
+        local warn_count = tbl_count(
+            diagnostic.get(0, { severity = diagnostic.severity.WARN })
+        )
+        local info_count = tbl_count(
+            diagnostic.get(0, { severity = diagnostic.severity.INFO })
+        )
+        local hint_count = tbl_count(
+            diagnostic.get(0, { severity = diagnostic.severity.HINT })
+        )
 
-		return string.format(
-			"  [E%s W%s I%s H%s] ",
-			error_count,
-			warn_count,
-			info_count,
-			hint_count
-		)
-	else
-		return ""
-	end
+        return string.format(
+            "  [E%s W%s I%s H%s] ",
+            error_count,
+            warn_count,
+            info_count,
+            hint_count
+        )
+    else
+        return ""
+    end
 end
 
 local function git_exists()
-	return b.gitsigns_status_dict or b.gitsigns_head
+    return b.gitsigns_status_dict or b.gitsigns_head
 end
 
 M.git = function()
-	if git_exists() then
-		return string.format(
-			"  [+%s ~%s -%s | %s] ",
-			b.gitsigns_status_dict.added or 0,
-			b.gitsigns_status_dict.changed or 0,
-			b.gitsigns_status_dict.removed or 0,
-			b.gitsigns_status_dict.head
-		)
-	else
-		return ""
-	end
+    if git_exists() then
+        return string.format(
+            "  [+%s ~%s -%s | %s] ",
+            b.gitsigns_status_dict.added or 0,
+            b.gitsigns_status_dict.changed or 0,
+            b.gitsigns_status_dict.removed or 0,
+            b.gitsigns_status_dict.head
+        )
+    else
+        return ""
+    end
 end
 
 local function filepath()
-	return " %((%M)%) %<%f "
+    return " %((%M)%) %<%f "
 end
 
 local function fileinfo()
-	return " %((%M)%)  %y  [%03.5l : %03.5c]  %P "
+    return " %((%M)%)  %y  [%03.5l : %03.5c]  %P "
 end
 
 -- NOTE: this would be a nice implementation of active() however
@@ -89,30 +89,30 @@ end
 -- end
 
 local function active()
-	wo.statusline = table.concat({
-		"%#Statusline#",
-		" %<%t",
-		"%{luaeval(\"require('statusline').git()\")}",
-		"%{luaeval(\"require('statusline').lsp()\")}",
-		"%=",
-		fileinfo(),
-	})
+    wo.statusline = table.concat({
+        "%#Statusline#",
+        " %<%t",
+        "%{luaeval(\"require('statusline').git()\")}",
+        "%{luaeval(\"require('statusline').lsp()\")}",
+        "%=",
+        fileinfo(),
+    })
 end
 
 M.setup = function()
-	local statusline_gp = api.nvim_create_augroup("Statusline", {
-		clear = true,
-	})
+    local statusline_gp = api.nvim_create_augroup("Statusline", {
+        clear = true,
+    })
 
-	go.winbar = table.concat({
-		"%=",
-		filepath(),
-	})
+    go.winbar = table.concat({
+        "%=",
+        filepath(),
+    })
 
-	api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
-		callback = active,
-		group = statusline_gp,
-	})
+    api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+        callback = active,
+        group = statusline_gp,
+    })
 end
 
 return M

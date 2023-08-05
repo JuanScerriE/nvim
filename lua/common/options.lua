@@ -1,34 +1,44 @@
 local fn = vim.fn
 local opt = vim.opt
+local cmd = vim.cmd
+local o = vim.o
 
 -- general options --
 
--- default
-
--- color scheme
+-- set termguicolors
 if fn.has("termguicolors") then
-	opt.termguicolors = true
-
-	vim.cmd.colorscheme("kanagawa")
-else
-	vim.cmd.colorscheme("elflord")
+    opt.termguicolors = true
 end
+
+-- set theme
+cmd.colorscheme("catppuccin")
+
+-- enable break indent
+opt.breakindent = true
+
+-- save undo history
+opt.undofile = true
+
+-- case-insensitive searching UNLESS \C or capital in search
+opt.ignorecase = true
+opt.smartcase = true
+
+-- keep signcolumn on by default
+opt.signcolumn = "yes"
+
+-- decrease update time
+opt.updatetime = 250
+opt.timeoutlen = 300
 
 -- do not use internal clipboard
 opt.clipboard = "unnamedplus"
 
--- line numbers
+-- relative line numbers
 opt.relativenumber = true
 opt.number = true
 
 -- spelling
 opt.spelllang = "en_gb"
-
--- tab configuration
-opt.tabstop = 4
-opt.softtabstop = 4
-opt.shiftwidth = 4
-opt.expandtab = true
 
 -- mouse functionality
 opt.mouse:append("n")
@@ -44,6 +54,9 @@ opt.cursorline = true
 
 -- global statusbar
 opt.laststatus = 3
+
+-- disable highligh when searching
+opt.hlsearch = false
 
 -- always vertical split to the right
 opt.splitright = true
