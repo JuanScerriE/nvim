@@ -3,6 +3,8 @@ local keymap = vim.keymap
 
 -- default bindings --
 
+keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
 -- diagnostics
 keymap.set(
     "n",

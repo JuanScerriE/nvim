@@ -1,18 +1,10 @@
 -- lsp config
 
 local bo = vim.bo
-local keymap = vim.keymap
 local lsp = vim.lsp
+local keymap = vim.keymap
 
-local M = {}
-
-M.servers = {
-    "ocamllsp",
-    "pyright",
-    "clangd",
-    "texlab",
-    "lua_ls",
-}
+local telescope_builtin = require("telescope.builtin")
 
 local options = {}
 
@@ -26,11 +18,25 @@ local on_attach = function(_, bufnr)
         keymap.set(mode, l, r, opts)
     end
 
-    map("n", "gD", lsp.buf.declaration, { desc = "Goto declaration" })
     map("n", "gd", lsp.buf.definition, { desc = "Goto definition" })
+    map(
+        "n",
+        "gr",
+        telescope_builtin.lsp_references,
+        { desc = "Goto referneces" }
+    )
+    map("n", "gI", lsp.buf.implementation, { desc = "Goto implementation" })
+    map("n", "<leader>D", lsp.buf.type_definition, { desc = "Type definition" })
+    map(
+        "n",
+        "<leader>ds",
+        telescope_builtin.lsp_document_symbols,
+        { desc = "Document symbols" }
+    )
     map("n", "K", lsp.buf.hover, { desc = "See info" })
-    map("n", "gi", lsp.buf.implementation, { desc = "Goto implementation" })
     map("n", "<C-k>", lsp.buf.signature_help, { desc = "Signature help" })
+
+    map("n", "gD", lsp.buf.declaration, { desc = "Goto declaration" })
     map(
         "n",
         "<space>wa",
@@ -68,18 +74,39 @@ local _if = function(value, default)
     end
 end
 
-M.setup = function()
-    -- just make working with neovim builtins not a pain
-    require("neodev").setup()
+local servers = {
+    clangd = {},
+    pyright = {},
+    rust_analyzer = {},
+    texlab = {},
+    lua_ls = {
+        Lua = {
+            workspace = { checkThirdParty = false },
+            telemetry = { enable = false },
+        },
+    },
+}
 
-    local nvim_lspconfig = require("lspconfig")
+local nvim_lspconfig = require("lspconfig")
 
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities(
+    lsp.protocol.make_client_capabilities()
+)
 
-    for _, server in ipairs(_if(M.servers, {})) do
-        nvim_lspconfig[server].setup({
+local mason_lspconfig = require("mason-lspconfig")
+
+mason_lspconfig.setup({
+    ensure_installed = vim.tbl_keys(servers),
+})
+
+mason_lspconfig.setup_handlers({
+    function(server_name)
+        nvim_lspconfig[server_name].setup({
             capabilities = capabilities,
             on_attach = on_attach,
+
+            settings = servers[server_name],
+            filetypes = (servers[server_name] or {}).filetypes,
 
             flags = {
                 debounce_text_changes = _if(options.debounce_text_changes, 150),
@@ -94,7 +121,5 @@ M.setup = function()
                 ),
             },
         })
-    end
-end
-
-return M
+    end,
+})

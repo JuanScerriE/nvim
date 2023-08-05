@@ -22,15 +22,55 @@ opt.rtp:prepend(lazypath)
 g.mapleader = " "
 g.maplocalleader = " "
 
-local config_lsp = require("configs.lsp")
-
 -- deal with plugins
 require("lazy").setup({
+    ------------------TELESCOPE------------------
 
-    -- manages my external dependencies
+    -- plenary is a helper library
+    "nvim-lua/plenary.nvim",
+
+    -- i wish we had a fuzzy finder for physical paper
     {
-        "williamboman/mason.nvim",
-        opts = {},
+        "nvim-telescope/telescope.nvim",
+        dependencies = {
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                cond = function()
+                    return fn.executable("make") == 1
+                end,
+                build = "make",
+            },
+        },
+        config = function()
+            require("configs.telescope")
+        end,
+    },
+
+    ------------------TREESITTER------------------
+
+    -- somehow sitting on trees makes code look nicer
+    {
+        "nvim-treesitter/nvim-treesitter",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter-textobjects",
+        },
+        config = function()
+            require("configs.treesitter")
+        end,
+    },
+
+    ------------------GIT------------------
+
+    -- anything from tpope is good (magit is actually good)
+    "tpope/vim-fugitive",
+    "tpope/vim-rhubarb",
+
+    -- git gutter
+    {
+        "lewis6991/gitsigns.nvim",
+        config = function()
+            require("configs.gitsigns")
+        end,
     },
 
     ------------------LSP------------------
@@ -39,35 +79,25 @@ require("lazy").setup({
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "hrsh7th/nvim-cmp",
+            { "williamboman/mason.nvim", config = true },
+            "williamboman/mason-lspconfig.nvim",
+
+            { "folke/neodev.nvim",       ft = "lua",   opts = {} },
+
             {
                 "j-hui/fidget.nvim",
-                event = "LspAttach",
                 tag = "legacy",
                 opts = { text = { spinner = "line" } },
             },
-            "folke/neodev.nvim",
         },
         config = function()
-            config_lsp.setup()
+            require("configs.lsp")
+
+            require("autoformat")()
         end,
     },
 
-    -- let mason manage my lspconfig as well
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = {
-            "williamboman/mason.nvim",
-            "neovim/nvim-lspconfig",
-        },
-        config = function()
-            require("mason-lspconfig").setup({
-                ensure_installed = config_lsp.servers,
-            })
-        end,
-    },
-
-    ------------------AUTO COMPLETE------------------
+    ------------------AUTOCOMPLETE------------------
 
     -- nvim cmp
     {
@@ -76,22 +106,35 @@ require("lazy").setup({
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-path",
+
+            -- nvim  cmp luasnip compatibility
+            "saadparwaiz1/cmp_luasnip",
+            "L3MON4D3/LuaSnip",
         },
         config = function()
             require("configs.completion")
         end,
     },
 
-    -- nvim cmp luasnip compatibility
+    ------------------THEMES------------------
+
+    -- i need a cappuccino made by cat
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+
+    ------------------LATEX------------------
+
+    -- write nicely typeset math in neovim (tex/latex integration)
     {
-        "saadparwaiz1/cmp_luasnip",
-        dependencies = {
-            "hrsh7th/nvim-cmp",
-            "L3MON4D3/LuaSnip",
-        },
+        "lervag/vimtex",
+        ft = "tex",
+        init = function()
+            g.vimtex_compiler_latexmk_engines = {
+                ["_"] = "-lualatex",
+            }
+        end,
     },
 
-    ------------------AUX------------------
+    ------------------AUXILIARY------------------
 
     -- tell me which key comes next
     {
@@ -113,58 +156,6 @@ require("lazy").setup({
 
     -- detect tabstop and shiftwidth automatically
     "tpope/vim-sleuth",
-
-    -- write nicely typeset math in neovim (tex/latex integration)
-    {
-        "lervag/vimtex",
-        ft = "tex",
-        init = function()
-            g.vimtex_compiler_latexmk_engines = {
-                ["_"] = "-lualatex",
-            }
-        end,
-    },
-
-    -- git integration (magit is actually good)
-    {
-        "lewis6991/gitsigns.nvim",
-        dependencies = "nvim-lua/plenary.nvim",
-        config = function()
-            require("configs.gitsigns")
-        end,
-    },
-
-    -- i wish we had a fuzzy finder for physical paper
-    {
-        "nvim-telescope/telescope.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                build = "make",
-                cond = function()
-                    return fn.executable("make") == 1
-                end,
-            },
-        },
-        config = function()
-            require("configs.telescope")
-        end,
-    },
-
-    -- somehow sitting on trees makes code look nicer
-    {
-        "nvim-treesitter/nvim-treesitter",
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter-textobjects",
-        },
-        config = function()
-            require("configs.treesitter")
-        end,
-    },
-
-    -- i need a cappuccino made by cat
-    { "catppuccin/nvim", name = "catppuccin" },
 }, {
     ui = {
         icons = {
