@@ -12,6 +12,9 @@ require("nvim-treesitter.configs").setup({
         "lua",
         "bash",
         "vim",
+        "typescript",
+        "tsx",
+        "javascript",
     },
     sync_install = false,
     highlight = {

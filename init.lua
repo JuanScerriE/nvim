@@ -156,6 +156,9 @@ require("lazy").setup({
 
     -- detect tabstop and shiftwidth automatically
     "tpope/vim-sleuth",
+
+    -- make netrw great again
+    "tpope/vim-vinegar"
 }, {
     ui = {
         icons = {
