@@ -82,7 +82,7 @@ require("lazy").setup({
             { "williamboman/mason.nvim", config = true },
             "williamboman/mason-lspconfig.nvim",
 
-            { "folke/neodev.nvim",       ft = "lua",   opts = {} },
+            { "folke/neodev.nvim", ft = "lua", opts = {} },
 
             {
                 "j-hui/fidget.nvim",
@@ -164,9 +164,9 @@ require("lazy").setup({
     {
         "ggandor/leap.nvim",
         config = function()
-            require('leap').add_default_mappings()
+            require("leap").add_default_mappings()
         end,
-    }
+    },
 }, {
     ui = {
         icons = {

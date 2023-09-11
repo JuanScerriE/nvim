@@ -47,7 +47,7 @@ opt.showmode = true
 -- reduce maximum textwidth
 opt.textwidth = 64
 
--- set textwidth format options 
+-- set textwidth format options
 opt.formatoptions = "cqjl"
 
 -- turn on cursorline
