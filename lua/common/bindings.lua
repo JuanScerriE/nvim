@@ -47,3 +47,17 @@ keymap.set(
     "<cmd>bnext<cr>",
     { noremap = true, silent = true, desc = "Next buffer" }
 )
+
+-- Remap for dealing with word wrap
+keymap.set(
+    { "n", "v" },
+    "k",
+    "v:count == 0 ? 'gk' : 'k'",
+    { expr = true, silent = true }
+)
+keymap.set(
+    { "n", "v" },
+    "j",
+    "v:count == 0 ? 'gj' : 'j'",
+    { expr = true, silent = true }
+)

@@ -1,7 +1,5 @@
 local fn = vim.fn
 local opt = vim.opt
-local cmd = vim.cmd
-local o = vim.o
 
 -- general options --
 
@@ -11,7 +9,7 @@ if fn.has("termguicolors") then
 end
 
 -- set theme
-cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("catppuccin")
 
 -- enable break indent
 opt.breakindent = true
@@ -48,6 +46,9 @@ opt.showmode = true
 
 -- reduce maximum textwidth
 opt.textwidth = 64
+
+-- set textwidth format options 
+opt.formatoptions = "cqjl"
 
 -- turn on cursorline
 opt.cursorline = true

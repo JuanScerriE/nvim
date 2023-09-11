@@ -77,6 +77,7 @@ end
 local servers = {
     clangd = {},
     pyright = {},
+    tsserver = {},
     rust_analyzer = {},
     texlab = {},
     lua_ls = {

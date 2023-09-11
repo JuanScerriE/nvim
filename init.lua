@@ -156,6 +156,17 @@ require("lazy").setup({
 
     -- detect tabstop and shiftwidth automatically
     "tpope/vim-sleuth",
+
+    -- make netrw great again
+    "tpope/vim-vinegar",
+
+    -- fennel boiii
+    {
+        "ggandor/leap.nvim",
+        config = function()
+            require('leap').add_default_mappings()
+        end,
+    }
 }, {
     ui = {
         icons = {
