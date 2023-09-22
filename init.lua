@@ -40,6 +40,9 @@ require("lazy").setup({
                 end,
                 build = "make",
             },
+            {
+                "nvim-telescope/telescope-file-browser.nvim",
+            },
         },
         config = function()
             require("configs.telescope")
@@ -82,7 +85,11 @@ require("lazy").setup({
             { "williamboman/mason.nvim", config = true },
             "williamboman/mason-lspconfig.nvim",
 
-            { "folke/neodev.nvim", ft = "lua", opts = {} },
+            {
+                "folke/neodev.nvim",
+                ft = "lua",
+                opts = {},
+            },
 
             {
                 "j-hui/fidget.nvim",
@@ -189,6 +196,11 @@ require("lazy").setup({
 -- common options related to neovim
 require("common.bindings")
 require("common.options")
+
+-- neovide options
+if g.neovide then
+    require("common.neovide")
+end
 
 -- setup the statusline
 require("statusline").setup()

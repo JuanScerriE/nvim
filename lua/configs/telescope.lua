@@ -42,14 +42,19 @@ telescope.setup({
 
 telescope.load_extension("fzf")
 
+telescope.load_extension("file_browser")
+
 local builtin = require("telescope.builtin")
 
+local file_browser_extension = telescope.extensions.file_browser
+
 keymap.set("n", "<leader>.", builtin.find_files, { desc = "Search files" })
-keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Grep in files" })
 keymap.set(
     "n",
     "<leader><leader>",
-    builtin.buffers,
-    { desc = "Search buffers" }
+    file_browser_extension.file_browser,
+    { desc = "Directory Editor" }
 )
+keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Grep in files" })
+keymap.set("n", "<leader>b", builtin.buffers, { desc = "Search buffers" })
 keymap.set("n", "<leader>?", builtin.help_tags, { desc = "Search help" })

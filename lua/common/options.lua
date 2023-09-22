@@ -61,3 +61,6 @@ opt.hlsearch = false
 
 -- always vertical split to the right
 opt.splitright = true
+
+-- automatically change directory
+opt.autochdir = false
