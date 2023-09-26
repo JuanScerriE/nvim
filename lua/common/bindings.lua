@@ -61,3 +61,6 @@ keymap.set(
     "v:count == 0 ? 'gj' : 'j'",
     { expr = true, silent = true }
 )
+
+-- remap the window management
+keymap.set("n", "<leader>w", "<C-w>", { noremap = true, silent = true })

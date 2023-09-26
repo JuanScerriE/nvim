@@ -39,17 +39,17 @@ local on_attach = function(_, bufnr)
     map("n", "gD", lsp.buf.declaration, { desc = "Goto declaration" })
     map(
         "n",
-        "<space>wa",
+        "<space>Wa",
         lsp.buf.add_workspace_folder,
         { desc = "Add workspace folder" }
     )
     map(
         "n",
-        "<space>wr",
+        "<space>Wr",
         lsp.buf.remove_workspace_folder,
         { desc = "Remove workspace folder" }
     )
-    map("n", "<space>wl", function()
+    map("n", "<space>Wl", function()
         print(vim.inspect(lsp.buf.list_workspace_folders()))
     end, { desc = "List workspace folders" })
     map(
@@ -76,7 +76,13 @@ end
 
 local servers = {
     clangd = {},
-    pyright = {},
+    pyright = {
+        python = {
+            analysis = {
+                autoSearchPaths = true,
+            },
+        },
+    },
     tsserver = {},
     rust_analyzer = {},
     texlab = {},

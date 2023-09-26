@@ -47,7 +47,7 @@ opt.showmode = true
 -- reduce maximum textwidth
 opt.textwidth = 64
 
--- set textwidth format options 
+-- set textwidth format options
 opt.formatoptions = "cqjl"
 
 -- turn on cursorline
@@ -61,3 +61,6 @@ opt.hlsearch = false
 
 -- always vertical split to the right
 opt.splitright = true
+
+-- automatically change directory
+opt.autochdir = false

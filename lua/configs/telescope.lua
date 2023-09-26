@@ -34,7 +34,7 @@ telescope.setup({
         fzf = {
             fuzzy = true,
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
+            override_file_sorter = true,    -- override the file sorter
             case_mode = "smart_case",
         },
     },
@@ -46,10 +46,5 @@ local builtin = require("telescope.builtin")
 
 keymap.set("n", "<leader>.", builtin.find_files, { desc = "Search files" })
 keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Grep in files" })
-keymap.set(
-    "n",
-    "<leader><leader>",
-    builtin.buffers,
-    { desc = "Search buffers" }
-)
+keymap.set("n", "<leader>b", builtin.buffers, { desc = "Search buffers" })
 keymap.set("n", "<leader>?", builtin.help_tags, { desc = "Search help" })

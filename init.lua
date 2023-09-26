@@ -82,7 +82,11 @@ require("lazy").setup({
             { "williamboman/mason.nvim", config = true },
             "williamboman/mason-lspconfig.nvim",
 
-            { "folke/neodev.nvim",       ft = "lua",   opts = {} },
+            {
+                "folke/neodev.nvim",
+                ft = "lua",
+                opts = {},
+            },
 
             {
                 "j-hui/fidget.nvim",
@@ -93,6 +97,8 @@ require("lazy").setup({
         config = function()
             require("configs.lsp")
 
+            -- TODO: make this just a require
+            -- TODO: use mason for formatters
             require("autoformat")()
         end,
     },
@@ -158,7 +164,15 @@ require("lazy").setup({
     "tpope/vim-sleuth",
 
     -- make netrw great again
-    "tpope/vim-vinegar"
+    "tpope/vim-vinegar",
+
+    -- fennel boiii
+    {
+        "ggandor/leap.nvim",
+        config = function()
+            require("leap").add_default_mappings()
+        end,
+    },
 }, {
     ui = {
         icons = {
@@ -181,6 +195,11 @@ require("lazy").setup({
 -- common options related to neovim
 require("common.bindings")
 require("common.options")
+
+-- neovide options
+if g.neovide then
+    require("common.neovide")
+end
 
 -- setup the statusline
 require("statusline").setup()
