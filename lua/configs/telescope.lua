@@ -34,7 +34,7 @@ telescope.setup({
         fzf = {
             fuzzy = true,
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true,    -- override the file sorter
+            override_file_sorter = true, -- override the file sorter
             case_mode = "smart_case",
         },
     },
