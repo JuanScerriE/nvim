@@ -4,6 +4,8 @@ local bo = vim.bo
 local lsp = vim.lsp
 local keymap = vim.keymap
 
+-- vim.lsp.set_log_level("debug")
+
 local telescope_builtin = require("telescope.builtin")
 
 local options = {}
@@ -77,19 +79,26 @@ end
 local servers = {
     clangd = {},
     pyright = {
-        python = {
-            analysis = {
-                autoSearchPaths = true,
+        settings = {
+            python = {
+                analysis = {
+                    autoSearchPaths = true,
+                },
             },
         },
     },
     tsserver = {},
     rust_analyzer = {},
+    ocamllsp = {
+        single_file_support = true,
+    },
     texlab = {},
     lua_ls = {
-        Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
+        settings = {
+            Lua = {
+                workspace = { checkThirdParty = false },
+                telemetry = { enable = false },
+            },
         },
     },
 }
@@ -99,7 +108,6 @@ local nvim_lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities(
     lsp.protocol.make_client_capabilities()
 )
-
 local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
@@ -112,8 +120,12 @@ mason_lspconfig.setup_handlers({
             capabilities = capabilities,
             on_attach = on_attach,
 
-            settings = servers[server_name],
-            filetypes = (servers[server_name] or {}).filetypes,
+            settings = _if(servers[server_name].settings, {}),
+            filetypes = _if(servers[server_name].filetypes, nil),
+            single_file_support = _if(
+                servers[server_name].single_file_support,
+                nil
+            ),
 
             flags = {
                 debounce_text_changes = _if(options.debounce_text_changes, 150),
