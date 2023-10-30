@@ -92,7 +92,6 @@ local servers = {
     ocamllsp = {
         single_file_support = true,
     },
-    texlab = {},
     lua_ls = {
         settings = {
             Lua = {

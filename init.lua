@@ -112,6 +112,7 @@ require("lazy").setup({
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-path",
+            "hrsh7th/cmp-omni",
 
             -- nvim  cmp luasnip compatibility
             "saadparwaiz1/cmp_luasnip",
@@ -137,6 +138,7 @@ require("lazy").setup({
             g.vimtex_compiler_latexmk_engines = {
                 ["_"] = "-lualatex",
             }
+            opt.cole = 1
         end,
     },
 
