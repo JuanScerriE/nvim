@@ -8,8 +8,11 @@ if fn.has("termguicolors") then
     opt.termguicolors = true
 end
 
+-- set background
+opt.background = "light"
+
 -- set theme
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("zenbones")
 
 -- enable break indent
 opt.breakindent = true

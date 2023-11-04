@@ -99,7 +99,7 @@ require("lazy").setup({
 
             -- TODO: make this just a require
             -- TODO: use mason for formatters
-            require("autoformat")()
+            -- require("autoformat")()
         end,
     },
 
@@ -128,6 +128,13 @@ require("lazy").setup({
     -- i need a cappuccino made by cat
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
+    {
+        "mcchrish/zenbones.nvim",
+        init = function()
+            g.zenbones_compat = 1
+        end,
+    },
+
     ------------------LATEX------------------
 
     -- write nicely typeset math in neovim (tex/latex integration)
@@ -147,7 +154,17 @@ require("lazy").setup({
     -- tell me which key comes next
     {
         "folke/which-key.nvim",
-        opts = {},
+        config = function()
+            opt.timeout = true
+            opt.timeoutlen = 500
+            require("which-key").setup({
+                icons = {
+                    breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+                    separator = "→", -- symbol used between a key and it's label
+                    group = "+", -- symbol prepended to a group = {
+                }
+            })
+        end
     },
 
     -- make autopairs a thing
@@ -194,8 +211,10 @@ require("lazy").setup({
     },
 })
 
--- common options related to neovim
+-- common bindings
 require("common.bindings")
+
+-- common options
 require("common.options")
 
 -- neovide options

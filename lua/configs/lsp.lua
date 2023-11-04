@@ -87,6 +87,7 @@ local servers = {
             },
         },
     },
+    erlangls = {},
     tsserver = {},
     rust_analyzer = {},
     ocamllsp = {

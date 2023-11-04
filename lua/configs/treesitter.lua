@@ -4,6 +4,7 @@ require("nvim-treesitter.configs").setup({
         "cpp",
         "glsl",
         "ninja",
+        "erlang",
         "cmake",
         "go",
         "yaml",
