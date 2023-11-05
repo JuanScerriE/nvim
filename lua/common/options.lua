@@ -17,6 +17,9 @@ vim.cmd.colorscheme("zenbones")
 -- enable break indent
 opt.breakindent = true
 
+-- don't reach the border
+opt.scrolloff = 5
+
 -- save undo history
 opt.undofile = true
 
