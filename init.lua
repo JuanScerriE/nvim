@@ -88,11 +88,11 @@ require("lazy").setup({
                 opts = {},
             },
 
-            {
-                "j-hui/fidget.nvim",
-                tag = "legacy",
-                opts = { text = { spinner = "line" } },
-            },
+            -- {
+            --     "j-hui/fidget.nvim",
+            --     tag = "legacy",
+            --     opts = { text = { spinner = "line" } },
+            -- },
         },
         config = function()
             require("configs.lsp")
@@ -130,6 +130,9 @@ require("lazy").setup({
 
     {
         "mcchrish/zenbones.nvim",
+        -- dependencies = {
+        --     "rktjmp/lush.nvim"
+        -- },
         init = function()
             g.zenbones_compat = 1
         end,
