@@ -9,10 +9,10 @@ if fn.has("termguicolors") then
 end
 
 -- set background
-opt.background = "light"
+opt.background = "dark"
 
 -- set theme
-vim.cmd.colorscheme("zenbones")
+vim.cmd.colorscheme("catppuccin-macchiato")
 
 -- enable break indent
 opt.breakindent = true

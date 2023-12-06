@@ -5,6 +5,7 @@ require("nvim-treesitter.configs").setup({
         "glsl",
         "ninja",
         "erlang",
+        "elixir",
         "cmake",
         "go",
         "yaml",
@@ -16,6 +17,8 @@ require("nvim-treesitter.configs").setup({
         "typescript",
         "tsx",
         "javascript",
+        "markdown",
+        "markdown_inline"
     },
     sync_install = false,
     highlight = {

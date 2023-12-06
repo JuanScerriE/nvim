@@ -78,6 +78,14 @@ end
 
 local servers = {
     clangd = {},
+    tsserver = {},
+    kotlin_language_server = {},
+    rust_analyzer = {},
+    erlangls = {},
+    elixirls = {},
+    ocamllsp = {
+        single_file_support = true,
+    },
     pyright = {
         settings = {
             python = {
@@ -86,12 +94,6 @@ local servers = {
                 },
             },
         },
-    },
-    erlangls = {},
-    tsserver = {},
-    rust_analyzer = {},
-    ocamllsp = {
-        single_file_support = true,
     },
     lua_ls = {
         settings = {

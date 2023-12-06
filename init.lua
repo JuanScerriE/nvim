@@ -152,6 +152,13 @@ require("lazy").setup({
         end,
     },
 
+    ------------------MARKDOWN------------------
+    {
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        ft = { "markdown" },
+        build = function() vim.fn["mkdp#util#install"]() end,
+    },
     ------------------AUXILIARY------------------
 
     -- tell me which key comes next
