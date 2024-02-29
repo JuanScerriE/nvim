@@ -12,7 +12,7 @@ end
 opt.background = "dark"
 
 -- set theme
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("melange")
 
 -- enable break indent
 opt.breakindent = true

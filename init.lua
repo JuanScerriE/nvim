@@ -114,12 +114,32 @@ require("lazy").setup({
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-omni",
 
-            -- nvim  cmp luasnip compatibility
+            -- nvim cmp luasnip compatibility
             "saadparwaiz1/cmp_luasnip",
             "L3MON4D3/LuaSnip",
         },
         config = function()
             require("configs.completion")
+
+            -- HACK: https://github.com/L3MON4D3/LuaSnip/issues/258
+            vim.api.nvim_create_autocmd("ModeChanged", {
+                pattern = "*",
+                callback = function()
+                    if
+                        (
+                            (
+                                vim.v.event.old_mode == "s"
+                                and vim.v.event.new_mode == "n"
+                            )
+                            or vim.v.event.old_mode == "i"
+                        )
+                        and require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
+                        and not require("luasnip").session.jump_active
+                    then
+                        require("luasnip").unlink_current()
+                    end
+                end,
+            })
         end,
     },
 
@@ -138,6 +158,8 @@ require("lazy").setup({
         end,
     },
 
+    { "savq/melange-nvim" },
+
     ------------------LATEX------------------
 
     -- write nicely typeset math in neovim (tex/latex integration)
@@ -155,9 +177,15 @@ require("lazy").setup({
     ------------------MARKDOWN------------------
     {
         "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        cmd = {
+            "MarkdownPreviewToggle",
+            "MarkdownPreview",
+            "MarkdownPreviewStop",
+        },
         ft = { "markdown" },
-        build = function() vim.fn["mkdp#util#install"]() end,
+        build = function()
+            vim.fn["mkdp#util#install"]()
+        end,
     },
     ------------------AUXILIARY------------------
 
@@ -172,9 +200,9 @@ require("lazy").setup({
                     breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
                     separator = "→", -- symbol used between a key and it's label
                     group = "+", -- symbol prepended to a group = {
-                }
+                },
             })
-        end
+        end,
     },
 
     -- make autopairs a thing
