@@ -158,7 +158,7 @@ require("lazy").setup({
         end,
     },
 
-    { "savq/melange-nvim" },
+    { "sainnhe/everforest" },
 
     ------------------LATEX------------------
 

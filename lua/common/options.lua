@@ -12,7 +12,7 @@ end
 opt.background = "dark"
 
 -- set theme
-vim.cmd.colorscheme("melange")
+vim.cmd.colorscheme("catppuccin-macchiato")
 
 -- enable break indent
 opt.breakindent = true
@@ -69,4 +69,4 @@ opt.hlsearch = false
 opt.splitright = true
 
 -- automatically change directory
-opt.autochdir = false
+opt.autochdir = true
