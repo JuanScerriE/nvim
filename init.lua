@@ -170,7 +170,7 @@ require("lazy").setup({
             g.vimtex_compiler_latexmk_engines = {
                 ["_"] = "-lualatex -shell-escape",
             }
-            opt.cole = 1
+            opt.cole = 0
         end,
     },
 

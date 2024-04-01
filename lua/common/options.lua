@@ -69,4 +69,4 @@ opt.hlsearch = false
 opt.splitright = true
 
 -- automatically change directory
-opt.autochdir = true
+opt.autochdir = false

@@ -64,3 +64,6 @@ keymap.set(
 
 -- remap the window management
 keymap.set("n", "<leader>w", "<C-w>", { noremap = true, silent = true })
+
+-- remap go back
+keymap.set("n", "<leader>m", "<C-o>", { noremap = true, silent = true })
