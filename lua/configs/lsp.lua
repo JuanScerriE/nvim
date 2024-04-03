@@ -137,7 +137,7 @@ mason_lspconfig.setup_handlers({
                 ["textDocument/publishDiagnostics"] = lsp.with(
                     lsp.diagnostic.on_publish_diagnostics,
                     {
-                        virtual_text = _if(options.virtual_text, true),
+                        virtual_text = _if(options.virtual_text, false),
                     }
                 ),
             },
