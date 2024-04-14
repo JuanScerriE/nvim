@@ -12,7 +12,7 @@ end
 opt.background = "dark"
 
 -- set theme
-vim.cmd.colorscheme("randombones")
+vim.cmd.colorscheme("gruber-darker")
 
 -- enable break indent
 opt.breakindent = true
