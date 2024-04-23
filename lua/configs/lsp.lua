@@ -76,16 +76,19 @@ local _if = function(value, default)
     end
 end
 
-local servers = {
+local nvim_lspconfig = require("lspconfig")
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities(
+    lsp.protocol.make_client_capabilities()
+)
+
+local mason_lspconfig = require("mason-lspconfig")
+
+local locally_managed_servers = {
     clangd = {},
-    tsserver = {},
-    kotlin_language_server = {},
-    rust_analyzer = {},
-    erlangls = {},
-    elixirls = {},
-    ocamllsp = {
-        single_file_support = true,
-    },
+}
+
+local mason_managed_servers = {
     pyright = {
         settings = {
             python = {
@@ -105,27 +108,29 @@ local servers = {
     },
 }
 
-local nvim_lspconfig = require("lspconfig")
-
-local capabilities = require("cmp_nvim_lsp").default_capabilities(
-    lsp.protocol.make_client_capabilities()
-)
-local mason_lspconfig = require("mason-lspconfig")
-
 mason_lspconfig.setup({
-    ensure_installed = vim.tbl_keys(servers),
+    ensure_installed = vim.tbl_keys(mason_managed_servers),
 })
 
-mason_lspconfig.setup_handlers({
-    function(server_name)
-        nvim_lspconfig[server_name].setup({
+local aggregated_servers = {}
+
+for name, associated_table in pairs(mason_managed_servers) do
+    aggregated_servers[name] = associated_table
+end
+
+for name, associated_table in pairs(locally_managed_servers) do
+    aggregated_servers[name] = associated_table
+end
+
+for name, associated_table in pairs(aggregated_servers) do
+    nvim_lspconfig[name].setup({
             capabilities = capabilities,
             on_attach = on_attach,
 
-            settings = _if(servers[server_name].settings, {}),
-            filetypes = _if(servers[server_name].filetypes, nil),
+            settings = _if(associated_table.settings, {}),
+            filetypes = _if(associated_table.filetypes, nil),
             single_file_support = _if(
-                servers[server_name].single_file_support,
+                associated_table.single_file_support,
                 nil
             ),
 
@@ -141,6 +146,5 @@ mason_lspconfig.setup_handlers({
                     }
                 ),
             },
-        })
-    end,
-})
+    })
+end
