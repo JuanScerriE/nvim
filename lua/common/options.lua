@@ -70,3 +70,6 @@ opt.splitright = true
 
 -- automatically change directory
 opt.autochdir = false
+
+-- ruler
+opt.colorcolumn = "60"

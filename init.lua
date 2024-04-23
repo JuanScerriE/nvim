@@ -157,10 +157,6 @@ require("lazy").setup({
 
     { "blazkowolf/gruber-darker.nvim" },
 
-    -------------INDENT LINES----------------
-
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
-
     ------------------LATEX------------------
 
     -- write nicely typeset math in neovim (tex/latex integration)
