@@ -106,6 +106,9 @@ local mason_managed_servers = {
             },
         },
     },
+    ocamllsp = {
+        single_file_support = true,
+    },
 }
 
 mason_lspconfig.setup({
@@ -124,27 +127,24 @@ end
 
 for name, associated_table in pairs(aggregated_servers) do
     nvim_lspconfig[name].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
+        capabilities = capabilities,
+        on_attach = on_attach,
 
-            settings = _if(associated_table.settings, {}),
-            filetypes = _if(associated_table.filetypes, nil),
-            single_file_support = _if(
-                associated_table.single_file_support,
-                nil
+        settings = _if(associated_table.settings, {}),
+        filetypes = _if(associated_table.filetypes, nil),
+        single_file_support = _if(associated_table.single_file_support, nil),
+
+        flags = {
+            debounce_text_changes = _if(options.debounce_text_changes, 150),
+        },
+
+        handlers = {
+            ["textDocument/publishDiagnostics"] = lsp.with(
+                lsp.diagnostic.on_publish_diagnostics,
+                {
+                    virtual_text = _if(options.virtual_text, false),
+                }
             ),
-
-            flags = {
-                debounce_text_changes = _if(options.debounce_text_changes, 150),
-            },
-
-            handlers = {
-                ["textDocument/publishDiagnostics"] = lsp.with(
-                    lsp.diagnostic.on_publish_diagnostics,
-                    {
-                        virtual_text = _if(options.virtual_text, false),
-                    }
-                ),
-            },
+        },
     })
 end

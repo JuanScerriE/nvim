@@ -50,6 +50,21 @@ keymap.set("n", "<leader>b", builtin.buffers, { desc = "Search buffers" })
 keymap.set("n", "<leader>?", builtin.help_tags, { desc = "Search help" })
 keymap.set("n", "<leader>M", builtin.man_pages, { desc = "Search man" })
 
-keymap.set("n", "<leader>le", builtin.diagnostics, { desc = "List diagnostics"})
-keymap.set("n", "<leader>ld", builtin.lsp_document_symbols, { desc = "List documet symbols"})
-keymap.set("n", "<leader>lw", builtin.lsp_workspace_symbols, { desc = "List workspace symbols"})
+keymap.set(
+    "n",
+    "<leader>le",
+    builtin.diagnostics,
+    { desc = "List diagnostics" }
+)
+keymap.set(
+    "n",
+    "<leader>ld",
+    builtin.lsp_document_symbols,
+    { desc = "List documet symbols" }
+)
+keymap.set(
+    "n",
+    "<leader>lw",
+    builtin.lsp_workspace_symbols,
+    { desc = "List workspace symbols" }
+)

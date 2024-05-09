@@ -148,7 +148,7 @@ require("lazy").setup({
     {
         "mcchrish/zenbones.nvim",
         dependencies = {
-            "rktjmp/lush.nvim"
+            "rktjmp/lush.nvim",
         },
         init = function()
             g.zenbones_compat = 0
@@ -156,6 +156,8 @@ require("lazy").setup({
     },
 
     { "blazkowolf/gruber-darker.nvim" },
+
+    { "sainnhe/sonokai" },
 
     ------------------LATEX------------------
 
@@ -225,6 +227,14 @@ require("lazy").setup({
         "ggandor/leap.nvim",
         config = function()
             require("leap").add_default_mappings()
+        end,
+    },
+
+    -- better hex editing
+    {
+        "RaafatTurki/hex.nvim",
+        config = function()
+            require("hex").setup()
         end,
     },
 }, {
