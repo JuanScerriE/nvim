@@ -82,7 +82,7 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagn
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Spellcheck keymap
-vim.keymap.set("n", "<leader>S", "<cmd>set spell!<cr>", { desc = "Toggle [S]pell check" })
+vim.keymap.set("n", "<leader>O", "<cmd>set spell!<cr>", { desc = "Toggle [O]rthographic Checking" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -173,6 +173,55 @@ require("lazy").setup({
 		end,
 	},
 
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+			{
+				"R",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
+			},
+		},
+	},
+
 	-- Here is a more advanced example where we pass configuration
 	-- options to `gitsigns.nvim`. This is equivalent to the following Lua:
 	--    require('gitsigns').setup({ ... })
@@ -227,8 +276,8 @@ require("lazy").setup({
 				{ "<leader>h_", hidden = true },
 				{ "<leader>r", group = "[R]ename" },
 				{ "<leader>r_", hidden = true },
-				{ "<leader>s", group = "[S]earch" },
-				{ "<leader>s_", hidden = true },
+				{ "<leader>f", group = "[F]ind" },
+				{ "<leader>f_", hidden = true },
 				{ "<leader>t", group = "[T]oggle" },
 				{ "<leader>t_", hidden = true },
 				{ "<leader>w", group = "[W]orkspace" },
@@ -313,15 +362,15 @@ require("lazy").setup({
 
 			-- See `:help telescope.builtin`
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-			vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
-			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
-			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
-			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
-			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
-			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
-			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
+			vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
+			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
+			vim.keymap.set("n", "<leader>fs", builtin.builtin, { desc = "[F]ind [S]elect Telescope" })
+			vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[F]ind current [W]ord" })
+			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind by [G]rep" })
+			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
+			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind [R]esume" })
+			vim.keymap.set("n", "<leader>f.", builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 
 			-- Slightly advanced example of overriding default behavior and theme
@@ -335,17 +384,17 @@ require("lazy").setup({
 
 			-- It's also possible to pass additional configuration options.
 			--  See `:help telescope.builtin.live_grep()` for information about particular keys
-			vim.keymap.set("n", "<leader>s/", function()
+			vim.keymap.set("n", "<leader>f/", function()
 				builtin.live_grep({
 					grep_open_files = true,
 					prompt_title = "Live Grep in Open Files",
 				})
-			end, { desc = "[S]earch [/] in Open Files" })
+			end, { desc = "[F]ind [/] in Open Files" })
 
 			-- Shortcut for searching your Neovim configuration files
-			vim.keymap.set("n", "<leader>sn", function()
+			vim.keymap.set("n", "<leader>fn", function()
 				builtin.find_files({ cwd = vim.fn.stdpath("config") })
-			end, { desc = "[S]earch [N]eovim files" })
+			end, { desc = "[F]ind [N]eovim files" })
 		end,
 	},
 
@@ -514,9 +563,7 @@ require("lazy").setup({
 				-- clangd = {},
 				-- gopls = {},
 				basedpyright = {},
-				ltex = {
-					language = "en-GB",
-				},
+				ltex = {},
 				-- vhdl_ls = {},
 				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -580,7 +627,7 @@ require("lazy").setup({
 		lazy = false,
 		keys = {
 			{
-				"<leader>f",
+				"<leader>F",
 				function()
 					require("conform").format({ async = true, lsp_fallback = true })
 				end,
@@ -725,23 +772,24 @@ require("lazy").setup({
 		end,
 	},
 
-	-- { -- You can easily change to a different colorscheme.
-	-- 	-- Change the name of the colorscheme plugin below, and then
-	-- 	-- change the command in the config to whatever the name of that colorscheme is.
-	-- 	--
-	-- 	-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-	-- 	"rebelot/kanagawa.nvim",
-	-- 	priority = 1000, -- Make sure to load this before all the other start plugins.
-	-- 	init = function()
-	-- 		-- Load the colorscheme here.
-	-- 		-- Like many other themes, this one has different styles, and you could load
-	-- 		-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-	-- 		vim.cmd.colorscheme("kanagawa")
-	--
-	-- 		-- You can configure highlights by doing something like:
-	-- 		vim.cmd.hi("Comment gui=none")
-	-- 	end,
-	-- },
+	{ -- You can easily change to a different colorscheme.
+		-- Change the name of the colorscheme plugin below, and then
+		-- change the command in the config to whatever the name of that colorscheme is.
+		--
+		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+		"rose-pine/neovim",
+		name = "rose-pine",
+		priority = 1000, -- Make sure to load this before all the other start plugins.
+		init = function()
+			-- Load the colorscheme here.
+			-- Like many other themes, this one has different styles, and you could load
+			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+			vim.cmd.colorscheme("rose-pine")
+
+			-- You can configure highlights by doing something like:
+			vim.cmd.hi("Comment gui=none")
+		end,
+	},
 
 	{ -- Highlight todo, notes, etc in comments
 		"folke/todo-comments.nvim",
