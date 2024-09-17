@@ -171,7 +171,7 @@ require("lazy").setup({
 		config = function()
 			vim.opt.cole = 0
 
-			if vim.fn.has("mac") then
+			if vim.uv.os_uname().sysname == "Darwin" then
 				vim.g.vimtex_view_method = "skim"
 			end
 		end,
