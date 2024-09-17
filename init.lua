@@ -564,6 +564,9 @@ require("lazy").setup({
 				-- gopls = {},
 				basedpyright = {},
 				ltex = {},
+				ocamllsp = {
+					single_file_support = true,
+				},
 				-- vhdl_ls = {},
 				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -641,6 +644,7 @@ require("lazy").setup({
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
 				python = { "ruff_organize_imports", "ruff_format" },
+				ocaml = { "ocamlformat" },
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
@@ -902,6 +906,7 @@ require("lazy").setup({
 			ensure_installed = {
 				"bash",
 				"c",
+				"ocaml",
 				"diff",
 				"html",
 				"lua",
