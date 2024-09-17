@@ -1,5 +1,13 @@
 return {
 	s(
+		";;tex-hdr",
+		t({
+			"% !TEX encoding = UTF-8 Unicode",
+			"% !TEX root = main.tex",
+			"% LTeX: language=en-GB",
+		})
+	),
+	s(
 		";;fig",
 		fmt(
 			[[
@@ -14,11 +22,27 @@ return {
 		)
 	),
 	s(
-		";;tex-hdr",
-		t({
-			"% !TEX encoding = UTF-8 Unicode",
-			"% !TEX root = main.tex",
-			"% LTeX: language=en-GB",
-		})
+		{ trig = ";;env", snippetType = "autosnippet" },
+		fmt(
+			[[
+              \begin{<>}
+                <>
+              \end{<>}
+            ]],
+			{ i(1), i(2), rep(1) },
+			{ delimiters = "<>" }
+		)
+	),
+	s(
+		";;def",
+		fmt(
+			[[
+              \begin{definition}
+                <>
+              \end{definition}
+            ]],
+			{ i(1) },
+			{ delimiters = "<>" }
+		)
 	),
 }
