@@ -682,6 +682,9 @@ require("lazy").setup({
 					--   end,
 					-- },
 				},
+				config = function()
+					require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
+				end,
 			},
 			"saadparwaiz1/cmp_luasnip",
 
@@ -696,7 +699,9 @@ require("lazy").setup({
 			-- See `:help cmp`
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
-			luasnip.config.setup({})
+			luasnip.config.setup({
+				enable_autosnippets = true,
+			})
 
 			cmp.setup({
 				snippet = {
