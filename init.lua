@@ -170,6 +170,10 @@ require("lazy").setup({
 		end,
 		config = function()
 			vim.opt.cole = 0
+
+			if vim.fn.has("mac") then
+				vim.g.vimtex_view_method = "skim"
+			end
 		end,
 	},
 
