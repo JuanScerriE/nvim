@@ -610,19 +610,27 @@ require("lazy").setup({
 				ltex = {},
 			})
 
+			-- vim.print(servers)
+
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
+			local handlers = {}
+
+			for server, server_settings in pairs(servers) do
+				handlers[server] = function()
+					local server_props = server_settings
+
+					server_props.capabilities =
+						vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+
+					require("lspconfig")[server].setup(server_props)
+				end
+			end
+
+      vim.print(handlers)
+
 			require("mason-lspconfig").setup({
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for tsserver)
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
+				handlers = handlers,
 			})
 		end,
 	},
