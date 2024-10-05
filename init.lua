@@ -6,7 +6,6 @@ vim.g.maplocalleader = " "
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
-
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -608,30 +607,20 @@ require("lazy").setup({
 				-- vhdl_ls = {},
 				-- rust_analyzer = {},
 				ltex = {},
+				clangd = {},
 			})
-
-			-- vim.print(servers)
 
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-			local handlers = {}
-
 			for server, server_settings in pairs(servers) do
-				handlers[server] = function()
-					local server_props = server_settings
+				local server_props = server_settings
 
-					server_props.capabilities =
-						vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+				server_props.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 
-					require("lspconfig")[server].setup(server_props)
-				end
+				require("lspconfig")[server].setup(server_props)
 			end
 
-      vim.print(handlers)
-
-			require("mason-lspconfig").setup({
-				handlers = handlers,
-			})
+			require("mason-lspconfig").setup()
 		end,
 	},
 
