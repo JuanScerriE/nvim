@@ -651,10 +651,16 @@ require("lazy").setup({
 				-- Conform can also run multiple formatters sequentially
 				python = { "ruff_organize_imports", "ruff_format" },
 				ocaml = { "ocamlformat" },
+				tex = { "latexindent" },
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
 				-- javascript = { { "prettierd", "prettier" } },
+			},
+			formatters = {
+				latexindent = {
+					prepend_args = { "-l", "formatting.yaml" },
+				},
 			},
 		},
 	},
@@ -847,7 +853,7 @@ require("lazy").setup({
 	},
 
 	-- add support for lark files
-	"lark-parser/vim-lark-syntax",
+	-- "lark-parser/vim-lark-syntax",
 
 	{ -- Bookmarks are very useful when LSP features are not available
 		"tomasky/bookmarks.nvim",
