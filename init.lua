@@ -659,7 +659,7 @@ require("lazy").setup({
 			},
 			formatters = {
 				latexindent = {
-					prepend_args = { "-l", "formatting.yaml" },
+					prepend_args = { "-l", ".tex-format.yaml" },
 				},
 			},
 		},
@@ -799,7 +799,9 @@ require("lazy").setup({
 		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
-		opts = {},
+		opts = {
+      transparent = true,
+    },
 		init = function()
 			vim.cmd.colorscheme("tokyonight-night")
 		end,
@@ -954,12 +956,15 @@ require("lazy").setup({
 			auto_install = true,
 			highlight = {
 				enable = true,
+				-- disable = {"latex"},
 				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
 				--  If you are experiencing weird indenting issues, add the language to
 				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
 			},
-			indent = { enable = true, disable = { "ruby" } },
+			indent = {
+				enable = true,
+				-- disable = { "latex" }
+			},
 		},
 		config = function(_, opts)
 			-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
