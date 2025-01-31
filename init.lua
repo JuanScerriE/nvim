@@ -133,27 +133,11 @@ require("lazy").setup({
 
 	{ -- Useful plugin to show you pending keybinds.
 		"folke/which-key.nvim",
-		event = "VimEnter", -- Sets the loading event to 'VimEnter'
+		-- event = "VimEnter", -- Sets the loading event to 'VimEnter'
 		opts = {
 			icons = {
 				mappings = false,
 			},
-		},
-		keys = {
-			{ "<leader>c", group = "[C]ode" },
-			{ "<leader>c_", hidden = true },
-			{ "<leader>d", group = "[D]ocument" },
-			{ "<leader>d_", hidden = true },
-			{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
-			{ "<leader>h_", hidden = true },
-			{ "<leader>r", group = "[R]ename" },
-			{ "<leader>r_", hidden = true },
-			{ "<leader>f", group = "[F]ind" },
-			{ "<leader>f_", hidden = true },
-			{ "<leader>t", group = "[T]oggle" },
-			{ "<leader>t_", hidden = true },
-			{ "<leader>w", group = "[W]orkspace" },
-			{ "<leader>w_", hidden = true },
 		},
 	},
 
@@ -166,7 +150,7 @@ require("lazy").setup({
 
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
-		event = "VimEnter",
+		-- event = "VimEnter",
 		branch = "0.1.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
