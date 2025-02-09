@@ -16,8 +16,8 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
+-- vim.opt.updatetime = 250
+-- vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.list = true
@@ -79,6 +79,7 @@ require("lazy").setup({
 			icons = {
 				mappings = false,
 			},
+			delay = 300,
 		},
 		lazy = false,
 	},
@@ -195,26 +196,26 @@ require("lazy").setup({
 	},
 
 	-- write nicely typeset math in neovim (tex/latex integration)
-	-- {
-	-- 	"lervag/vimtex",
-	-- 	ft = "tex",
-	-- 	init = function()
-	-- 		-- we want to use treesitter
-	-- 		vim.g.vimtex_syntax_enabled = 0
-	-- 		vim.g.vimtex_syntax_conceal_disable = 1
-	--
-	-- 		vim.g.vimtex_compiler_latexmk_engines = {
-	-- 			["_"] = "-lualatex -shell-escape",
-	-- 		}
-	-- 	end,
-	-- 	config = function()
-	-- 		vim.opt.cole = 0
-	--
-	-- 		if vim.uv.os_uname().sysname == "Darwin" then
-	-- 			vim.g.vimtex_view_method = "skim"
-	-- 		end
-	-- 	end,
-	-- },
+	{
+		"lervag/vimtex",
+		ft = "tex",
+		init = function()
+			-- we want to use treesitter
+			vim.g.vimtex_syntax_enabled = 0
+			vim.g.vimtex_syntax_conceal_disable = 1
+
+			vim.g.vimtex_compiler_latexmk_engines = {
+				["_"] = "-lualatex -shell-escape",
+			}
+		end,
+		config = function()
+			vim.opt.cole = 0
+
+			if vim.uv.os_uname().sysname == "Darwin" then
+				vim.g.vimtex_view_method = "skim"
+			end
+		end,
+	},
 
 	-- Here is a more advanced example where we pass configuration
 	-- options to `gitsigns.nvim`. This is equivalent to the following Lua:
