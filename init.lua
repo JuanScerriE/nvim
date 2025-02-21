@@ -110,14 +110,9 @@ require("lazy").setup({
 			notify_on_error = false,
 			formatters_by_ft = {
 				lua = { "stylua" },
-				-- Conform can also run multiple formatters sequentially
 				python = { "ruff_organize_imports", "ruff_format" },
 				ocaml = { "ocamlformat" },
 				tex = { "latexindent" },
-				--
-				-- You can use a sub-list to tell conform to run *until* a formatter
-				-- is found.
-				-- javascript = { { "prettierd", "prettier" } },
 			},
 			formatters = {
 				latexindent = {
@@ -194,6 +189,9 @@ require("lazy").setup({
 	{
 		"neovim/nvim-lsp",
 		config = function()
+			local lspconfig = require("lspconfig")
+			local telescope_builtin = require("telescope.builtin")
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 				callback = function(event)
@@ -201,30 +199,23 @@ require("lazy").setup({
 						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-					map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-					map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-					map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-					map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-
-					map(
-						"<leader>ws",
-						require("telescope.builtin").lsp_dynamic_workspace_symbols,
-						"[W]orkspace [S]ymbols"
-					)
+					map("gd", telescope_builtin.lsp_definitions, "[G]oto [D]efinition")
+					map("gr", telescope_builtin.lsp_references, "[G]oto [R]eferences")
+					map("gI", telescope_builtin.lsp_implementations, "[G]oto [I]mplementation")
+					map("<leader>D", telescope_builtin.lsp_type_definitions, "Type [D]efinition")
+					map("<leader>ds", telescope_builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
+					map("<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
 					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-
 					map("K", vim.lsp.buf.hover, "Hover Documentation")
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-          -- TODO: understand these better
+					-- TODO: understand these better
 					if client and client.server_capabilities.documentHighlightProvider then
-						local highlight_augroup =
-							vim.api.nvim_create_augroup("juan-lsp-highlight", { clear = false })
+						local highlight_augroup = vim.api.nvim_create_augroup("juan-lsp-highlight", { clear = false })
 
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = event.buf,
@@ -271,7 +262,7 @@ require("lazy").setup({
 
 				server_props.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 
-				require("lspconfig")[server].setup(server_props)
+				lspconfig[server].setup(server_props)
 			end
 		end,
 	},
