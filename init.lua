@@ -186,7 +186,7 @@ require("lazy").setup({
 		end,
 	},
 
-	{
+	{ -- lsp integration
 		"neovim/nvim-lsp",
 		config = function()
 			local lspconfig = require("lspconfig")
@@ -267,8 +267,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- write nicely typeset math in neovim (tex/latex integration)
-	{
+	{ -- write nicely typeset math in neovim (tex/latex integration)
 		"lervag/vimtex",
 		ft = "tex",
 		init = function()
