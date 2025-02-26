@@ -26,10 +26,10 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.hlsearch = true
--- vim.opt.laststatus = 3
-
--- colorscheme
-vim.cmd.colorscheme("retrobox")
+vim.opt.omnifunc =
+	-- vim.opt.laststatus = 3
+	-- colorscheme
+	vim.cmd.colorscheme("retrobox")
 
 -- keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -116,7 +116,7 @@ require("lazy").setup({
 			},
 			formatters = {
 				latexindent = {
-					prepend_args = { "-l", ".tex-format.yaml" },
+					prepend_args = { "-l" },
 				},
 			},
 		},
