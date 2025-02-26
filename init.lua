@@ -251,7 +251,6 @@ require("lazy").setup({
 				ocamllsp = {
 					single_file_support = true,
 				},
-				ltex = {},
 				clangd = {},
 			}
 
