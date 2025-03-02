@@ -26,10 +26,8 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.hlsearch = true
-vim.opt.omnifunc =
-	-- vim.opt.laststatus = 3
-	-- colorscheme
-	vim.cmd.colorscheme("retrobox")
+-- vim.opt.laststatus = 3
+-- vim.cmd.colorscheme("sorbet")
 
 -- keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
