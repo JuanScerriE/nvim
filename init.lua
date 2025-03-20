@@ -75,7 +75,7 @@ vim.lsp.config["rust_analyzer"] = {
 }
 
 vim.lsp.config["ocamllsp"] = {
-	cmd = { "rust-analyzer" },
+	cmd = { "ocamllsp" },
 	filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
 	root_markers = { "*.opam", "esy.json", "package.json", ".git", "dune-project", "dune-workspace" },
 	settings = {
