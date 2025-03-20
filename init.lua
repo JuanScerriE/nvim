@@ -54,6 +54,38 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+-- lsp configs
+vim.lsp.config["luals"] = {
+	cmd = { "lua-language-server" },
+	filetypes = { "lua" },
+	root_markers = { ".luarc.json", ".luarc.jsonc" },
+	settings = {
+		Lua = {
+			runtime = {
+				version = "LuaJIT",
+			},
+		},
+	},
+}
+
+vim.lsp.config["rust_analyzer"] = {
+	cmd = { "rust-analyzer" },
+	filetypes = { "rust" },
+	root_markers = { "Cargo.toml" },
+}
+
+vim.lsp.config["ocamllsp"] = {
+	cmd = { "rust-analyzer" },
+	filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
+	root_markers = { "*.opam", "esy.json", "package.json", ".git", "dune-project", "dune-workspace" },
+	settings = {
+		single_file_support = true,
+	},
+}
+
+vim.lsp.enable({ "luals", "rust_analyzer", "ocamllsp" })
+
+-- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -181,86 +213,6 @@ require("lazy").setup({
 					prompt_title = "Live Grep in Open Files",
 				})
 			end, { desc = "[F]ind [/] in Open Files" })
-		end,
-	},
-
-	{ -- lsp integration
-		"neovim/nvim-lsp",
-		config = function()
-			local lspconfig = require("lspconfig")
-			local telescope_builtin = require("telescope.builtin")
-
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
-				callback = function(event)
-					local map = function(keys, func, desc)
-						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-					end
-
-					map("gd", telescope_builtin.lsp_definitions, "[G]oto [D]efinition")
-					map("gr", telescope_builtin.lsp_references, "[G]oto [R]eferences")
-					map("gI", telescope_builtin.lsp_implementations, "[G]oto [I]mplementation")
-					map("<leader>D", telescope_builtin.lsp_type_definitions, "Type [D]efinition")
-					map("<leader>ds", telescope_builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
-					map("<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-
-					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-					map("K", vim.lsp.buf.hover, "Hover Documentation")
-					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
-
-					-- TODO: understand these better
-					if client and client.server_capabilities.documentHighlightProvider then
-						local highlight_augroup = vim.api.nvim_create_augroup("juan-lsp-highlight", { clear = false })
-
-						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-							buffer = event.buf,
-							group = highlight_augroup,
-							callback = vim.lsp.buf.document_highlight,
-						})
-
-						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-							buffer = event.buf,
-							group = highlight_augroup,
-							callback = vim.lsp.buf.clear_references,
-						})
-
-						vim.api.nvim_create_autocmd("LspDetach", {
-							group = vim.api.nvim_create_augroup("juan-lsp-detach", { clear = true }),
-
-							callback = function(event2)
-								vim.lsp.buf.clear_references()
-								vim.api.nvim_clear_autocmds({ group = "juan-lsp-highlight", buffer = event2.buf })
-							end,
-						})
-					end
-
-					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-						map("<leader>th", function()
-							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-						end, "[T]oggle Inlay [H]ints")
-					end
-				end,
-			})
-
-			servers = {
-				ocamllsp = {
-					single_file_support = true,
-				},
-				clangd = {},
-			}
-
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-			for server, server_settings in pairs(servers) do
-				local server_props = server_settings
-
-				server_props.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-
-				lspconfig[server].setup(server_props)
-			end
 		end,
 	},
 
