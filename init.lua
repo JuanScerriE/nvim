@@ -31,16 +31,13 @@ vim.opt.hlsearch = true
 
 -- keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 vim.keymap.set("n", "<leader>O", "<cmd>set spell!<cr>", { desc = "Toggle [O]rthographic Checking" })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 vim.keymap.set("n", "<leader>w", "<C-w>", { desc = "[W]indow" })
-vim.keymap.set("n", "<leader>mo", "<C-o>", { desc = "Ju[m]p to [O]ld position" })
-vim.keymap.set("n", "<leader>mn", "<C-i>", { desc = "Ju[m]p to [N]ew position" })
+
 vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
@@ -57,8 +54,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- lsp configs
 vim.lsp.config["clangd"] = {
 	cmd = { "clangd" },
-	filtypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-	root_markser = { "compile_commands.json", ".clangd", ".clang-format", ".clangd-tidy", "compile_flags.txt" },
+	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+	root_markers = { "compile_commands.json", ".clangd", ".clang-format", ".clangd-tidy", "compile_flags.txt" },
 	settings = {
 		single_file_support = true,
 	},
