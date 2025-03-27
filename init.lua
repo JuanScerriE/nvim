@@ -55,6 +55,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- lsp configs
+vim.lsp.config["clangd"] = {
+	cmd = { "clangd" },
+	filtypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+	root_markser = { "compile_commands.json", ".clangd", ".clang-format", ".clangd-tidy", "compile_flags.txt" },
+	settings = {
+		single_file_support = true,
+	},
+}
+
 vim.lsp.config["luals"] = {
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
@@ -83,7 +92,7 @@ vim.lsp.config["ocamllsp"] = {
 	},
 }
 
-vim.lsp.enable({ "luals", "rust_analyzer", "ocamllsp" })
+vim.lsp.enable({ "clangd", "luals", "rust_analyzer", "ocamllsp" })
 
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
