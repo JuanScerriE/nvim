@@ -16,8 +16,6 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
--- vim.opt.updatetime = 250
--- vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.list = true
@@ -27,7 +25,8 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.hlsearch = true
 -- vim.opt.laststatus = 3
--- vim.cmd.colorscheme("sorbet")
+vim.opt.statusline = [[%<%f %h%w%m%r%=%-14.(%l,%c%V%) %P %y]]
+vim.opt.foldmethod = "marker"
 
 -- keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -105,6 +104,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+	{ "savq/melange-nvim" },
+
 	{ "tpope/vim-sleuth" }, -- detect tabstop and shiftwidth automatically
 
 	{ "tpope/vim-fugitive" }, -- add support for Git
@@ -143,7 +144,7 @@ require("lazy").setup({
 			},
 		},
 		opts = {
-			notify_on_error = false,
+			notify_on_error = true,
 			formatters_by_ft = {
 				lua = { "stylua" },
 				python = { "ruff_organize_imports", "ruff_format" },
@@ -228,6 +229,7 @@ require("lazy").setup({
 		ft = "tex",
 		init = function()
 			vim.g.vimtex_syntax_conceal_disable = 1
+
 			vim.g.vimtex_compiler_latexmk = {
 				["aux_dir"] = ".tex-aux",
 			}
@@ -240,6 +242,8 @@ require("lazy").setup({
 
 			if vim.uv.os_uname().sysname == "Darwin" then
 				vim.g.vimtex_view_method = "skim"
+			elseif vim.uv.os_uname().sysname == "Linux" then
+				vim.g.vimtex_view_method = "zathura"
 			end
 		end,
 	},
@@ -248,6 +252,8 @@ require("lazy").setup({
 		icons = {},
 	},
 })
+
+vim.cmd.colorscheme("melange")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
