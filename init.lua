@@ -24,6 +24,7 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.hlsearch = true
+vim.opt.completeopt = "menu,popup,fuzzy,noinsert"
 -- vim.opt.laststatus = 3
 vim.opt.statusline = [[%<%f %h%w%m%r%=%-14.(%l,%c%V%) %P %y]]
 vim.opt.foldmethod = "marker"
@@ -52,7 +53,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- lsp configs
 vim.lsp.config["clangd"] = {
-	cmd = { "clangd" },
+	cmd = { "clangd", "--experimental-modules-support" },
 	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 	root_markers = { "compile_commands.json", ".clangd", ".clang-format", ".clangd-tidy", "compile_flags.txt" },
 	settings = {
