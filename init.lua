@@ -89,7 +89,57 @@ vim.lsp.config["ocamllsp"] = {
 	},
 }
 
-vim.lsp.enable({ "clangd", "luals", "rust_analyzer", "ocamllsp" })
+vim.lsp.config["ltex-ls-plus"] = {
+	cmd = { "ltex-ls-plus" },
+	filetypes = {
+		"bib",
+		"context",
+		"gitcommit",
+		"html",
+		"markdown",
+		"org",
+		"pandoc",
+		"plaintex",
+		"quarto",
+		"mail",
+		"mdx",
+		"rmd",
+		"rnoweb",
+		"rst",
+		"tex",
+		"text",
+		"typst",
+		"xhtml",
+	},
+	root_markers = { ".git" },
+	settings = {
+		ltex = {
+			enabled = {
+				"bib",
+				"context",
+				"gitcommit",
+				"html",
+				"markdown",
+				"org",
+				"pandoc",
+				"plaintex",
+				"quarto",
+				"mail",
+				"mdx",
+				"rmd",
+				"rnoweb",
+				"rst",
+				"tex",
+				"latex",
+				"text",
+				"typst",
+				"xhtml",
+			},
+		},
+	},
+}
+
+vim.lsp.enable({ "clangd", "luals", "rust_analyzer", "ocamllsp", "ltex-ls-plus" })
 
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -177,6 +227,13 @@ require("lazy").setup({
 		},
 		config = function()
 			require("telescope").setup({
+				defaults = {
+					layout_config = {
+						width = 0.95,
+						height = 0.95,
+						preview_width = 0.65,
+					},
+				},
 				extensions = {
 					fzf = {
 						fuzzy = true, -- false will only do exact matching
@@ -227,7 +284,7 @@ require("lazy").setup({
 
 	{ -- write nicely typeset math in neovim (tex/latex integration)
 		"lervag/vimtex",
-		ft = "tex",
+		-- ft = "tex", -- HACK: always load to enable inverse search
 		init = function()
 			vim.g.vimtex_syntax_conceal_disable = 1
 
@@ -244,7 +301,8 @@ require("lazy").setup({
 			if vim.uv.os_uname().sysname == "Darwin" then
 				vim.g.vimtex_view_method = "skim"
 			elseif vim.uv.os_uname().sysname == "Linux" then
-				vim.g.vimtex_view_method = "zathura"
+				vim.g.vimtex_view_general_viewer = "okular"
+				vim.g.vimtex_view_general_options = [[--unique file:@pdf\#src:@line@tex]]
 			end
 		end,
 	},
