@@ -81,7 +81,7 @@ vim.lsp.config["rust_analyzer"] = {
 }
 
 vim.lsp.config["ocamllsp"] = {
-	cmd = { "ocamllsp" },
+	cmd = { "ocamllsp", "--fallback-read-dot-merlin" },
 	filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
 	root_markers = { "*.opam", "esy.json", "package.json", ".git", "dune-project", "dune-workspace" },
 	settings = {
@@ -301,6 +301,7 @@ require("lazy").setup({
 			if vim.uv.os_uname().sysname == "Darwin" then
 				vim.g.vimtex_view_method = "skim"
 			elseif vim.uv.os_uname().sysname == "Linux" then
+				-- vim.g.vimtex_view_method = "zathura"
 				vim.g.vimtex_view_general_viewer = "okular"
 				vim.g.vimtex_view_general_options = [[--unique file:@pdf\#src:@line@tex]]
 			end
