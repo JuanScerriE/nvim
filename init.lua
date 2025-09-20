@@ -201,6 +201,9 @@ require("lazy").setup({
 				python = { "ruff_organize_imports", "ruff_format" },
 				ocaml = { "ocamlformat" },
 				tex = { "latexindent" },
+				html = { "prettier" },
+				json = { "prettier" },
+				javascript = { "prettier" },
 			},
 			formatters = {
 				latexindent = {
@@ -224,47 +227,68 @@ require("lazy").setup({
 			local ui = require("dapui")
 			local dap_virtual_text = require("nvim-dap-virtual-text")
 
+			dap.set_log_level("TRACE")
 			dap_virtual_text.setup()
 			ui.setup()
 
-			dap.adapters.gdb = {
+			dap.adapters.cppdbg = {
+				id = "cppdbg",
 				type = "executable",
-				command = "gdb",
-				args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
+				command = os.getenv("HOME") .. "/Desktop/from-binary/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
 			}
+
+			dap.default.fallback.external_terminal = {
+				command = "/usr/bin/alacritty",
+				args = { "-e" },
+			}
+
 			dap.configurations.c = {
+				setmetatable({
+					name = "Neovim",
+					type = "cppdbg",
+					request = "launch",
+					program = os.getenv("HOME") .. "Desktop/from-source/neovim-debugging/build/bin/nvim",
+					externalConsole = true,
+				}, {
+					__call = function(config)
+						return config
+					end,
+				}),
 				{
 					name = "Launch",
-					type = "gdb",
+					type = "cppdbg",
 					request = "launch",
 					program = function()
 						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
 					end,
 					cwd = "${workspaceFolder}",
-					stopAtBeginningOfMainSubprogram = false,
+					stopAtEntry = true,
 				},
 				{
 					name = "Select and attach to process",
-					type = "gdb",
+					type = "cppdbg",
 					request = "attach",
 					program = function()
 						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
 					end,
-					pid = function()
+					processId = function()
 						local name = vim.fn.input("Executable name (filter): ")
 						return require("dap.utils").pick_process({ filter = name })
 					end,
+					MIMode = "gdb",
 					cwd = "${workspaceFolder}",
 				},
 				{
 					name = "Attach to gdbserver :1234",
-					type = "gdb",
-					request = "attach",
-					target = "localhost:1234",
+					type = "cppdbg",
+					request = "launch",
+					MIMode = "gdb",
+					miDebuggerServerAddress = "localhost:1234",
+					miDebuggerPath = "/usr/bin/gdb",
+					cwd = "${workspaceFolder}",
 					program = function()
 						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
 					end,
-					cwd = "${workspaceFolder}",
 				},
 			}
 			dap.configurations.cpp = dap.configurations.c
@@ -331,7 +355,7 @@ require("lazy").setup({
 					layout_config = {
 						width = 0.95,
 						height = 0.95,
-						preview_width = 0.65,
+						-- preview_width = 0.65,
 					},
 				},
 				extensions = {
