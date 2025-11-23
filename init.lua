@@ -81,11 +81,13 @@ vim.lsp.config["gopls"] = {
 	cmd = { "gopls" },
 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
 	settings = {
-		analyses = {
-			unusedparams = true,
+		gopls = {
+			analyses = {
+				unusedparams = true,
+			},
+			staticcheck = true,
+			gofumpt = true,
 		},
-		staticcheck = true,
-		gofumpt = true,
 	},
 }
 
