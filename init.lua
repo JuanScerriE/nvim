@@ -77,6 +77,20 @@ vim.lsp.config["luals"] = {
 	},
 }
 
+vim.lsp.config["gopls"] = {
+	cmd = { "gopls" },
+	filetypes = { "go" },
+	settings = {
+		gopls = {
+			analyses = {
+				unusedparams = true,
+			},
+			staticcheck = true,
+			gofumpt = true,
+		},
+	},
+}
+
 vim.lsp.config["rust_analyzer"] = {
 	cmd = { "rust-analyzer" },
 	filetypes = { "rust" },
@@ -388,6 +402,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind [R]esume" })
 			vim.keymap.set("n", "<leader>f.", builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set("n", "<leader>fw", builtin.lsp_workspace_symbols, { desc = "[F]ind [W]orkspace Symbols" })
 
 			-- Slightly advanced example of overriding default behavior and theme
 			vim.keymap.set("n", "<leader>/", function()
