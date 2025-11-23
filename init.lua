@@ -79,15 +79,13 @@ vim.lsp.config["luals"] = {
 
 vim.lsp.config["gopls"] = {
 	cmd = { "gopls" },
-	filetypes = { "go" },
+	filetypes = { "go", "gomod", "gowork", "gotmpl" },
 	settings = {
-		gopls = {
-			analyses = {
-				unusedparams = true,
-			},
-			staticcheck = true,
-			gofumpt = true,
+		analyses = {
+			unusedparams = true,
 		},
+		staticcheck = true,
+		gofumpt = true,
 	},
 }
 
@@ -156,7 +154,7 @@ vim.lsp.config["ltex-ls-plus"] = {
 	},
 }
 
-vim.lsp.enable({ "clangd", "luals", "rust_analyzer", "ocamllsp", "ltex-ls-plus" })
+vim.lsp.enable({ "gopls", "clangd", "luals", "rust_analyzer", "ocamllsp", "ltex-ls-plus" })
 
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
