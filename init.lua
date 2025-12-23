@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- lsp configs
 vim.lsp.config["clangd"] = {
-	cmd = { "/home/juan/Desktop/from-source/llvm-project/build/bin/clangd", "--experimental-modules-support" },
+	cmd = { "clangd", "--experimental-modules-support" },
 	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 	root_markers = { "compile_commands.json", ".clangd", ".clang-format", ".clangd-tidy", "compile_flags.txt" },
 	settings = {
@@ -104,6 +104,20 @@ vim.lsp.config["ocamllsp"] = {
 	settings = {
 		single_file_support = true,
 	},
+}
+
+vim.lsp.config["zls"] = {
+	cmd = { "zls" },
+	filetypes = { "zig", "zir" },
+	root_markers = { "zls.json", "build.zig", "build.zig.zon", ".git" },
+}
+
+vim.lsp.config["svelte"] = {
+	cmd = { "svelteserver", "--stdio" },
+	filetypes = {
+		"svelte",
+	},
+	root_markers = { "package-lock.json" },
 }
 
 vim.lsp.config["ltex-ls-plus"] = {
@@ -156,7 +170,7 @@ vim.lsp.config["ltex-ls-plus"] = {
 	},
 }
 
-vim.lsp.enable({ "gopls", "clangd", "luals", "rust_analyzer", "ocamllsp", "ltex-ls-plus" })
+vim.lsp.enable({ "zls", "svelte", "gopls", "clangd", "luals", "rust_analyzer", "ocamllsp", "ltex-ls-plus" })
 
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -172,7 +186,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	{ "savq/melange-nvim" },
+	{ "sainnhe/sonokai" },
 
 	{ "tpope/vim-sleuth" }, -- detect tabstop and shiftwidth automatically
 
@@ -424,6 +438,15 @@ require("lazy").setup({
 		end,
 	},
 
+	{
+		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
+		build = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter").install({ "svelte", "javascript", "typescript", "html", "cpp", "c", "go" })
+		end,
+	},
+
 	{ -- write nicely typeset math in neovim (tex/latex integration)
 		"lervag/vimtex",
 		-- ft = "tex", -- HACK: always load to enable inverse search
@@ -449,38 +472,13 @@ require("lazy").setup({
 			end
 		end,
 	},
-
-	{
-		"Julian/lean.nvim",
-		event = { "BufReadPre *.lean", "BufNewFile *.lean" },
-
-		dependencies = {
-			"neovim/nvim-lspconfig",
-			"nvim-lua/plenary.nvim",
-
-			-- optional dependencies:
-
-			-- a completion engine
-			--    hrsh7th/nvim-cmp or Saghen/blink.cmp are popular choices
-
-			-- 'nvim-telescope/telescope.nvim', -- for 2 Lean-specific pickers
-			-- 'andymass/vim-matchup',          -- for enhanced % motion behavior
-			-- 'andrewradev/switch.vim',        -- for switch support
-			-- 'tomtom/tcomment_vim',           -- for commenting
-		},
-
-		---@type lean.Config
-		opts = { -- see below for full configuration options
-			mappings = true,
-		},
-	},
 }, {
 	ui = {
 		icons = {},
 	},
 })
 
-vim.cmd.colorscheme("melange")
+vim.cmd.colorscheme("sonokai")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
