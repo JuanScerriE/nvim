@@ -54,6 +54,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+vim.lsp.config["pyright"] = {
+	cmd = { "pyright-langserver", "--stdio" },
+	filetypes = { "python" },
+	root_markers = {
+		"pyrightconfig.json",
+		"pyproject.toml",
+		"setup.py",
+		"setup.cfg",
+		"requirements.txt",
+		"Pipfile",
+		".git",
+	},
+}
+
 -- lsp configs
 vim.lsp.config["clangd"] = {
 	cmd = { "clangd", "--experimental-modules-support" },
@@ -170,7 +184,17 @@ vim.lsp.config["ltex-ls-plus"] = {
 	},
 }
 
-vim.lsp.enable({ "zls", "svelte", "gopls", "clangd", "luals", "rust_analyzer", "ocamllsp", "ltex-ls-plus" })
+vim.lsp.enable({
+	"zls",
+	"svelte",
+	"gopls",
+	"clangd",
+	"luals",
+	"rust_analyzer",
+	"ocamllsp",
+	"ltex-ls-plus",
+	"pyright",
+})
 
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -383,6 +407,9 @@ require("lazy").setup({
 		config = function()
 			require("telescope").setup({
 				defaults = {
+					preview = {
+						treesitter = false,
+					},
 					layout_config = {
 						width = 0.95,
 						height = 0.95,
