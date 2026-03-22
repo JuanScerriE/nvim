@@ -54,148 +54,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-vim.lsp.config["pyright"] = {
-	cmd = { "pyright-langserver", "--stdio" },
-	filetypes = { "python" },
-	root_markers = {
-		"pyrightconfig.json",
-		"pyproject.toml",
-		"setup.py",
-		"setup.cfg",
-		"requirements.txt",
-		"Pipfile",
-		".git",
-	},
-}
-
--- lsp configs
-vim.lsp.config["clangd"] = {
-	cmd = { "clangd", "--experimental-modules-support" },
-	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-	root_markers = { "compile_commands.json", ".clangd", ".clang-format", ".clangd-tidy", "compile_flags.txt" },
-	settings = {
-		single_file_support = true,
-	},
-}
-
-vim.lsp.config["luals"] = {
-	cmd = { "lua-language-server" },
-	filetypes = { "lua" },
-	root_markers = { ".luarc.json", ".luarc.jsonc" },
-	settings = {
-		Lua = {
-			runtime = {
-				version = "LuaJIT",
-			},
-		},
-	},
-}
-
-vim.lsp.config["gopls"] = {
-	cmd = { "gopls" },
-	filetypes = { "go", "gomod", "gowork", "gotmpl" },
-	settings = {
-		gopls = {
-			analyses = {
-				unusedparams = true,
-			},
-			staticcheck = true,
-			gofumpt = true,
-		},
-	},
-}
-
-vim.lsp.config["rust_analyzer"] = {
-	cmd = { "rust-analyzer" },
-	filetypes = { "rust" },
-	root_markers = { "Cargo.toml" },
-}
-
-vim.lsp.config["ocamllsp"] = {
-	cmd = { "ocamllsp", "--fallback-read-dot-merlin" },
-	filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
-	root_markers = { "*.opam", "esy.json", "package.json", ".git", "dune-project", "dune-workspace" },
-	settings = {
-		single_file_support = true,
-	},
-}
-
-vim.lsp.config["zls"] = {
-	cmd = { "zls" },
-	filetypes = { "zig", "zir" },
-	root_markers = { "zls.json", "build.zig", "build.zig.zon", ".git" },
-}
-
-vim.lsp.config["svelte"] = {
-	cmd = { "svelteserver", "--stdio" },
-	filetypes = {
-		"svelte",
-	},
-	root_markers = { "package-lock.json" },
-}
-
-vim.lsp.config["ltex-ls-plus"] = {
-	cmd = { "ltex-ls-plus" },
-	filetypes = {
-		"bib",
-		"context",
-		"gitcommit",
-		"html",
-		"markdown",
-		"org",
-		"pandoc",
-		"plaintex",
-		"quarto",
-		"mail",
-		"mdx",
-		"rmd",
-		"rnoweb",
-		"rst",
-		"tex",
-		"text",
-		"typst",
-		"xhtml",
-	},
-	root_markers = { ".git" },
-	settings = {
-		ltex = {
-			enabled = {
-				"bib",
-				"context",
-				"gitcommit",
-				"html",
-				"markdown",
-				"org",
-				"pandoc",
-				"plaintex",
-				"quarto",
-				"mail",
-				"mdx",
-				"rmd",
-				"rnoweb",
-				"rst",
-				"tex",
-				"latex",
-				"text",
-				"typst",
-				"xhtml",
-			},
-		},
-	},
-}
-
-vim.lsp.enable({
-	"zls",
-	"svelte",
-	"gopls",
-	"clangd",
-	"luals",
-	"rust_analyzer",
-	"ocamllsp",
-	"ltex-ls-plus",
-	"pyright",
-})
-
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -471,6 +329,239 @@ require("lazy").setup({
 		build = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter").install({ "svelte", "javascript", "typescript", "html", "cpp", "c", "go" })
+		end,
+	},
+
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-cmdline",
+			"hrsh7th/cmp-vsnip",
+			"hrsh7th/vim-vsnip",
+		},
+		config = function()
+			-- Set up nvim-cmp.
+			local cmp = require("cmp")
+
+			cmp.setup({
+				snippet = {
+					-- REQUIRED - you must specify a snippet engine
+					expand = function(args)
+						vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+						-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+						-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+						-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+						-- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
+
+						-- For `mini.snippets` users:
+						-- local insert = MiniSnippets.config.expand.insert or MiniSnippets.default_insert
+						-- insert({ body = args.body }) -- Insert at cursor
+						-- cmp.resubscribe({ "TextChangedI", "TextChangedP" })
+						-- require("cmp.config").set_onetime({ sources = {} })
+					end,
+				},
+				window = {
+					-- completion = cmp.config.window.bordered(),
+					-- documentation = cmp.config.window.bordered(),
+				},
+				mapping = cmp.mapping.preset.insert({
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+				}),
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					{ name = "vsnip" }, -- For vsnip users.
+					-- { name = 'luasnip' }, -- For luasnip users.
+					-- { name = 'ultisnips' }, -- For ultisnips users.
+					-- { name = 'snippy' }, -- For snippy users.
+				}, {
+					{ name = "buffer" },
+				}),
+			})
+
+			-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+			cmp.setup.cmdline({ "/", "?" }, {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" },
+				},
+			})
+
+			-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+			cmp.setup.cmdline(":", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = "path" },
+				}, {
+					{ name = "cmdline" },
+				}),
+				matching = { disallow_symbol_nonprefix_matching = false },
+			})
+
+			-- Set up lspconfig.
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+			vim.lsp.config["pyright"] = {
+				cmd = { "pyright-langserver", "--stdio" },
+				filetypes = { "python" },
+				root_markers = {
+					"pyrightconfig.json",
+					"pyproject.toml",
+					"setup.py",
+					"setup.cfg",
+					"requirements.txt",
+					"Pipfile",
+					".git",
+				},
+				capabilities = capabilities,
+			}
+
+			vim.lsp.config["clangd"] = {
+				cmd = { "clangd", "--experimental-modules-support" },
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+				root_markers = {
+					"compile_commands.json",
+					".clangd",
+					".clang-format",
+					".clangd-tidy",
+					"compile_flags.txt",
+				},
+				settings = {
+					single_file_support = true,
+				},
+				capabilities = capabilities,
+			}
+
+			vim.lsp.config["luals"] = {
+				cmd = { "lua-language-server" },
+				filetypes = { "lua" },
+				root_markers = { ".luarc.json", ".luarc.jsonc" },
+				settings = {
+					Lua = {
+						runtime = {
+							version = "LuaJIT",
+						},
+					},
+				},
+				capabilities = capabilities,
+			}
+
+			vim.lsp.config["gopls"] = {
+				cmd = { "gopls" },
+				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				settings = {
+					gopls = {
+						analyses = {
+							unusedparams = true,
+						},
+						staticcheck = true,
+						gofumpt = true,
+					},
+				},
+				capabilities = capabilities,
+			}
+
+			vim.lsp.config["rust_analyzer"] = {
+				cmd = { "rust-analyzer" },
+				filetypes = { "rust" },
+				root_markers = { "Cargo.toml" },
+				capabilities = capabilities,
+			}
+
+			vim.lsp.config["ocamllsp"] = {
+				cmd = { "ocamllsp", "--fallback-read-dot-merlin" },
+				filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
+				root_markers = { "*.opam", "esy.json", "package.json", ".git", "dune-project", "dune-workspace" },
+				settings = {
+					single_file_support = true,
+				},
+				capabilities = capabilities,
+			}
+
+			vim.lsp.config["zls"] = {
+				cmd = { "zls" },
+				filetypes = { "zig", "zir" },
+				root_markers = { "zls.json", "build.zig", "build.zig.zon", ".git" },
+				capabilities = capabilities,
+			}
+
+			vim.lsp.config["svelte"] = {
+				cmd = { "svelteserver", "--stdio" },
+				filetypes = {
+					"svelte",
+				},
+				root_markers = { "package-lock.json" },
+				capabilities = capabilities,
+			}
+
+			vim.lsp.config["ltex-ls-plus"] = {
+				cmd = { "ltex-ls-plus" },
+				filetypes = {
+					"bib",
+					"context",
+					"gitcommit",
+					"html",
+					"markdown",
+					"org",
+					"pandoc",
+					"plaintex",
+					"quarto",
+					"mail",
+					"mdx",
+					"rmd",
+					"rnoweb",
+					"rst",
+					"tex",
+					"text",
+					"typst",
+					"xhtml",
+				},
+				root_markers = { ".git" },
+				settings = {
+					ltex = {
+						enabled = {
+							"bib",
+							"context",
+							"gitcommit",
+							"html",
+							"markdown",
+							"org",
+							"pandoc",
+							"plaintex",
+							"quarto",
+							"mail",
+							"mdx",
+							"rmd",
+							"rnoweb",
+							"rst",
+							"tex",
+							"latex",
+							"text",
+							"typst",
+							"xhtml",
+						},
+					},
+				},
+				capabilities = capabilities,
+			}
+
+			vim.lsp.enable({
+				"zls",
+				"svelte",
+				"gopls",
+				"clangd",
+				"luals",
+				"rust_analyzer",
+				"ocamllsp",
+				"ltex-ls-plus",
+				"pyright",
+			})
 		end,
 	},
 
