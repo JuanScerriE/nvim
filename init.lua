@@ -127,48 +127,40 @@ require("lazy").setup({
 		lazy = false,
 	},
 
+	{ "mason-org/mason.nvim", opts = {} },
+
 	{
 		"mfussenegger/nvim-dap",
-		lazy = true,
+		event = "VeryLazy",
 		dependencies = {
 			"rcarriga/nvim-dap-ui",
 			"nvim-neotest/nvim-nio",
+			"jay-babu/mason-nvim-dap.nvim",
 			"theHamsta/nvim-dap-virtual-text",
 		},
 		config = function()
+			local mason_dap = require("mason-nvim-dap")
 			local dap = require("dap")
 			local ui = require("dapui")
 			local dap_virtual_text = require("nvim-dap-virtual-text")
+
+			mason_dap.setup({
+				ensure_installed = { "cppdbg" },
+				automatic_installation = true,
+				handlers = {
+					function(config)
+						require("mason-nvim-dap").default_setup(config)
+					end,
+				},
+			})
 
 			dap.set_log_level("TRACE")
 			dap_virtual_text.setup()
 			ui.setup()
 
-			dap.adapters.cppdbg = {
-				id = "cppdbg",
-				type = "executable",
-				command = os.getenv("HOME") .. "/Desktop/from-binary/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
-			}
-
-			dap.default.fallback.external_terminal = {
-				command = "/usr/bin/alacritty",
-				args = { "-e" },
-			}
-
-			dap.configurations.c = {
-				setmetatable({
-					name = "Neovim",
-					type = "cppdbg",
-					request = "launch",
-					program = os.getenv("HOME") .. "Desktop/from-source/neovim-debugging/build/bin/nvim",
-					externalConsole = true,
-				}, {
-					__call = function(config)
-						return config
-					end,
-				}),
+			dap.configurations.cpp = {
 				{
-					name = "Launch",
+					name = "Launch file",
 					type = "cppdbg",
 					request = "launch",
 					program = function()
@@ -176,20 +168,6 @@ require("lazy").setup({
 					end,
 					cwd = "${workspaceFolder}",
 					stopAtEntry = true,
-				},
-				{
-					name = "Select and attach to process",
-					type = "cppdbg",
-					request = "attach",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					processId = function()
-						local name = vim.fn.input("Executable name (filter): ")
-						return require("dap.utils").pick_process({ filter = name })
-					end,
-					MIMode = "gdb",
-					cwd = "${workspaceFolder}",
 				},
 				{
 					name = "Attach to gdbserver :1234",
@@ -204,7 +182,8 @@ require("lazy").setup({
 					end,
 				},
 			}
-			dap.configurations.cpp = dap.configurations.c
+
+			dap.configurations.c = dap.configurations.cpp
 		end,
 		keys = {
 			{
