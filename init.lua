@@ -401,6 +401,15 @@ require("lazy").setup({
 				capabilities = capabilities,
 			}
 
+			vim.lsp.config["ccls"] = {
+				init_options = {
+					index = {
+						threads = 0,
+					},
+					clang = {},
+				},
+			}
+
 			vim.lsp.config["clangd"] = {
 				cmd = { "clangd", "--experimental-modules-support" },
 				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
@@ -534,7 +543,9 @@ require("lazy").setup({
 				"zls",
 				"svelte",
 				"gopls",
-				"clangd",
+				-- "clangd",
+        "ccls",
+        "cmake",
 				"luals",
 				"rust_analyzer",
 				"ocamllsp",
