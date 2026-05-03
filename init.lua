@@ -403,6 +403,7 @@ require("lazy").setup({
 
 			vim.lsp.config["ccls"] = {
 				init_options = {
+					compilationDatabaseDirectory = ".",
 					index = {
 						threads = 0,
 					},
@@ -544,8 +545,8 @@ require("lazy").setup({
 				"svelte",
 				"gopls",
 				-- "clangd",
-        "ccls",
-        "cmake",
+				"ccls",
+				"cmake",
 				"luals",
 				"rust_analyzer",
 				"ocamllsp",
