@@ -402,13 +402,21 @@ require("lazy").setup({
 			}
 
 			vim.lsp.config["ccls"] = {
-				init_options = {
-					compilationDatabaseDirectory = ".",
-					index = {
-						threads = 0,
-					},
-					clang = {},
+				cmd = { "ccls" },
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+				root_markers = {
+					".git",
+					".ccls",
 				},
+				settings = {
+					init_options = {
+						compilationDatabaseDirectory = "build-dbg",
+						index = {
+							threads = 6,
+						},
+					},
+				},
+				capabilities = capabilities,
 			}
 
 			vim.lsp.config["clangd"] = {
