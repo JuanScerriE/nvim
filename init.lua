@@ -548,19 +548,36 @@ require("lazy").setup({
 				capabilities = capabilities,
 			}
 
-			vim.lsp.enable({
-				"zls",
-				"svelte",
-				"gopls",
-				"clangd",
-				-- "ccls",
-				"cmake",
-				"luals",
-				"rust_analyzer",
-				"ocamllsp",
-				"ltex-ls-plus",
-				"pyright",
-			})
+			local info = vim.uv.os_uname()
+			if info.systname == "Linux" then
+				vim.lsp.enable({
+					"zls",
+					"svelte",
+					"gopls",
+					"clangd",
+					-- "ccls",
+					"cmake",
+					"luals",
+					"rust_analyzer",
+					"ocamllsp",
+					"ltex-ls-plus",
+					"pyright",
+				})
+			elseif info.sysname == "Darwin" then
+				vim.lsp.enable({
+					"zls",
+					"svelte",
+					"gopls",
+					-- "clangd",
+					"ccls",
+					"cmake",
+					"luals",
+					"rust_analyzer",
+					"ocamllsp",
+					"ltex-ls-plus",
+					"pyright",
+				})
+			end
 		end,
 	},
 
