@@ -549,13 +549,13 @@ require("lazy").setup({
 			}
 
 			local info = vim.uv.os_uname()
-			if info.systname == "Linux" then
+			if info.sysname == "Linux" then
 				vim.lsp.enable({
 					"zls",
 					"svelte",
 					"gopls",
-					"clangd",
-					-- "ccls",
+					-- "clangd",
+					"ccls",
 					"cmake",
 					"luals",
 					"rust_analyzer",
@@ -568,8 +568,8 @@ require("lazy").setup({
 					"zls",
 					"svelte",
 					"gopls",
-					-- "clangd",
-					"ccls",
+					"clangd",
+					-- "ccls",
 					"cmake",
 					"luals",
 					"rust_analyzer",
