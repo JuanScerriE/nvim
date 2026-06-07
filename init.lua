@@ -129,107 +129,8 @@ require("lazy").setup({
 
 	{ "mason-org/mason.nvim", opts = {} },
 
-	{
-		"mfussenegger/nvim-dap",
-		event = "VeryLazy",
-		dependencies = {
-			"rcarriga/nvim-dap-ui",
-			"nvim-neotest/nvim-nio",
-			"jay-babu/mason-nvim-dap.nvim",
-			"theHamsta/nvim-dap-virtual-text",
-		},
-		config = function()
-			local mason_dap = require("mason-nvim-dap")
-			local dap = require("dap")
-			local ui = require("dapui")
-			local dap_virtual_text = require("nvim-dap-virtual-text")
-
-			mason_dap.setup({
-				ensure_installed = { "cppdbg" },
-				automatic_installation = true,
-				handlers = {
-					function(config)
-						require("mason-nvim-dap").default_setup(config)
-					end,
-				},
-			})
-
-			dap.set_log_level("TRACE")
-			dap_virtual_text.setup()
-			ui.setup()
-
-			dap.configurations.cpp = {
-				{
-					name = "Launch file",
-					type = "cppdbg",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					cwd = "${workspaceFolder}",
-					stopAtEntry = true,
-				},
-				{
-					name = "Attach to gdbserver :1234",
-					type = "cppdbg",
-					request = "launch",
-					MIMode = "gdb",
-					miDebuggerServerAddress = "localhost:1234",
-					miDebuggerPath = "/usr/bin/gdb",
-					cwd = "${workspaceFolder}",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-				},
-			}
-
-			dap.configurations.c = dap.configurations.cpp
-		end,
-		keys = {
-			{
-				"<leader>du",
-				function()
-					require("dapui").toggle({})
-				end,
-				desc = "Dap UI",
-			},
-			{
-				"<leader>db",
-				function()
-					require("dap").toggle_breakpoint()
-				end,
-				desc = "Toggle Breakpoint",
-			},
-
-			{
-				"<leader>dc",
-				function()
-					require("dap").continue()
-				end,
-				desc = "Continue",
-			},
-
-			{
-				"<leader>dC",
-				function()
-					require("dap").run_to_cursor()
-				end,
-				desc = "Run to Cursor",
-			},
-
-			{
-				"<leader>dT",
-				function()
-					require("dap").terminate()
-				end,
-				desc = "Terminate",
-			},
-		},
-	},
-
 	{ -- fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
 		dependencies = {
 			{ "nvim-lua/plenary.nvim" },
 
@@ -293,12 +194,111 @@ require("lazy").setup({
 
 			-- It's also possible to pass additional configuration options.
 			--  See `:help telescope.builtin.live_grep()` for information about particular keys
-			vim.keymap.set("n", "<leader>f/", function()
+			vim.keymap.set("n", "<leader>fo", function()
 				builtin.live_grep({
 					grep_open_files = true,
 					prompt_title = "Live Grep in Open Files",
 				})
-			end, { desc = "[F]ind [/] in Open Files" })
+			end, { desc = "[F]ind in [O]pen Files" })
+
+			vim.keymap.set("n", "<leader>f/", function()
+				builtin.live_grep({
+					grep_open_files = false,
+					prompt_title = "Live Grep in Files",
+				})
+			end, { desc = "[F]ind in [/] Files" })
+		end,
+	},
+
+	{
+		"mfussenegger/nvim-dap",
+		event = "VeryLazy",
+		dependencies = {
+			"rcarriga/nvim-dap-ui",
+			"nvim-neotest/nvim-nio",
+			"jay-babu/mason-nvim-dap.nvim",
+			"theHamsta/nvim-dap-virtual-text",
+		},
+		config = function()
+			local mason_dap = require("mason-nvim-dap")
+			local dap = require("dap")
+			local ui = require("dapui")
+			local dap_virtual_text = require("nvim-dap-virtual-text")
+
+			mason_dap.setup({
+				ensure_installed = { "codelldb", "cppdbg" },
+				automatic_installation = true,
+				handlers = {
+					function(config)
+						require("mason-nvim-dap").default_setup(config)
+					end,
+				},
+			})
+
+			-- dap.set_log_level("TRACE")
+
+			dap_virtual_text.setup()
+			ui.setup()
+
+			local builtin = require("telescope.builtin")
+
+			dap.configurations.cpp = {
+				{
+					name = "Launch file",
+					type = "codelldb",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build-dbg", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopAtEntry = true,
+				},
+				{
+					name = "Attach to gdbserver :1234",
+					type = "codelldb",
+					request = "launch",
+					MIMode = "gdb",
+					miDebuggerServerAddress = "localhost:1234",
+					miDebuggerPath = "/usr/bin/gdb",
+					cwd = "${workspaceFolder}",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build-dbg", "file")
+					end,
+				},
+			}
+
+			dap.configurations.c = dap.configurations.cpp
+
+			vim.keymap.set("n", "<leader>du", function()
+				ui.toggle({})
+			end, { desc = "Toggle DAP UI" })
+			vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+			vim.keymap.set("n", "<leader>gb", dap.run_to_cursor, { desc = "Run to Cursor" })
+
+			vim.keymap.set("n", "<leader>?", function()
+				ui.eval(nil, { enter = true })
+			end)
+
+			vim.keymap.set("n", "<F1>", dap.continue, { desc = "Continue" })
+			vim.keymap.set("n", "<F2>", dap.step_into, { desc = "Step Into" })
+			vim.keymap.set("n", "<F3>", dap.step_over, { desc = "Step Over" })
+			vim.keymap.set("n", "<F4>", dap.step_out, { desc = "Step Out" })
+			vim.keymap.set("n", "<F5>", dap.step_back, { desc = "Step Back" })
+			vim.keymap.set("n", "<F11>", dap.restart, { desc = "Restart" })
+			vim.keymap.set("n", "<F12>", dap.terminate, { desc = "Terminate" })
+
+			dap.listeners.before.attach.dapui_config = function()
+				ui.open()
+			end
+			dap.listeners.before.launch.dapui_config = function()
+				ui.open()
+			end
+			dap.listeners.before.event_terminated.dapui_config = function()
+				ui.close()
+			end
+			dap.listeners.before.event_exited.dapui_config = function()
+				ui.close()
+			end
 		end,
 	},
 
@@ -420,7 +420,7 @@ require("lazy").setup({
 			}
 
 			vim.lsp.config["clangd"] = {
-				cmd = { "clangd", "--experimental-modules-support" },
+				cmd = { "clangd", "--experimental-modules-support", "--background-index" },
 				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 				root_markers = {
 					"compile_commands.json",
@@ -554,8 +554,8 @@ require("lazy").setup({
 					"zls",
 					"svelte",
 					"gopls",
-					-- "clangd",
-					"ccls",
+					"clangd",
+					-- "ccls",
 					"cmake",
 					"luals",
 					"rust_analyzer",
@@ -600,9 +600,9 @@ require("lazy").setup({
 			if vim.uv.os_uname().sysname == "Darwin" then
 				vim.g.vimtex_view_method = "skim"
 			elseif vim.uv.os_uname().sysname == "Linux" then
-				-- vim.g.vimtex_view_method = "zathura"
-				vim.g.vimtex_view_general_viewer = "okular"
-				vim.g.vimtex_view_general_options = [[--unique file:@pdf\#src:@line@tex]]
+				vim.g.vimtex_view_method = "zathura"
+				-- vim.g.vimtex_view_general_viewer = "okular"
+				-- vim.g.vimtex_view_general_options = [[--unique file:@pdf\#src:@line@tex]]
 			end
 		end,
 	},
