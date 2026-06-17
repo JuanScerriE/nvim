@@ -302,14 +302,14 @@ require("lazy").setup({
 		end,
 	},
 
-	{
-		"nvim-treesitter/nvim-treesitter",
-		lazy = false,
-		build = ":TSUpdate",
-		config = function()
-			require("nvim-treesitter").install({ "svelte", "javascript", "typescript", "html", "cpp", "c", "go" })
-		end,
-	},
+	-- {
+	-- 	"nvim-treesitter/nvim-treesitter",
+	-- 	lazy = false,
+	-- 	build = ":TSUpdate",
+	-- 	config = function()
+	-- 		require("nvim-treesitter").install({ "svelte", "javascript", "typescript", "html", "cpp", "c", "go" })
+	-- 	end,
+	-- },
 
 	{
 		"hrsh7th/nvim-cmp",
@@ -497,6 +497,18 @@ require("lazy").setup({
 				capabilities = capabilities,
 			}
 
+			vim.lsp.config["phpactor"] = {
+				cmd = { "phpactor", "language-server" },
+				filetypes = { "php" },
+				root_markers = { ".git", "composer.json", ".phpactor.json", ".phpactor.yml" },
+				workspace_required = true,
+				init_options = {
+					["language_server_phpstan.enabled"] = false,
+					["language_server_psalm.enabled"] = false,
+				},
+				capabilities = capabilities,
+			}
+
 			vim.lsp.config["ltex-ls-plus"] = {
 				cmd = { "ltex-ls-plus" },
 				filetypes = {
@@ -554,6 +566,7 @@ require("lazy").setup({
 					"zls",
 					"svelte",
 					"gopls",
+					"phpactor",
 					"clangd",
 					-- "ccls",
 					"cmake",
@@ -568,6 +581,7 @@ require("lazy").setup({
 					"zls",
 					"svelte",
 					"gopls",
+					"phpactor",
 					"clangd",
 					-- "ccls",
 					"cmake",
