@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("juan-highlight-yank", { clear = true }),
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.hl_op()
 	end,
 })
 
@@ -117,6 +117,7 @@ require("lazy").setup({
 				html = { "prettier" },
 				json = { "prettier" },
 				javascript = { "prettier" },
+				php = { "php_cs_fixer" }, -- builin identifier for php_cs_fixer
 			},
 			formatters = {
 				latexindent = {
@@ -471,6 +472,22 @@ require("lazy").setup({
 				capabilities = capabilities,
 			}
 
+			vim.lsp.config["ruby_lsp"] = {
+				cmd = { "ruby-lsp" }, -- or { "bundle", "exec", "ruby-lsp" },
+				filetypes = { "ruby" },
+				root_markers = { "Gemfile", ".git" },
+				init_options = {
+					formatter = "standard",
+					linters = { "standard" },
+					addonSettings = {
+						["Ruby LSP Rails"] = {
+							enablePendingMigrationsPrompt = false,
+						},
+					},
+				},
+				capabilities = capabilities,
+			}
+
 			vim.lsp.config["ocamllsp"] = {
 				cmd = { "ocamllsp", "--fallback-read-dot-merlin" },
 				filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
@@ -571,6 +588,7 @@ require("lazy").setup({
 					-- "ccls",
 					"cmake",
 					"luals",
+          "ruby_lsp",
 					"rust_analyzer",
 					"ocamllsp",
 					"ltex-ls-plus",
@@ -586,6 +604,7 @@ require("lazy").setup({
 					-- "ccls",
 					"cmake",
 					"luals",
+          "ruby_lsp",
 					"rust_analyzer",
 					"ocamllsp",
 					"ltex-ls-plus",
