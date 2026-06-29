@@ -275,12 +275,12 @@ dap.configurations.cpp = {
 dap.configurations.c = dap.configurations.cpp
 
 vim.keymap.set("n", "<leader>du", function()
-	ui.toggle({})
+	dapui.toggle({})
 end, { desc = "JS:toggle dap ui" })
 vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "JS:toggle breakpoint" })
 vim.keymap.set("n", "<leader>gb", dap.run_to_cursor, { desc = "JS:run to cursor" })
 vim.keymap.set("n", "<leader>?", function()
-	ui.eval(nil, { enter = true })
+	dapui.eval(nil, { enter = true })
 end, { desc = "JS:variable info" })
 
 vim.keymap.set("n", "<F1>", dap.continue, { desc = "JS:continue" })
