@@ -574,52 +574,23 @@ end
 -- TODO: figure out how to do lazy loading
 
 -- vimtex setup (TODO: double check if this needs to be done before loading vimtex)
--- vim.g.vimtex_syntax_conceal_disable = 1
---
--- vim.g.vimtex_compiler_latexmk = {
--- 	["aux_dir"] = ".tex-aux",
--- }
---
--- vim.g.vimtex_compiler_latexmk_engines = {
--- 	["_"] = "-lualatex -shell-escape",
--- }
---
--- if vim.uv.os_uname().sysname == "Darwin" then
--- 	vim.g.vimtex_view_method = "skim"
--- elseif vim.uv.os_uname().sysname == "Linux" then
--- 	vim.g.vimtex_view_method = "zathura"
--- end
+vim.g.vimtex_syntax_conceal_disable = 1
 
--- 	{ -- write nicely typeset math in neovim (tex/latex integration)
--- 		"lervag/vimtex",
--- 		-- ft = "tex", -- HACK: always load to enable inverse search
--- 		init = function()
--- 			vim.g.vimtex_syntax_conceal_disable = 1
---
--- 			vim.g.vimtex_compiler_latexmk = {
--- 				["aux_dir"] = ".tex-aux",
--- 			}
--- 			vim.g.vimtex_compiler_latexmk_engines = {
--- 				["_"] = "-lualatex -shell-escape",
--- 			}
--- 		end,
--- 		config = function()
--- 			vim.opt.cole = 0
---
--- 			if vim.uv.os_uname().sysname == "Darwin" then
--- 				vim.g.vimtex_view_method = "skim"
--- 			elseif vim.uv.os_uname().sysname == "Linux" then
--- 				vim.g.vimtex_view_method = "zathura"
--- 				-- vim.g.vimtex_view_general_viewer = "okular"
--- 				-- vim.g.vimtex_view_general_options = [[--unique file:@pdf\#src:@line@tex]]
--- 			end
--- 		end,
--- 	},
--- }, {
--- 	ui = {
--- 		icons = {},
--- 	},
--- })
+vim.g.vimtex_compiler_latexmk = {
+	["aux_dir"] = ".tex-aux",
+}
+
+vim.g.vimtex_compiler_latexmk_engines = {
+	["_"] = "-lualatex -shell-escape",
+}
+
+if vim.uv.os_uname().sysname == "Darwin" then
+	vim.g.vimtex_view_method = "skim"
+elseif vim.uv.os_uname().sysname == "Linux" then
+	vim.g.vimtex_view_method = "zathura"
+end
+
+vim.pack.add({ gh("lervag/vimtex") })
 
 vim.cmd.colorscheme("catppuccin")
 
