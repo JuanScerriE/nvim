@@ -587,7 +587,12 @@ vim.g.vimtex_compiler_latexmk_engines = {
 if vim.uv.os_uname().sysname == "Darwin" then
 	vim.g.vimtex_view_method = "skim"
 elseif vim.uv.os_uname().sysname == "Linux" then
-	vim.g.vimtex_view_method = "zathura"
+	if vim.fn.executable("okular") == 1 then
+		vim.g.vimtex_view_method = "okular"
+		vim.g.vimtex_view_general_options = "--unique file:@pdf\\#src:@line@tex"
+	else
+		vim.g.vimtex_view_method = "zathura"
+	end
 end
 
 vim.pack.add({ gh("lervag/vimtex") })
