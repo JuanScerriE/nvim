@@ -588,7 +588,7 @@ if vim.uv.os_uname().sysname == "Darwin" then
 	vim.g.vimtex_view_method = "skim"
 elseif vim.uv.os_uname().sysname == "Linux" then
 	if vim.fn.executable("okular") == 1 then
-		vim.g.vimtex_view_method = "okular"
+		vim.g.vimtex_view_general_viewer = "okular"
 		vim.g.vimtex_view_general_options = "--unique file:@pdf\\#src:@line@tex"
 	else
 		vim.g.vimtex_view_method = "zathura"
