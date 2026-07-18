@@ -25,6 +25,7 @@ vim.o.scrolloff = 10
 vim.o.confirm = true
 vim.o.cole = 0
 vim.o.foldmethod = "marker"
+vim.o.colorcolumn = "80,90"
 
 -- set the list chars
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
