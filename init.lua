@@ -26,6 +26,7 @@ vim.o.confirm = true
 vim.o.cole = 0
 vim.o.foldmethod = "marker"
 vim.o.colorcolumn = "80,90"
+vim.o.makeprg = "./build.sh" -- this my expectation
 
 -- set the list chars
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
@@ -41,8 +42,8 @@ vim.diagnostic.config({
 	severity_sort = true,
 	float = { border = "rounded", source = "if_many" },
 	underline = { severity = { min = vim.diagnostic.severity.WARN } },
-	virtual_text = true,
-	virtual_lines = false,
+	virtual_text = false,
+	virtual_lines = true,
 	jump = {
 		on_jump = function(_, bufnr)
 			vim.diagnostic.open_float({
