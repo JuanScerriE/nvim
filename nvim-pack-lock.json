@@ -11,7 +11,7 @@
       "version": "1.0.0 - 2.0.0"
     },
     "conform.nvim": {
-      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
+      "rev": "016802de402556da54c36bd7359b441266b01cdd",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fidget.nvim": {
@@ -22,16 +22,24 @@
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
+    "mason-lspconfig.nvim": {
+      "rev": "40276c4df7e6bdce6801d6c035c6227f9115a855",
+      "src": "https://github.com/mason-org/mason-lspconfig.nvim"
+    },
     "mason-nvim-dap.nvim": {
       "rev": "9a10e096703966335bd5c46c8c875d5b0690dade",
       "src": "https://github.com/jay-babu/mason-nvim-dap.nvim"
+    },
+    "mason-tool-installer.nvim": {
+      "rev": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
+      "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
     },
     "mason.nvim": {
       "rev": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d",
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "nvim-autopairs": {
-      "rev": "7b9923abad60b903ece7c52940e1321d39eccc79",
+      "rev": "430522f95fe4fb7c511ec64f8c1a90cc6a66c05c",
       "src": "https://github.com/windwp/nvim-autopairs"
     },
     "nvim-dap": {
@@ -45,6 +53,10 @@
     "nvim-dap-virtual-text": {
       "rev": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6",
       "src": "https://github.com/theHamsta/nvim-dap-virtual-text"
+    },
+    "nvim-lspconfig": {
+      "rev": "684cb45c2faa24ce463b4fe9aaf011bfe1e0fb26",
+      "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
       "rev": "edcc181a875301dd21840189aa2f2f9ad69fc172",
@@ -67,7 +79,7 @@
       "src": "https://github.com/nvim-telescope/telescope-ui-select.nvim"
     },
     "telescope.nvim": {
-      "rev": "427b576c16792edad01a92b89721d923c19ad60f",
+      "rev": "40aedd8a68c78a656a10a8d62d80c54af59420fb",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "vim-fugitive": {
@@ -75,7 +87,7 @@
       "src": "https://github.com/tpope/vim-fugitive"
     },
     "vimtex": {
-      "rev": "1d27d95258d8273d0690c7d3d4ff6e1fa2bd24af",
+      "rev": "c1b96604d9a387cde5a98bec8f6687ae3078b571",
       "src": "https://github.com/lervag/vimtex"
     },
     "which-key.nvim": {

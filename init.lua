@@ -132,29 +132,6 @@ vim.pack.add({ gh("stevearc/oil.nvim") })
 require("oil").setup()
 vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "JS:open parent directory" })
 
-vim.pack.add({ gh("stevearc/conform.nvim") })
-require("conform").setup({
-	notify_on_error = true,
-	formatters_by_ft = {
-		lua = { "stylua" },
-		python = { "ruff_organize_imports", "ruff_format" },
-		ocaml = { "ocamlformat" },
-		tex = { "latexindent" },
-		html = { "prettier" },
-		json = { "prettier" },
-		javascript = { "prettier" },
-		php = { "php_cs_fixer" }, -- builin identifier for php_cs_fixer
-	},
-	formatters = {
-		latexindent = {
-			prepend_args = { "-l" },
-		},
-	},
-})
-vim.keymap.set("n", "<leader>F", function()
-	require("conform").format({ async = true, lsp_fallback = true })
-end, { desc = "JS:format current buffer" })
-
 local telescope_plugins = {
 	gh("nvim-lua/plenary.nvim"),
 	gh("nvim-telescope/telescope.nvim"),
@@ -220,92 +197,31 @@ end, { desc = "JS:grep find in open files" })
 vim.pack.add({ gh("j-hui/fidget.nvim") })
 require("fidget").setup()
 
-local debugging_plugins = {
-	gh("mason-org/mason.nvim"),
-	gh("jay-babu/mason-nvim-dap.nvim"),
-	gh("rcarriga/nvim-dap-ui"),
-	gh("theHamsta/nvim-dap-virtual-text"),
-	gh("nvim-neotest/nvim-nio"),
-	gh("mfussenegger/nvim-dap"),
-}
-vim.pack.add(debugging_plugins)
+-- TODO: figure out how to do lazy loading
 
-require("mason").setup()
+-- vimtex setup (TODO: double check if this needs to be done before loading vimtex)
+vim.g.vimtex_syntax_conceal_disable = 1
 
-local mason_dap = require("mason-nvim-dap")
-local dap = require("dap")
-local dapui = require("dapui")
-local dap_virtual_text = require("nvim-dap-virtual-text")
-
-mason_dap.setup({
-	ensure_installed = { "codelldb" },
-	automatic_installation = true,
-	handlers = {
-		function(config)
-			require("mason-nvim-dap").default_setup(config)
-		end,
-	},
-})
-
-dap_virtual_text.setup()
-dapui.setup()
-
-dap.configurations.cpp = {
-	{
-		name = "Launch file",
-		type = "codelldb",
-		request = "launch",
-		program = function()
-			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build-dbg", "file")
-		end,
-		cwd = "${workspaceFolder}",
-		stopAtEntry = true,
-	},
-	{
-		name = "Attach to gdbserver :1234",
-		type = "codelldb",
-		request = "launch",
-		MIMode = "gdb",
-		miDebuggerServerAddress = "localhost:1234",
-		miDebuggerPath = "/usr/bin/gdb",
-		cwd = "${workspaceFolder}",
-		program = function()
-			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build-dbg", "file")
-		end,
-	},
+vim.g.vimtex_compiler_latexmk = {
+	["aux_dir"] = ".tex-aux",
 }
 
-dap.configurations.c = dap.configurations.cpp
+vim.g.vimtex_compiler_latexmk_engines = {
+	["_"] = "-lualatex -shell-escape",
+}
 
-vim.keymap.set("n", "<leader>du", function()
-	dapui.toggle({})
-end, { desc = "JS:toggle dap ui" })
-vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "JS:toggle breakpoint" })
-vim.keymap.set("n", "<leader>gb", dap.run_to_cursor, { desc = "JS:run to cursor" })
-vim.keymap.set("n", "<leader>?", function()
-	dapui.eval(nil, { enter = true })
-end, { desc = "JS:variable info" })
+if vim.uv.os_uname().sysname == "Darwin" then
+	vim.g.vimtex_view_method = "skim"
+elseif vim.uv.os_uname().sysname == "Linux" then
+	if vim.fn.executable("okular") == 1 then
+		vim.g.vimtex_view_general_viewer = "okular"
+		vim.g.vimtex_view_general_options = "--unique file:@pdf\\#src:@line@tex"
+	else
+		vim.g.vimtex_view_method = "zathura"
+	end
+end
 
-vim.keymap.set("n", "<F1>", dap.continue, { desc = "JS:continue" })
-vim.keymap.set("n", "<F2>", dap.step_into, { desc = "JS:step into" })
-vim.keymap.set("n", "<F3>", dap.step_over, { desc = "JS:step over" })
-vim.keymap.set("n", "<F4>", dap.step_out, { desc = "JS:step out" })
-vim.keymap.set("n", "<F5>", dap.step_back, { desc = "JS:step back" })
-vim.keymap.set("n", "<F11>", dap.restart, { desc = "JS:restart" })
-vim.keymap.set("n", "<F12>", dap.terminate, { desc = "JS:terminate" })
-
-dap.listeners.before.attach.dapui_config = function()
-	dapui.open()
-end
-dap.listeners.before.launch.dapui_config = function()
-	dapui.open()
-end
-dap.listeners.before.event_terminated.dapui_config = function()
-	dapui.close()
-end
-dap.listeners.before.event_exited.dapui_config = function()
-	dapui.close()
-end
+vim.pack.add({ gh("lervag/vimtex") })
 
 vim.pack.add({ { src = gh("L3MON4D3/LuaSnip"), version = vim.version.range("2.*") } })
 require("luasnip").setup({})
@@ -381,40 +297,65 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+-- mason.nvim
+vim.pack.add({
+	gh("mason-org/mason.nvim"),
+	gh("WhoIsSethDaniel/mason-tool-installer.nvim"),
+	gh("mfussenegger/nvim-dap"),
+	gh("jay-babu/mason-nvim-dap.nvim"),
+})
+
+require("mason").setup()
+
+local ensure_installed = {}
+
+-- formatters specific plugins + mason configuration
+
+local my_formatters = {
+	lua = { "stylua" },
+	python = { "ruff" },
+	tex = { "latexindent" },
+	html = { "prettier" },
+	json = { "prettier" },
+	javascript = { "prettier" },
+}
+
+for _, formatter in pairs(my_formatters) do
+	if not vim.list_contains(ensure_installed, unpack(formatter)) then
+		vim.list_extend(ensure_installed, formatter)
+	end
+end
+
+vim.pack.add({ gh("stevearc/conform.nvim") })
+
+require("conform").setup({
+	notify_on_error = true,
+	formatters_by_ft = my_formatters,
+	-- additional formatter config
+	formatters = {
+		latexindent = {
+			prepend_args = { "-l" },
+		},
+	},
+})
+vim.keymap.set("n", "<leader>F", function()
+	require("conform").format({ async = true, lsp_fallback = true })
+end, { desc = "JS:format current buffer" })
+
+-- lsp specific plugins + mason configuration
+vim.pack.add({
+	gh("neovim/nvim-lspconfig"),
+	gh("mason-org/mason-lspconfig.nvim"),
+})
+
+require("mason-lspconfig").setup({
+	automatic_enable = false, -- Change this to true if you want to automatically enable servers that are installed manually (e.g. via :Mason / :MasonInstall)
+})
+
 local servers = {
-	pyright = {
-		cmd = { "pyright-langserver", "--stdio" },
-		filetypes = { "python" },
-		root_markers = {
-			"pyrightconfig.json",
-			"pyproject.toml",
-			"setup.py",
-			"setup.cfg",
-			"requirements.txt",
-			"Pipfile",
-			".git",
-		},
-	},
-
-	clangd = {
-		cmd = { "clangd", "--experimental-modules-support", "--background-index" },
-		filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-		root_markers = {
-			"compile_commands.json",
-			".clangd",
-			".clang-format",
-			".clangd-tidy",
-			"compile_flags.txt",
-		},
-		settings = {
-			single_file_support = true,
-		},
-	},
-
+	pyright = {},
+	clangd = {},
 	lua_ls = {
-		cmd = { "lua-language-server" },
-		filetypes = { "lua" },
-		root_markers = { ".luarc.json", ".luarc.jsonc" },
 		on_init = function(client)
 			client.server_capabilities.documentFormattingProvider = false -- Disable formatting (formatting is done by stylua)
 
@@ -428,7 +369,8 @@ local servers = {
 				end
 			end
 
-			client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+			local current_settings = client.config.settings --[[@as lspconfig.settings.lua_ls]]
+			client.config.settings.Lua = vim.tbl_deep_extend("force", current_settings.Lua, {
 				runtime = {
 					version = "LuaJIT",
 					path = { "lua/?.lua", "lua/?/init.lua" },
@@ -437,189 +379,122 @@ local servers = {
 					checkThirdParty = false,
 					-- NOTE: this is a lot slower and will cause issues when working on your own configuration.
 					--  See https://github.com/neovim/nvim-lspconfig/issues/3189
-					library = vim.tbl_extend("force", vim.api.nvim_get_runtime_file("", true), {
-						"${3rd}/luv/library",
-						"${3rd}/busted/library",
-					}),
+					library = vim.api.nvim_get_runtime_file("", true),
 				},
 			})
 		end,
+		---@type lspconfig.settings.lua_ls
 		settings = {
 			Lua = {
-				runtime = {
-					version = "LuaJIT",
-				},
+				format = { enable = false }, -- Disable formatting (formatting is done by stylua)
 			},
 		},
 	},
-
-	gopls = {
-		cmd = { "gopls" },
-		filetypes = { "go", "gomod", "gowork", "gotmpl" },
-		settings = {
-			gopls = {
-				analyses = {
-					unusedparams = true,
-				},
-				staticcheck = true,
-				gofumpt = true,
-			},
-		},
-	},
-
-	ruby_lsp = {
-		cmd = { "ruby-lsp" }, -- or { "bundle", "exec", "ruby-lsp" },
-		filetypes = { "ruby" },
-		root_markers = { "Gemfile", ".git" },
-		init_options = {
-			formatter = "standard",
-			linters = { "standard" },
-			addonSettings = {
-				["Ruby LSP Rails"] = {
-					enablePendingMigrationsPrompt = false,
-				},
-			},
-		},
-	},
-
-	ocamllsp = {
-		cmd = { "ocamllsp", "--fallback-read-dot-merlin" },
-		filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
-		root_markers = { "*.opam", "esy.json", "package.json", ".git", "dune-project", "dune-workspace" },
-		settings = {
-			single_file_support = true,
-		},
-	},
-
-	zls = {
-		cmd = { "zls" },
-		filetypes = { "zig", "zir" },
-		root_markers = { "zls.json", "build.zig", "build.zig.zon", ".git" },
-	},
-
-	svelte = {
-		cmd = { "svelteserver", "--stdio" },
-		filetypes = {
-			"svelte",
-		},
-		root_markers = { "package-lock.json" },
-	},
-
-	phpactor = {
-		cmd = { "phpactor", "language-server" },
-		filetypes = { "php" },
-		root_markers = { ".git", "composer.json", ".phpactor.json", ".phpactor.yml" },
-		workspace_required = true,
-		init_options = {
-			["language_server_phpstan.enabled"] = false,
-			["language_server_psalm.enabled"] = false,
-		},
-	},
-
-	ltex_ls_plus = {
-		cmd = { "ltex-ls-plus" },
-		filetypes = {
-			"bib",
-			"context",
-			"gitcommit",
-			"html",
-			"markdown",
-			"org",
-			"pandoc",
-			"plaintex",
-			"quarto",
-			"mail",
-			"mdx",
-			"rmd",
-			"rnoweb",
-			"rst",
-			"tex",
-			"text",
-			"typst",
-			"xhtml",
-		},
-		root_markers = { ".git" },
-		settings = {
-			ltex = {
-				enabled = {
-					"bib",
-					"context",
-					"gitcommit",
-					"html",
-					"markdown",
-					"org",
-					"pandoc",
-					"plaintex",
-					"quarto",
-					"mail",
-					"mdx",
-					"rmd",
-					"rnoweb",
-					"rst",
-					"tex",
-					"latex",
-					"text",
-					"typst",
-					"xhtml",
-				},
-			},
-		},
-	},
-
-	html = {
-		cmd = function(dispatchers, config)
-			local cmd = "vscode-html-language-server"
-			if (config or {}).root_dir then
-				local local_cmd = vim.fs.joinpath(config.root_dir, "node_modules/.bin", cmd)
-				if vim.fn.executable(local_cmd) == 1 then
-					cmd = local_cmd
-				end
-			end
-			return vim.lsp.rpc.start({ cmd, "--stdio" }, dispatchers)
-		end,
-		filetypes = { "html" },
-		root_markers = { "package.json", ".git" },
-		settings = {},
-		init_options = {
-			provideFormatter = true,
-			embeddedLanguages = { css = true, javascript = true },
-			configurationSection = { "html", "css", "javascript" },
-		},
-	},
+	gopls = {},
+	html = {},
+	ruby_lsp = {},
+	tsc = {},
+	phpactor = {},
+	svelte = {},
+	zls = {},
 }
 
--- config and enable lsp servers
+vim.list_extend(ensure_installed, vim.tbl_keys(servers or {}))
+
 for name, server in pairs(servers) do
 	vim.lsp.config(name, server)
-
 	vim.lsp.enable(name)
 end
 
--- TODO: figure out how to do lazy loading
+-- debuggers specific plugins + mason configuration
+vim.pack.add({
+	gh("mfussenegger/nvim-dap"),
+	gh("rcarriga/nvim-dap-ui"),
+	gh("theHamsta/nvim-dap-virtual-text"),
+	gh("nvim-neotest/nvim-nio"),
+	gh("jay-babu/mason-nvim-dap.nvim"),
+})
 
--- vimtex setup (TODO: double check if this needs to be done before loading vimtex)
-vim.g.vimtex_syntax_conceal_disable = 1
+local mason_dap = require("mason-nvim-dap")
+local dap = require("dap")
+local dapui = require("dapui")
+local dap_virtual_text = require("nvim-dap-virtual-text")
 
-vim.g.vimtex_compiler_latexmk = {
-	["aux_dir"] = ".tex-aux",
+local debuggers = { "codelldb" }
+mason_dap.setup({
+	ensure_installed = {},
+	automatic_installation = false,
+	handlers = {
+		function(config)
+			require("mason-nvim-dap").default_setup(config)
+		end,
+	},
+})
+dap_virtual_text.setup()
+dapui.setup()
+
+dap.configurations.cpp = {
+	{
+		name = "Launch file",
+		type = "codelldb",
+		request = "launch",
+		program = function()
+			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build-dbg", "file")
+		end,
+		cwd = "${workspaceFolder}",
+		stopAtEntry = true,
+	},
+	{
+		name = "Attach to gdbserver :1234",
+		type = "codelldb",
+		request = "launch",
+		MIMode = "gdb",
+		miDebuggerServerAddress = "localhost:1234",
+		miDebuggerPath = "/usr/bin/gdb",
+		cwd = "${workspaceFolder}",
+		program = function()
+			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build-dbg", "file")
+		end,
+	},
 }
 
-vim.g.vimtex_compiler_latexmk_engines = {
-	["_"] = "-lualatex -shell-escape",
-}
+dap.configurations.c = dap.configurations.cpp
 
-if vim.uv.os_uname().sysname == "Darwin" then
-	vim.g.vimtex_view_method = "skim"
-elseif vim.uv.os_uname().sysname == "Linux" then
-	if vim.fn.executable("okular") == 1 then
-		vim.g.vimtex_view_general_viewer = "okular"
-		vim.g.vimtex_view_general_options = "--unique file:@pdf\\#src:@line@tex"
-	else
-		vim.g.vimtex_view_method = "zathura"
-	end
+vim.keymap.set("n", "<leader>du", function()
+	dapui.toggle({})
+end, { desc = "JS:toggle dap ui" })
+vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "JS:toggle breakpoint" })
+vim.keymap.set("n", "<leader>gb", dap.run_to_cursor, { desc = "JS:run to cursor" })
+vim.keymap.set("n", "<leader>?", function()
+	dapui.eval(nil, { enter = true })
+end, { desc = "JS:variable info" })
+
+vim.keymap.set("n", "<F1>", dap.continue, { desc = "JS:continue" })
+vim.keymap.set("n", "<F2>", dap.step_into, { desc = "JS:step into" })
+vim.keymap.set("n", "<F3>", dap.step_over, { desc = "JS:step over" })
+vim.keymap.set("n", "<F4>", dap.step_out, { desc = "JS:step out" })
+vim.keymap.set("n", "<F5>", dap.step_back, { desc = "JS:step back" })
+vim.keymap.set("n", "<F11>", dap.restart, { desc = "JS:restart" })
+vim.keymap.set("n", "<F12>", dap.terminate, { desc = "JS:terminate" })
+
+dap.listeners.before.attach.dapui_config = function()
+	dapui.open()
+end
+dap.listeners.before.launch.dapui_config = function()
+	dapui.open()
+end
+dap.listeners.before.event_terminated.dapui_config = function()
+	dapui.close()
+end
+dap.listeners.before.event_exited.dapui_config = function()
+	dapui.close()
 end
 
-vim.pack.add({ gh("lervag/vimtex") })
+vim.list_extend(ensure_installed, debuggers)
+
+vim.print(ensure_installed)
+
+require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 vim.cmd.colorscheme("catppuccin")
 
