@@ -110,6 +110,14 @@ vim.api.nvim_create_autocmd("PackChanged", {
 			run_build(name, { "make" }, ev.data.path)
 			return
 		end
+
+		if name == "nvim-treesitter" then
+			if not ev.data.active then
+				vim.cmd.packadd("nvim-treesitter")
+			end
+			vim.cmd("TSUpdate")
+			return
+		end
 	end,
 })
 
@@ -223,79 +231,162 @@ end
 
 vim.pack.add({ gh("lervag/vimtex") })
 
-vim.pack.add({ { src = gh("L3MON4D3/LuaSnip"), version = vim.version.range("2.*") } })
-require("luasnip").setup({})
+do -- lsp config
+	vim.pack.add({ { src = gh("L3MON4D3/LuaSnip"), version = vim.version.range("2.*") } })
+	require("luasnip").setup({})
 
-vim.pack.add({ gh("rafamadriz/friendly-snippets") })
-require("luasnip.loaders.from_vscode").lazy_load()
+	vim.pack.add({ gh("rafamadriz/friendly-snippets") })
+	require("luasnip.loaders.from_vscode").lazy_load()
 
-vim.pack.add({ { src = gh("saghen/blink.cmp"), version = vim.version.range("1.*") } })
-require("blink.cmp").setup({
-	keymap = {
-		-- `:help blink-cmp-config-keymap`
-		preset = "default",
-	},
-	appearance = {
-		nerd_font_variant = "mono",
-	},
-	completion = {
-		documentation = { auto_show = false, auto_show_delay_ms = 500 },
-	},
-	sources = {
-		default = { "lsp", "path", "snippets" },
-	},
-	snippets = { preset = "luasnip" },
+	vim.pack.add({ { src = gh("saghen/blink.cmp"), version = vim.version.range("1.*") } })
+	require("blink.cmp").setup({
+		keymap = {
+			-- `:help blink-cmp-config-keymap`
+			preset = "default",
+		},
+		appearance = {
+			nerd_font_variant = "mono",
+		},
+		completion = {
+			documentation = { auto_show = false, auto_show_delay_ms = 500 },
+		},
+		sources = {
+			default = { "lsp", "path", "snippets" },
+		},
+		snippets = { preset = "luasnip" },
 
-	-- see `:help blink-cmp-config-fuzzy` for more information
-	fuzzy = { implementation = "prefer_rust_with_warning" },
-	signature = { enabled = true },
-})
+		-- see `:help blink-cmp-config-fuzzy` for more information
+		fuzzy = { implementation = "prefer_rust_with_warning" },
+		signature = { enabled = true },
+	})
 
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("juan-lsp-attach", { clear = true }),
-	callback = function(event)
-		local map = function(keys, func, desc, mode)
-			vim.keymap.set(mode or "n", keys, func, { buffer = event.buf, desc = "JS:LSP: " .. desc })
+	vim.api.nvim_create_autocmd("LspAttach", {
+		group = vim.api.nvim_create_augroup("juan-lsp-attach", { clear = true }),
+		callback = function(event)
+			local map = function(keys, func, desc, mode)
+				vim.keymap.set(mode or "n", keys, func, { buffer = event.buf, desc = "JS:LSP: " .. desc })
+			end
+
+			-- WARN: this is not goto definition, this is goto declaration (e.g. c header file in the case of c).
+			map("grD", vim.lsp.buf.declaration, "goto declaration")
+			map("grn", vim.lsp.buf.rename, "rename")
+			map("gra", vim.lsp.buf.code_action, "goto code action", { "n", "x" })
+
+			local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+			if client and client:supports_method("textDocument/documentHighlight", event.buf) then
+				local highlight_augroup = vim.api.nvim_create_augroup("juan-lsp-highlight", { clear = false })
+				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+					buffer = event.buf,
+					group = highlight_augroup,
+					callback = vim.lsp.buf.document_highlight,
+				})
+
+				vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+					buffer = event.buf,
+					group = highlight_augroup,
+					callback = vim.lsp.buf.clear_references,
+				})
+
+				vim.api.nvim_create_autocmd("LspDetach", {
+					group = vim.api.nvim_create_augroup("juan-lsp-detach", { clear = true }),
+
+					callback = function(event_)
+						vim.lsp.buf.clear_references()
+						vim.api.nvim_clear_autocmds({ group = "juan-lsp-highlight", buffer = event_.buf })
+					end,
+				})
+			end
+
+			if client and client:supports_method("textDocument/inlayHint", event.buf) then
+				map("<leader>th", function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+				end, "toggle inlay hints")
+			end
+		end,
+	})
+end
+
+do -- treesitter
+	vim.pack.add({
+		gh("nvim-treesitter/nvim-treesitter"),
+	})
+	require("nvim-treesitter").setup({
+		install_dir = vim.fn.stdpath("data") .. "/site",
+	})
+	require("nvim-treesitter").install({
+		"rust",
+		"c",
+		"cpp",
+		"html",
+		"javascript",
+		"typescript",
+		"python",
+		"go",
+		"zig",
+		"svelte",
+	})
+
+	-- TODO: see if needs to be updated
+	local function treesitter_try_attach(buf, language)
+		-- Check if a parser exists and load it
+		if not vim.treesitter.language.add(language) then
+			return
 		end
+		-- vim.print(string.format("starting... %s", language))
 
-		-- WARN: this is not goto definition, this is goto declaration (e.g. c header file in the case of c).
-		map("grD", vim.lsp.buf.declaration, "goto declaration")
-		map("grn", vim.lsp.buf.rename, "rename")
-		map("gra", vim.lsp.buf.code_action, "goto code action", { "n", "x" })
+		-- Enable syntax highlighting and other treesitter features
+		vim.treesitter.start(buf, language)
 
-		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		-- Enable treesitter based folds
+		-- For more info on folds see `:help folds`
+		-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+		-- vim.wo.foldmethod = 'expr'
 
-		if client and client:supports_method("textDocument/documentHighlight", event.buf) then
-			local highlight_augroup = vim.api.nvim_create_augroup("juan-lsp-highlight", { clear = false })
-			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-				buffer = event.buf,
-				group = highlight_augroup,
-				callback = vim.lsp.buf.document_highlight,
-			})
+		-- Check if treesitter indentation is available for this language, and if so enable it
+		-- in case there is no indent query, the indentexpr will fallback to the vim's built in one
+		local has_indent_query = vim.treesitter.query.get(language, "indents") ~= nil
 
-			vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-				buffer = event.buf,
-				group = highlight_augroup,
-				callback = vim.lsp.buf.clear_references,
-			})
-
-			vim.api.nvim_create_autocmd("LspDetach", {
-				group = vim.api.nvim_create_augroup("juan-lsp-detach", { clear = true }),
-
-				callback = function(event_)
-					vim.lsp.buf.clear_references()
-					vim.api.nvim_clear_autocmds({ group = "juan-lsp-highlight", buffer = event_.buf })
-				end,
-			})
+		-- Enable treesitter based indentation
+		if has_indent_query then
+			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 		end
+	end
 
-		if client and client:supports_method("textDocument/inlayHint", event.buf) then
-			map("<leader>th", function()
-				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-			end, "toggle inlay hints")
-		end
-	end,
-})
+	local available_parsers = require("nvim-treesitter").get_available()
+	vim.api.nvim_create_autocmd("FileType", {
+		callback = function(args)
+			local buf, filetype = args.buf, args.match
+			-- TODO: to build a list of useful exclusions
+			if filetype == "oil" then
+				return
+			end
+
+			local language = vim.treesitter.language.get_lang(filetype)
+
+			-- vim.print(string.format("treesitter autocmd tirggered... ft:%s, lang:%s", filetype, language))
+
+			if not language then
+				return
+			end
+
+			local installed_parsers = require("nvim-treesitter").get_installed("parsers")
+
+			if vim.tbl_contains(installed_parsers, language) then
+				-- Enable the parser if it is already installed
+				treesitter_try_attach(buf, language)
+			elseif vim.tbl_contains(available_parsers, language) then
+				-- If a parser is available in `nvim-treesitter`, auto-install it and enable it after the installation is done
+				require("nvim-treesitter").install(language):await(function()
+					treesitter_try_attach(buf, language)
+				end)
+			else
+				-- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
+				treesitter_try_attach(buf, language)
+			end
+		end,
+	})
+end
 
 -- mason.nvim
 vim.pack.add({
@@ -491,8 +582,6 @@ dap.listeners.before.event_exited.dapui_config = function()
 end
 
 vim.list_extend(ensure_installed, debuggers)
-
-vim.print(ensure_installed)
 
 require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
