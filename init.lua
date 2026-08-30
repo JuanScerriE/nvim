@@ -60,7 +60,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "JS:clear highlight
 
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "JS:open local diagnostic quickfix list" })
 vim.keymap.set("n", "<leader>Q", vim.diagnostic.setqflist, { desc = "JS:open diagnostic quickfix list" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.show, { desc = "JS:display diagnostic" })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "JS:display diagnostic" })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "JS:exit terminal mode" })
 vim.keymap.set("n", "<leader>w", "<C-w>", { desc = "JS:enter window mode <C-w>" })
 vim.keymap.set("n", "<leader>O", "<cmd>set spell!<cr>", { desc = "JS:toggle orthographic checking" })
