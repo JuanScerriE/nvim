@@ -152,7 +152,7 @@ if vim.fn.executable("make") == 1 then
 end
 
 vim.pack.add(telescope_plugins)
-require("telescope").setup()
+require("telescope").setup({})
 pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "ui-select")
 
@@ -204,7 +204,7 @@ vim.keymap.set("n", "<leader>f/", function()
 end, { desc = "JS:grep find in open files" })
 
 vim.pack.add({ gh("j-hui/fidget.nvim") })
-require("fidget").setup()
+require("fidget").setup({})
 
 -- TODO: figure out how to do lazy loading
 
@@ -315,6 +315,7 @@ do -- treesitter
 	require("nvim-treesitter").setup({
 		install_dir = vim.fn.stdpath("data") .. "/site",
 	})
+	require("nvim-treesitter.config")
 	require("nvim-treesitter").install({
 		"rust",
 		"c",
@@ -484,12 +485,11 @@ local servers = {
 	},
 	gopls = {},
 	html = {},
-	ruby_lsp = {},
 	tsc = {},
 	phpactor = {},
 	svelte = {},
 	zls = {},
-  tailwindcss = {}
+	tailwindcss = {},
 }
 
 vim.list_extend(ensure_installed, vim.tbl_keys(servers or {}))
@@ -523,7 +523,7 @@ mason_dap.setup({
 		end,
 	},
 })
-dap_virtual_text.setup()
+dap_virtual_text.setup({})
 dapui.setup()
 
 dap.configurations.cpp = {
