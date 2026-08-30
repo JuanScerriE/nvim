@@ -58,7 +58,8 @@ vim.diagnostic.config({
 -- default keymaps
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "JS:clear highlights on search" })
 
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "JS:open diagnostic quickfix list" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "JS:open local diagnostic quickfix list" })
+vim.keymap.set("n", "<leader>Q", vim.diagnostic.setqflist, { desc = "JS:open diagnostic quickfix list" })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "JS:exit terminal mode" })
 vim.keymap.set("n", "<leader>w", "<C-w>", { desc = "JS:enter window mode <C-w>" })
 vim.keymap.set("n", "<leader>O", "<cmd>set spell!<cr>", { desc = "JS:toggle orthographic checking" })
@@ -488,6 +489,7 @@ local servers = {
 	phpactor = {},
 	svelte = {},
 	zls = {},
+  tailwindcss = {}
 }
 
 vim.list_extend(ensure_installed, vim.tbl_keys(servers or {}))

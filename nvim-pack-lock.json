@@ -63,7 +63,7 @@
       "src": "https://github.com/nvim-neotest/nvim-nio"
     },
     "nvim-treesitter": {
-      "rev": "8b98b4470eb326f1c7b50dae79f8c963568e5720",
+      "rev": "857651fce37eba032ebe28f3a206283cdc65c45a",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "oil.nvim": {
@@ -91,7 +91,7 @@
       "src": "https://github.com/tpope/vim-fugitive"
     },
     "vimtex": {
-      "rev": "c1b96604d9a387cde5a98bec8f6687ae3078b571",
+      "rev": "cb81778aee678b513af3de7f1ca5943e7ee31b2f",
       "src": "https://github.com/lervag/vimtex"
     },
     "which-key.nvim": {
