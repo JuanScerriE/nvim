@@ -328,6 +328,7 @@ do -- treesitter
 		"go",
 		"zig",
 		"svelte",
+		"wgsl",
 	})
 
 	-- TODO: see if needs to be updated
@@ -603,7 +604,7 @@ require("minuet").setup({
 	-- power. Once you have a reliable estimate of your local computing power,
 	-- you should adjust the context window to a larger value.
 	context_window = 512,
-	debounce = 400,
+	debounce = 700,
 	virtualtext = {
 		auto_trigger_ft = {},
 		keymap = {

@@ -23,7 +23,7 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "mason-lspconfig.nvim": {
-      "rev": "49b16d699f9ca83184330c6eb886737a27f23bdd",
+      "rev": "b3298993d55fa194279b5eb9dbfb3a43da65cadf",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
     },
     "mason-nvim-dap.nvim": {
@@ -59,7 +59,7 @@
       "src": "https://github.com/theHamsta/nvim-dap-virtual-text"
     },
     "nvim-lspconfig": {
-      "rev": "ffd261c09c3dabd0bf1a438f47a8ae3b22f3c3ff",
+      "rev": "3e8d598d3b5f8338a41699c436e5fa11d2666cf0",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -67,7 +67,7 @@
       "src": "https://github.com/nvim-neotest/nvim-nio"
     },
     "nvim-treesitter": {
-      "rev": "9a168f6357ed21c3a636e1727bc7d382abc451b8",
+      "rev": "e289100ff98969e118c702199d88b764ce9e7fdf",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "oil.nvim": {
@@ -95,7 +95,7 @@
       "src": "https://github.com/tpope/vim-fugitive"
     },
     "vimtex": {
-      "rev": "819b98b465d58347f6dc8134cc61db03f18691ad",
+      "rev": "bbfa1501287b65e8803d5cc1007db2c2351c4453",
       "src": "https://github.com/lervag/vimtex"
     },
     "which-key.nvim": {
