@@ -450,6 +450,7 @@ require("mason-lspconfig").setup({
 local servers = {
 	pyright = {},
 	clangd = {},
+  wgsl_analyzer = {},
 	lua_ls = {
 		on_init = function(client)
 			client.server_capabilities.documentFormattingProvider = false -- Disable formatting (formatting is done by stylua)
