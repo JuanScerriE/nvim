@@ -450,7 +450,7 @@ require("mason-lspconfig").setup({
 local servers = {
 	pyright = {},
 	clangd = {},
-  wgsl_analyzer = {},
+	wgsl_analyzer = {},
 	lua_ls = {
 		on_init = function(client)
 			client.server_capabilities.documentFormattingProvider = false -- Disable formatting (formatting is done by stylua)
@@ -654,7 +654,7 @@ require("minuet").setup({
 	},
 })
 
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("retrobox")
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
