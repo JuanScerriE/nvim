@@ -505,6 +505,7 @@ end
 -- debuggers specific plugins + mason configuration
 vim.pack.add({
 	gh("mfussenegger/nvim-dap"),
+	gh("mfussenegger/nvim-dap-python"),
 	gh("rcarriga/nvim-dap-ui"),
 	gh("theHamsta/nvim-dap-virtual-text"),
 	gh("nvim-neotest/nvim-nio"),
@@ -516,7 +517,9 @@ local dap = require("dap")
 local dapui = require("dapui")
 local dap_virtual_text = require("nvim-dap-virtual-text")
 
-local debuggers = { "codelldb" }
+-- TODO(juan): figure out whether we are using debugpy correctly, becuase I do
+-- not think that we are here probably, we are just downloading it for nothing
+local debuggers = { "codelldb", "debugpy" }
 mason_dap.setup({
 	ensure_installed = {},
 	automatic_installation = false,
@@ -528,6 +531,9 @@ mason_dap.setup({
 })
 dap_virtual_text.setup({})
 dapui.setup()
+
+-- python specific debugging
+require("dap-python").setup("debugpy-adapter")
 
 dap.configurations.cpp = {
 	{
